@@ -69,7 +69,7 @@ The application is pre-configured with Nitro's Vercel Build Output API v3 adapte
 
 2. **Configure Root Directory**:
    - Under **Build and Output Settings**, find **Root Directory**.
-   - Click **Edit** and set it to `frontend` ⚠️ *(Crucial for monorepo detection)*.
+   - Click **Edit** and set it to `frontend` ⚠️ _(Crucial for monorepo detection)_.
 
 3. **Verify Build Settings**:
    - **Framework Preset**: Auto-detected (Vite / TanStack Start).
