@@ -407,11 +407,16 @@ npm run build
 
 **Sumit Kumar**
 - **GitHub**: [@Sumit2003-dev](https://github.com/Sumit2003-dev)
+- **LinkedIn**: [Sumit Kumar](https://www.linkedin.com/in/sumit2003-dev)
+- **Email**: [sumit.kumar@example.com](mailto:sumit.kumar@example.com)
 - **Repository**: [AI-Based-Emotion-Recognition-from-Text](https://github.com/Sumit2003-dev/AI-Based-Emotion-Recognition-from-Text)
 
 ---
 
-## 📄 License
+## 📄 License & Rights
+
+© 2026 **Sumit Kumar**. All rights reserved.
 
 This project is licensed under the **MIT License**. You are free to use, modify, and distribute this software for personal, academic, or commercial applications.
+
 
