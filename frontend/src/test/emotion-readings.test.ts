@@ -68,6 +68,28 @@ describe("classifyLocalText", () => {
     expect(result.scores.neutral).toBeLessThan(0.4);
   });
 
+  it("accurately classifies Hinglish joy sentence", async () => {
+    const result = await classifyLocalText("bhai bohot mast film thi");
+    expect(result.dominantEmotion).toBe("happy");
+    expect(result.scores.happy).toBeGreaterThan(0.6);
+    expect(result.isMultilingual).toBe(true);
+    expect(result.translatedText).toBeTruthy();
+  });
+
+  it("accurately classifies Hinglish fear sentence", async () => {
+    const result = await classifyLocalText("bohot darr lag raha hai mujhe");
+    expect(result.dominantEmotion).toBe("fear");
+    expect(result.scores.fear).toBeGreaterThan(0.6);
+    expect(result.isMultilingual).toBe(true);
+  });
+
+  it("accurately classifies Hinglish sadness sentence", async () => {
+    const result = await classifyLocalText("bohot dukh hua sunkar");
+    expect(result.dominantEmotion).toBe("sad");
+    expect(result.scores.sad).toBeGreaterThan(0.6);
+    expect(result.isMultilingual).toBe(true);
+  });
+
   it("accurately classifies Hindi joy sentence", async () => {
     const result = await classifyLocalText("आज मैं बहुत खुश हूँ");
     expect(result.dominantEmotion).toBe("happy");

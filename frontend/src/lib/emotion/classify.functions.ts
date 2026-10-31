@@ -72,103 +72,452 @@ export type LocalClassification = {
 /**
  * Free Google Translate API helper for cross-lingual emotion recognition.
  * Seamlessly resolves Hindi, Hinglish, Spanish, French, German, and 100+ languages into English.
+ * Includes multiple endpoint fallbacks and browser headers to ensure reliability in serverless environments.
  */
 export async function translateWithGoogle(
   text: string,
 ): Promise<{ translated: string; detectedLang: string } | null> {
   const clean = text.trim();
   if (!clean || clean.length < 2) return null;
+
+  const userAgent =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
+
+  // Endpoint 1: Google Translate GTX Single
   try {
-    const url =
+    const url1 =
       "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=" +
       encodeURIComponent(clean);
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 3500);
-    const res = await fetch(url, { signal: controller.signal });
-    clearTimeout(timer);
-    if (!res.ok) return null;
-    const data = await res.json();
-    if (!data || !Array.isArray(data[0])) return null;
-    const translated = data[0]
-      .map((p: [string]) => p[0])
-      .filter(Boolean)
-      .join("")
-      .trim();
-    const detectedLang = typeof data[2] === "string" ? data[2].toLowerCase() : "auto";
-    return { translated, detectedLang };
+    const controller1 = new AbortController();
+    const timer1 = setTimeout(() => controller1.abort(), 3500);
+    const res1 = await fetch(url1, {
+      signal: controller1.signal,
+      headers: { "User-Agent": userAgent },
+    });
+    clearTimeout(timer1);
+    if (res1.ok) {
+      const data = await res1.json();
+      if (data && Array.isArray(data[0])) {
+        const translated = data[0]
+          .map((p: [string]) => p[0])
+          .filter(Boolean)
+          .join("")
+          .trim();
+        const detectedLang = typeof data[2] === "string" ? data[2].toLowerCase() : "auto";
+        if (translated.length > 0) {
+          return { translated, detectedLang };
+        }
+      }
+    }
   } catch {
-    return null;
+    // Continue to fallback endpoint
   }
+
+  // Endpoint 2: Fallback Chrome Dictionary Translate
+  try {
+    const url2 =
+      "https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=auto&tl=en&q=" +
+      encodeURIComponent(clean);
+    const controller2 = new AbortController();
+    const timer2 = setTimeout(() => controller2.abort(), 3000);
+    const res2 = await fetch(url2, {
+      signal: controller2.signal,
+      headers: { "User-Agent": userAgent },
+    });
+    clearTimeout(timer2);
+    if (res2.ok) {
+      const data = await res2.json();
+      if (Array.isArray(data) && Array.isArray(data[0])) {
+        const translated = String(data[0][0] || "").trim();
+        const detectedLang = String(data[0][1] || "auto").toLowerCase();
+        if (translated.length > 0) {
+          return { translated, detectedLang };
+        }
+      }
+    }
+  } catch {
+    // Return null if all endpoints fail
+  }
+
+  return null;
+}
+
+/**
+ * Idiomatic Hinglish (Romanized Hindi) multi-word phrase dictionary.
+ * Maps common Romanized Hindi emotion phrases and idioms directly into English.
+ */
+const HINGLISH_PHRASES: Array<[RegExp, string]> = [
+  // Anger / Irritation Phrases
+  [/\b(dimag|dimaag)\s+(kharab|khrab)\b/gi, "irritated angry mind"],
+  [/\b(dimag|dimaag)\s+ka\s+dahi\b/gi, "annoying frustrating headache"],
+  [/\b(dimag|dimaag)\s+mat\s+khao\b/gi, "do not irritate me"],
+  [/\bmood\s+(bohot\s+|bahut\s+)?(kharab|khrab|off)\b/gi, "mood is terrible and angry"],
+  [/\bgussa\s+aa\s*(raha|rha|rahi|rhi)\b/gi, "getting very angry"],
+  [/\bbata\s+raha\s*(hu|hoon|rha)\b/gi, "i am warning you"],
+  [/\bpagal\s+(hai|h|ho)\s*kya\b/gi, "are you crazy or mad"],
+  [/\bpaagal\s+(hai|h|ho)\s*kya\b/gi, "are you crazy or mad"],
+  [/\bchup\s+(kar|chap|hoja|ho\s*ja)\b/gi, "shut up and be quiet"],
+  [/\b(mar|maar)\s+(dalunga|doonga|dunga)\b/gi, "i will kill you in rage"],
+  [/\bnafrat\s+karta\s*(hu|hoon)\b/gi, "i hate you with disgust"],
+  [/\bnafrat\s+karti\s*(hu|hoon)\b/gi, "i hate you with disgust"],
+
+  // Sadness / Grief Phrases
+  [/\bdil\s+toot\s*(gaya)?\b/gi, "heartbroken with sadness"],
+  [/\bbura\s+(lag\s*(raha|rha)|laga)\b/gi, "feeling hurt and bad"],
+  [/\bdukh\s+(hua|ho\s*(raha|rha))\b/gi, "feeling deep sorrow and grief"],
+  [/\brona\s+aa\s*(raha|rha)\b/gi, "crying with tears"],
+  [/\baansoo\s+aa\s*(rahe|rhey)\b/gi, "tears are falling"],
+
+  // Fear / Anxiety Phrases
+  [/\b(dar|darr)\s+lag\s*(raha|rha|rahi|rhi)\b/gi, "feeling very scared and fearful"],
+  [/\b(dar|darr)\s+raha\s*(hu|hoon|rha)\b/gi, "feeling terrified and afraid"],
+  [/\bghabrahat\s+ho\s*(rahi|rhi)\b/gi, "panicking with anxiety"],
+  [/\btension\s+ho\s*(rahi|rhi)\b/gi, "stressed with worry"],
+
+  // Joy / Happiness Phrases
+  [/\bhasi\s+aa\s*(rahi|rhi)\b/gi, "laughing with pure joy"],
+  [/\bhansi\s+aa\s*(rahi|rhi)\b/gi, "laughing with pure joy"],
+  [/\b(bohot|bahut|bht)\s+(accha|acha|achha)\b/gi, "very wonderful and happy"],
+  [/\b(bohot|bahut|bht)\s+(badiya|badhiya|mast)\b/gi, "very awesome and great"],
+  [/\bmaza\s+aa\s*(gaya|gya)\b/gi, "had so much fun and joy"],
+  [/\bmaja\s+aa\s*(gaya|gya)\b/gi, "had so much fun and joy"],
+
+  // Surprise Phrases
+  [/\bkya\s+baat\s*(hai|h)?\b/gi, "how wonderful and surprising"],
+  [/\bsach\s+me\s*kya\b/gi, "really, are you serious"],
+  [/\bsach\s+mein\s*kya\b/gi, "really, are you serious"],
+  [/\b(vishwaas|vishwas)\s+nahi\s+ho\s+raha\b/gi, "unbelievable and astonished"],
+
+  // Neutral Phrases
+  [/\bsab\s+theek\s*(hai|h)?\b/gi, "everything is fine"],
+  [/\bsab\s+thik\s*(hai|h)?\b/gi, "everything is fine"],
+  [/\bsab\s+badhiya\s*(hai|h)?\b/gi, "everything is good and fine"],
+  [/\bkya\s+chal\s+raha\s*(hai|h)?\b/gi, "what is going on"],
+  [/\bkuch\s+nahi\b/gi, "nothing much"],
+  [/\bkuch\s+nhi\b/gi, "nothing much"],
+  [/\bkal\s+milte\s*(hai|h)?\b/gi, "meet you tomorrow"],
+];
+
+/**
+ * Idiomatic Hinglish single-word vocabulary dictionary.
+ */
+const HINGLISH_SINGLE_WORDS: Record<string, string> = {
+  // Anger / Irritation / Abuse
+  gussa: "angry",
+  gusse: "angry",
+  krodh: "rage",
+  krodhit: "furious",
+  aakrosh: "outrage",
+  naraz: "annoyed",
+  naraaz: "annoyed",
+  chidh: "irritated",
+  chidha: "irritated",
+  khunnas: "grudge",
+  bakwas: "nonsense",
+  bakwaas: "nonsense",
+  faltu: "useless",
+  kachra: "garbage",
+  bakchodi: "bullshit nonsense",
+  bakchod: "annoying nonsense",
+  pagal: "crazy mad",
+  paagal: "crazy mad",
+  mental: "insane",
+  kamina: "scoundrel",
+  kamine: "scoundrel",
+  chutiya: "idiot",
+  saale: "jerk",
+  saala: "jerk",
+  bewakoof: "fool",
+  bewkoof: "fool",
+  ullu: "fool",
+  gadhe: "donkey fool",
+  gadha: "donkey fool",
+  kutta: "jerk",
+  kutte: "jerk",
+  haramkhor: "bastard",
+  ghatiya: "terrible cheap",
+  badtameez: "rude ill-mannered",
+  jhagda: "fight quarrel",
+  ladai: "fight battle",
+  dushmani: "hostility enmity",
+  nafrat: "hate hatred",
+  ghrina: "disgust",
+  chup: "shut-up quiet",
+  thappad: "slap",
+
+  // Sadness / Grief / Pain
+  dukh: "sorrow sadness",
+  dukhi: "sad sorrowful",
+  shok: "mourning grief",
+  gham: "grief sorrow",
+  udas: "gloomy sad",
+  udaas: "gloomy sad",
+  mayus: "disappointed gloomy",
+  mayoos: "hopeless gloomy",
+  dard: "pain hurt",
+  peeda: "agony suffering",
+  kasht: "hardship pain",
+  takleef: "trouble pain",
+  rona: "crying weeping",
+  aansoo: "tears crying",
+  aansu: "tears crying",
+  akela: "lonely alone",
+  akele: "lonely alone",
+  tanha: "isolated lonely",
+  tanhai: "loneliness",
+  afsos: "regret sorrow",
+  pachtawa: "remorse regret",
+  bura: "bad hurt",
+  bure: "bad hurt",
+  kharab: "bad broken ruined",
+  khrab: "bad broken ruined",
+  bechara: "pitiful helpless",
+  lachaar: "helpless",
+  majboor: "helpless forced",
+  barbaad: "ruined devastated",
+  tabaah: "destroyed ruined",
+
+  // Joy / Love / Happiness
+  khush: "happy joyful",
+  khushi: "joy happiness",
+  anand: "delight bliss",
+  prasann: "pleased joyful",
+  mast: "awesome fantastic",
+  zabardast: "spectacular awesome",
+  shandaar: "magnificent wonderful",
+  lajawab: "unmatched superb",
+  kamaal: "wonderful amazing",
+  dhamaal: "super fun celebration",
+  gazab: "astounding brilliant",
+  badiya: "great good",
+  badhiya: "great good",
+  bindaas: "carefree great",
+  jhakaas: "super cool awesome",
+  pyaar: "love",
+  pyar: "love",
+  mohabbat: "deep love",
+  ishq: "passion love",
+  prem: "love affection",
+  maza: "fun enjoyment",
+  maja: "fun enjoyment",
+  maje: "fun pleasure",
+  mauj: "enjoyment thrill",
+  masti: "playful fun",
+  hasi: "laugh laughter",
+  hansi: "laugh laughter",
+  muskaan: "smile",
+  badhai: "congratulations",
+  mubarak: "congratulations blessings",
+  shukriya: "thank you grateful",
+  dhanyawad: "thank you gratitude",
+  accha: "good pleasant",
+  achha: "good pleasant",
+  acha: "good pleasant",
+  sundar: "beautiful wonderful",
+  khoobsurat: "gorgeous lovely",
+
+  // Fear / Anxiety
+  dar: "fear scared",
+  darr: "fear scared",
+  khauf: "terror horror",
+  bhay: "dread fear",
+  dahshat: "panic terror",
+  ghabrahat: "nervous anxiety",
+  ghabra: "panic anxious",
+  bechaini: "restlessness anxiety",
+  chinta: "worry anxiety",
+  tension: "stress tension",
+  fikr: "concern worry",
+  pareshan: "troubled upset",
+  pareshani: "trouble distress",
+  musibat: "danger trouble",
+
+  // Surprise
+  hairan: "surprised astonished",
+  hairaan: "surprised astonished",
+  hairani: "amazement wonder",
+  chauk: "shocked startled",
+  achambha: "wonder surprise",
+  ajeeb: "strange bizarre",
+  anokha: "unique strange",
+
+  // Pronouns and conversational helpers
+  mujhe: "I",
+  mereko: "I",
+  hume: "we",
+  humko: "we",
+  mera: "my",
+  meri: "my",
+  mere: "my",
+  tujhe: "you",
+  tumhe: "you",
+  aapko: "you",
+  tera: "your",
+  teri: "your",
+  tere: "your",
+  tumhara: "your",
+  tumhari: "your",
+  aapka: "your",
+  aapki: "your",
+  bhai: "brother",
+  yaar: "friend",
+  dost: "friend",
+  bro: "brother",
+  bohot: "very",
+  bahut: "very",
+  boht: "very",
+  bht: "very",
+  mat: "do not",
+  nahi: "not",
+  nhi: "not",
+  na: "no",
+  film: "movie",
+  cinema: "movie",
+  hai: "is",
+  h: "is",
+  hain: "are",
+  hu: "am",
+  hoon: "am",
+  ho: "are",
+  tha: "was",
+  thi: "was",
+  the: "were",
+  aaj: "today",
+  kal: "tomorrow/yesterday",
+  abhi: "right now",
+  milkar: "to meet",
+  sunkar: "to hear",
+  laga: "felt",
+  kar: "do",
+  diya: "did",
+  kya: "what",
+  kyun: "why",
+  kaise: "how",
+  kab: "when",
+  kaha: "where",
+};
+
+/**
+ * Translates Romanized Hindi (Hinglish) text into clear English semantics.
+ * Returns translated string, boolean indicator, and number of recognized terms.
+ */
+export function translateHinglish(text: string): {
+  translated: string;
+  isHinglish: boolean;
+  matchCount: number;
+} {
+  let lower = text.toLowerCase();
+  let matches = 0;
+
+  // Step 1: Replace multi-word phrases first
+  for (const [pattern, repl] of HINGLISH_PHRASES) {
+    if (pattern.test(lower)) {
+      matches += 2;
+      lower = lower.replace(pattern, repl);
+    }
+  }
+
+  // Step 2: Replace single words
+  const words = lower.split(/(\s+|[.,!?;:()]+)/);
+  const translatedWords = words.map((w) => {
+    const clean = w.trim().toLowerCase();
+    if (!clean) return w;
+    const replacement = HINGLISH_SINGLE_WORDS[clean];
+    if (replacement) {
+      matches++;
+      return replacement;
+    }
+    return w;
+  });
+
+  const translated = translatedWords.join("").replace(/\s+/g, " ").trim();
+  const isHinglish = matches >= 1;
+
+  return { translated, isHinglish, matchCount: matches };
 }
 
 const HAPPY_REGEX =
-  /\b(happy|joy|great|awesome|love|wonderful|fantastic|excited|screamed|celebrat\w*|won|win\w*|yay|hooray|glad|delight\w*|best|congrat\w*|smile|cheer\w*|proud\w*|thank\w*|blessed|terrific|brilliant|khush\w*|maja|maza|pyaar|pyar|mohabbat|shandaar|badhai|mubarak|mast|zabardast|badiya|badhiya|sundar|shukriya|dhanyawad|feliz\w*|alegr\w*|heureu\w*|joie)\b/i;
+  /\b(happy|joy|great|awesome|love|wonderful|fantastic|excited|screamed|celebrat\w*|won|win\w*|yay|hooray|glad|delight\w*|best|congrat\w*|smile|cheer\w*|proud\w*|thank\w*|blessed|terrific|brilliant|good|nice|enjoy\w*|fun\w*|laugh\w*|bliss\w*|superb|excellent|outstanding|fabulous|pleased|pleasure|sweet|cute|adorable|charming|hilarious|haha\w*|loving|adore\w*|liked?|khush\w*|maja|maza|pyaar|pyar|mohabbat|shandaar|badhai|mubarak|mast|zabardast|badiya|badhiya|sundar|shukriya|dhanyawad|accha|achha|acha|hasi|hansi|tareef|gazab|bindaas|jhakaas|khoobsurat|feliz\w*|alegr\w*|heureu\w*|joie)\b/i;
 
 const SAD_REGEX =
-  /\b(sad|depressed|grief|cry\w*|tears|unfortunate|lonely|heartbroken|sorrow|loss|lose|lost|miss\w*|hopeless|gloomy|pain\w*|regret\w*|down|miserable|heartbreak|dukh\w*|udas\w*|rona|dard|akela|akele|toot gaya|dil toot|bechara|afsos|tanha|triste\w*|llor\w*|pleur\w*|douleur)\b/i;
+  /\b(sad|depressed|grief|cry\w*|tears|unfortunate|lonely|heartbroken|sorrow|loss|lose|lost|miss\w*|hopeless|gloomy|pain\w*|regret\w*|down|miserable|heartbreak|bad|hurt\w*|unhappy|disappoint\w*|awful|upset|suffer\w*|crying|weep\w*|sob\w*|loneliness|broken|mourn\w*|pity|tragic|failure|failed|alone|helpless|worthless|dukh\w*|udas\w*|udaas|mayus|mayoos|rona|dard|peeda|kasht|takleef|akela|akele|toot gaya|dil toot|bechara|afsos|tanha|tanhai|bura|bure|kharab|shok|gham\w*|triste\w*|llor\w*|pleur\w*|douleur)\b/i;
 
 const ANGRY_REGEX =
-  /\b(angry|anger\w*|angr\w*|furious|outrage\w*|hate|annoy\w*|irritat\w*|frustrat\w*|worst|delayed|terrible|horrible|disgust\w*|scam|never flying|fix this|ridiculous|infuriat\w*|screw|damn|mad|pissed|idiot|stupid|shame|gussa\w*|pagal|krodh|naraz|bakwas|bakwaas|chup|maroong\w*|marung\w*|chutiya|kamina|saale|bewakoof|ghatiya|faltu|chidh|jhagda|bhaad me|dimag kharab|bata raha hu|enojad\w*|furia|rabia|fâché\w*|colère)\b/i;
+  /\b(angry|anger\w*|angr\w*|furious|outrage\w*|hate|annoy\w*|irritat\w*|frustrat\w*|worst|delayed|terrible|horrible|disgust\w*|scam|never flying|fix this|ridiculous|infuriat\w*|screw|damn|mad|pissed|idiot|stupid|shame|rage|fury|shut up|kill you|punch|slap|bad mood|spoil my mind|fuming|wrath|bullshit|trash|rubbish|cheat\w*|gussa\w*|gusse|pagal|paagal|krodh|krodhit|naraz|naraaz|bakwas|bakwaas|bakchodi|bakchod|chup|maroong\w*|marung\w*|chutiya|kamina|kamine|saale|saala|bewakoof|bewkoof|ghatiya|faltu|chidh\w*|jhagda|ladai|dushmani|nafrat\w*|ghrina|bhaad me|bhaad|dimag kharab|dimaag kharab|dimag ka dahi|dimag mat khao|mood kharab|bata raha hu|bata raha hoon|bata rha hu|enojad\w*|furia|rabia|fâché\w*|colère)\b/i;
 
 const SURPRISE_REGEX =
-  /\b(surprise\w*|astonish\w*|stunned|shock\w*|unbelievable|whoa|omg|wow|sudden\w*|unexpected\w*|speechless|mindblown|crazy|hairan\w*|chauk|kya baat|arey|sach me|sach mein|bhai kya|pagal h kya|ajeeb|vishwaas nahi|sorpresa|asombr\w*|increíble|étonn\w*|inattendu\w*)\b/i;
+  /\b(surprise\w*|astonish\w*|stunned|shock\w*|unbelievable|whoa|omg|wow|sudden\w*|unexpected\w*|speechless|mindblown|crazy|jaw-dropping|unreal|no way|mind blown|miracle|mysterious|bizarre|weird|hairan\w*|hairaan|chauk|kya baat|arey|sach me|sach mein|bhai kya|pagal h kya|ajeeb|anokha|vishwaas nahi|vishwas nahi|sorpresa|asombr\w*|increíble|étonn\w*|inattendu\w*)\b/i;
 
 const FEAR_REGEX =
-  /\b(fear|afraid|scared|terrified|anxious|anxiety|dread|panic|worry|worried|trembl\w*|nervous|horror|alarm\w*|freak\w*|darr\w*|dar lag\w*|ghabrahat|khauf|bhay|tension|chinta|miedo|asustad\w*|peur|effrayé\w*)\b/i;
+  /\b(fear|afraid|scared|terrified|anxious|anxiety|dread|panic|worry|worried|trembl\w*|nervous|horror|alarm\w*|freak\w*|fearful|fright\w*|danger\w*|threat\w*|creepy|stress\w*|shaking|scary|darr\w*|dar\b|dar lag\w*|darr lag\w*|dar raha|darr raha|ghabrahat|ghabra|bechaini|khauf|bhay|dahshat|tension|chinta|fikr|pareshan\w*|pareshani|musibat|miedo|asustad\w*|peur|effrayé\w*)\b/i;
 
 const NEUTRAL_REGEX =
-  /\b(meeting|schedule\w*|thursday|confirm|attendance|report|update|document|review|balance sheet|presented|system|status|quarterly|information|theek h|thik h|info|kaam|time|kal|aaj|pahuche)\b/i;
+  /\b(meeting|schedule\w*|thursday|monday|tuesday|wednesday|friday|saturday|sunday|confirm|attendance|report|update|document|review|balance sheet|presented|system|status|quarterly|information|office|routine|normal|theek h|thik h|theek hai|thik hai|theek|thik|chalega|sahi h|sab theek|sab badhiya|info|kaam|time|kal|aaj|pahuche|mil gaya|haa|haan|kuch nahi|kuch nhi)\b/i;
 
 /**
- * Intelligent local calibrated emotion classifier with automatic Google Translation support.
- * Translates foreign, Hinglish, or ambiguous text into English, evaluates psychological cues,
- * and generates organic, non-static probability distributions.
+ * Intelligent calibrated emotion classifier with cross-lingual bridge and dynamic distribution.
+ * Integrates Google Translate and native Hinglish normalizer to translate any Romanized Hindi,
+ * foreign, or colloquial text into English, scores affective semantics, and returns explainable metrics.
  */
 export async function classifyLocalText(
   text: string,
   pretranslated?: { translated: string; detectedLang: string } | null,
 ): Promise<LocalClassification> {
+  // 1. Run Hinglish translator
+  const hinglish = translateHinglish(text);
+
+  // 2. Run Google Translate (with fallback endpoints and browser UA)
   const trans = pretranslated !== undefined ? pretranslated : await translateWithGoogle(text);
 
-  const translatedText = trans?.translated && trans.translated.length > 0 ? trans.translated : null;
-  const combined = (text + " " + (translatedText || "")).toLowerCase();
-
-  // Language Detection & Naming
+  // 3. Determine Language and Appropriate English Translation
   const isDevanagari = /[\u0900-\u097F]/.test(text);
   const langCode = trans?.detectedLang || "auto";
+
   let detectedLanguage = "en";
   let languageName = "English";
+  let translatedText: string | null = null;
 
-  if (isDevanagari || langCode === "hi" || langCode === "hindi") {
+  if (isDevanagari || langCode === "hi" || langCode === "hindi" || hinglish.isHinglish) {
     if (isDevanagari) {
       detectedLanguage = "hi";
       languageName = "Hindi (हिन्दी)";
+      translatedText = trans?.translated || text;
     } else {
       detectedLanguage = "hinglish";
       languageName = "Hinglish (Hindi-English)";
+      // Prefer Google Translate if it successfully produced natural English, else use Hinglish translator
+      if (
+        trans?.translated &&
+        trans.translated.toLowerCase() !== text.toLowerCase() &&
+        !/\b(bhai|bohot|mast|gussa|pagal)\b/i.test(trans.translated)
+      ) {
+        translatedText = trans.translated;
+      } else {
+        translatedText = hinglish.translated;
+      }
     }
   } else if (langCode === "es") {
     detectedLanguage = "es";
     languageName = "Spanish (Español)";
+    translatedText = trans?.translated || null;
   } else if (langCode === "fr") {
     detectedLanguage = "fr";
     languageName = "French (Français)";
+    translatedText = trans?.translated || null;
   } else if (langCode === "de") {
     detectedLanguage = "de";
     languageName = "German (Deutsch)";
+    translatedText = trans?.translated || null;
   } else if (langCode !== "en" && langCode !== "auto") {
     detectedLanguage = langCode;
     languageName = langCode.toUpperCase();
-  } else if (
-    /\b(kya|hai|h|bhai|mujhe|mera|meri|mere|raha|rahi|hu|hoon|yaar|nahi|kyun|hoga|hogi|wala|wali|tere|apna|bata|karo|dekh|bahut|kaise|pe|se|ko|aur|par|gussa|pagal|chup|dukhi|khush|maza|darr|dard|rona)\b/i.test(
-      text,
-    )
-  ) {
-    detectedLanguage = "hinglish";
-    languageName = "Hinglish (Hindi-English)";
+    translatedText = trans?.translated || null;
   }
 
-  // Emotion Score Accumulation
+  // 4. Combine raw text, Google translation, and Hinglish translation for maximum semantic coverage
+  const combined = `${text} ${trans?.translated || ""} ${hinglish.translated}`.toLowerCase();
+
+  // 5. Emotion Score Accumulation
   let happyScore = 0;
   let sadScore = 0;
   let angryScore = 0;
@@ -176,35 +525,35 @@ export async function classifyLocalText(
   let fearScore = 0;
   let neutralScore = 0;
 
-  if (HAPPY_REGEX.test(combined)) happyScore += 1.6;
-  if (SAD_REGEX.test(combined)) sadScore += 1.6;
-  if (ANGRY_REGEX.test(combined)) angryScore += 1.6;
-  if (SURPRISE_REGEX.test(combined)) surpriseScore += 1.4;
-  if (FEAR_REGEX.test(combined)) fearScore += 1.6;
-  if (NEUTRAL_REGEX.test(combined)) neutralScore += 1.2;
+  if (HAPPY_REGEX.test(combined)) happyScore += 2.2;
+  if (SAD_REGEX.test(combined)) sadScore += 2.2;
+  if (ANGRY_REGEX.test(combined)) angryScore += 2.2;
+  if (SURPRISE_REGEX.test(combined)) surpriseScore += 1.8;
+  if (FEAR_REGEX.test(combined)) fearScore += 2.2;
+  if (NEUTRAL_REGEX.test(combined)) neutralScore += 1.4;
 
   // Emojis
-  if (/(?:🎉|😊|✨|❤️|💖|🥰|😁|😄|👏|🙌|😃|🤩|💃|🕺)/u.test(text)) happyScore += 1.5;
-  if (/(?:😢|😭|💔|😞|😔|😿|☹️|🙁|🥺)/u.test(text)) sadScore += 1.5;
-  if (/(?:😡|🤬|💢|😤|👿|😠)/u.test(text)) angryScore += 1.5;
-  if (/(?:😲|😮|😱|🤯|🪄|❗|❓)/u.test(text)) surpriseScore += 1.3;
-  if (/(?:😨|😰|😱|🥶|⚠️)/u.test(text)) fearScore += 1.5;
+  if (/(?:🎉|😊|✨|❤️|💖|🥰|😁|😄|👏|🙌|😃|🤩|💃|🕺)/u.test(text)) happyScore += 1.8;
+  if (/(?:😢|😭|💔|😞|😔|😿|☹️|🙁|🥺)/u.test(text)) sadScore += 1.8;
+  if (/(?:😡|🤬|💢|😤|👿|😠)/u.test(text)) angryScore += 1.8;
+  if (/(?:😲|😮|😱|🤯|🪄|❗|❓)/u.test(text)) surpriseScore += 1.5;
+  if (/(?:😨|😰|😱|🥶|⚠️)/u.test(text)) fearScore += 1.8;
 
   // Intensifiers & Punctuation
   if (/[!?]{2,}/.test(text)) {
-    surpriseScore += 0.3;
-    angryScore += 0.3;
+    surpriseScore += 0.4;
+    angryScore += 0.4;
   }
   if (
     /\b(very|so|extremely|really|literally|totally|completely|bohot|bahut|pura|bilkul)\b/i.test(
       combined,
     )
   ) {
-    if (happyScore > 0) happyScore += 0.4;
-    if (sadScore > 0) sadScore += 0.4;
-    if (angryScore > 0) angryScore += 0.4;
-    if (surpriseScore > 0) surpriseScore += 0.4;
-    if (fearScore > 0) fearScore += 0.4;
+    if (happyScore > 0) happyScore += 0.5;
+    if (sadScore > 0) sadScore += 0.5;
+    if (angryScore > 0) angryScore += 0.5;
+    if (surpriseScore > 0) surpriseScore += 0.5;
+    if (fearScore > 0) fearScore += 0.5;
   }
 
   const hasEmotion =
@@ -216,11 +565,11 @@ export async function classifyLocalText(
     angry: 0.02 + angryScore,
     surprise: 0.02 + surpriseScore,
     fear: 0.02 + fearScore,
-    neutral: 0.03,
+    neutral: 0.03 + neutralScore,
   };
 
   if (!hasEmotion) {
-    // Dynamic, organic neutral score (e.g. 62% - 82%) based on text entropy and length
+    // Dynamic organic neutral score (e.g. 64% - 78%) based on text entropy and length
     let hash = 0;
     for (let i = 0; i < text.length; i++) hash = (hash * 31 + text.charCodeAt(i)) % 1000;
     const neutralBase = neutralScore > 0 ? 0.72 : 0.62;
@@ -261,7 +610,10 @@ export async function classifyLocalText(
 
       if (
         ANGRY_REGEX.test(cleanWord) ||
-        (dominantEmotion === "angry" && /gussa|pagal|hate|angry|mad/i.test(cleanWord))
+        (dominantEmotion === "angry" &&
+          /gussa|pagal|paagal|hate|angry|mad|bata|kharab|bakwas|bakwaas|bakchodi|chup|dimag|krodh|naraz|chutiya|kamina|saale/i.test(
+            cleanWord,
+          ))
       ) {
         isEmotional = true;
         tokenEmotion = "angry";
@@ -269,7 +621,10 @@ export async function classifyLocalText(
         weight = 0.85;
       } else if (
         HAPPY_REGEX.test(cleanWord) ||
-        (dominantEmotion === "happy" && /happy|khush|love|mast/i.test(cleanWord))
+        (dominantEmotion === "happy" &&
+          /happy|khush|love|mast|badiya|badhiya|shandaar|hasi|hansi|maja|maza|accha|acha/i.test(
+            cleanWord,
+          ))
       ) {
         isEmotional = true;
         tokenEmotion = "happy";
@@ -277,7 +632,8 @@ export async function classifyLocalText(
         weight = 0.85;
       } else if (
         SAD_REGEX.test(cleanWord) ||
-        (dominantEmotion === "sad" && /sad|dukh|udas|cry/i.test(cleanWord))
+        (dominantEmotion === "sad" &&
+          /sad|dukh|udas|udaas|cry|rona|dard|bura|afsos|toot|tanha/i.test(cleanWord))
       ) {
         isEmotional = true;
         tokenEmotion = "sad";
@@ -285,7 +641,8 @@ export async function classifyLocalText(
         weight = 0.85;
       } else if (
         SURPRISE_REGEX.test(cleanWord) ||
-        (dominantEmotion === "surprise" && /surprise|crazy|shock/i.test(cleanWord))
+        (dominantEmotion === "surprise" &&
+          /surprise|crazy|shock|hairan|chauk|omg|wow|ajeeb/i.test(cleanWord))
       ) {
         isEmotional = true;
         tokenEmotion = "surprise";
@@ -293,7 +650,8 @@ export async function classifyLocalText(
         weight = 0.75;
       } else if (
         FEAR_REGEX.test(cleanWord) ||
-        (dominantEmotion === "fear" && /fear|darr|scared/i.test(cleanWord))
+        (dominantEmotion === "fear" &&
+          /fear|darr?|scared|ghabra|khauf|bhay|tension|chinta|fikr/i.test(cleanWord))
       ) {
         isEmotional = true;
         tokenEmotion = "fear";
