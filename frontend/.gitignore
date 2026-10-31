@@ -8,6 +8,7 @@ dist-ssr/
 .vinxi/
 .tanstack/**
 .nitro/
+.vercel/
 
 # Environment files
 .env

@@ -14,7 +14,7 @@ export function RecentReadings({
 }: {
   history: HistoryEntry[];
   onSelect?: (entry: HistoryEntry) => void;
-  activeId?: string;
+  activeId?: string | undefined;
 }) {
   if (history.length === 0) {
     return (

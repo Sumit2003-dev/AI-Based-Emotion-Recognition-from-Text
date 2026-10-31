@@ -28,16 +28,16 @@ export type AffectiveDimensions = {
 };
 
 export type EmotionalGuidance = {
-  psychology?: string;
-  empathy_tip?: string;
-  suggested_reply?: string;
+  psychology?: string | undefined;
+  empathy_tip?: string | undefined;
+  suggested_reply?: string | undefined;
 };
 
 export type EmotionToken = {
   token: string;
   is_emotional: boolean;
   emotion: string;
-  color?: string | null;
+  color?: string | null | undefined;
   weight: number;
 };
 
@@ -46,34 +46,34 @@ export type EmotionReading = {
   emotion: Emotion;
   confidence: number;
   scores: EmotionScores;
-  detectedLanguage?: string;
-  languageName?: string;
-  isMultilingual?: boolean;
-  translatedText?: string | null;
-  sentiment?: string;
-  sentimentScore?: number;
-  intensityLevel?: string;
-  intensityScore?: number;
-  dimensions?: AffectiveDimensions;
-  guidance?: EmotionalGuidance;
-  tokens?: EmotionToken[];
+  detectedLanguage?: string | undefined;
+  languageName?: string | undefined;
+  isMultilingual?: boolean | undefined;
+  translatedText?: string | null | undefined;
+  sentiment?: string | undefined;
+  sentimentScore?: number | undefined;
+  intensityLevel?: string | undefined;
+  intensityScore?: number | undefined;
+  dimensions?: AffectiveDimensions | undefined;
+  guidance?: EmotionalGuidance | undefined;
+  tokens?: EmotionToken[] | undefined;
 };
 
 export type RawReading = {
   index: number;
   emotion: string;
   scores: Partial<EmotionScores>;
-  detectedLanguage?: string;
-  languageName?: string;
-  isMultilingual?: boolean;
-  translatedText?: string | null;
-  sentiment?: string;
-  sentimentScore?: number;
-  intensityLevel?: string;
-  intensityScore?: number;
-  dimensions?: AffectiveDimensions;
-  guidance?: EmotionalGuidance;
-  tokens?: EmotionToken[];
+  detectedLanguage?: string | undefined;
+  languageName?: string | undefined;
+  isMultilingual?: boolean | undefined;
+  translatedText?: string | null | undefined;
+  sentiment?: string | undefined;
+  sentimentScore?: number | undefined;
+  intensityLevel?: string | undefined;
+  intensityScore?: number | undefined;
+  dimensions?: AffectiveDimensions | undefined;
+  guidance?: EmotionalGuidance | undefined;
+  tokens?: EmotionToken[] | undefined;
 };
 
 /** Compute fallback affective dimensions for an emotion when backend dimensions are absent. */

@@ -37,6 +37,7 @@ A production-grade, privacy-first Natural Language Processing (NLP) intelligence
   - [`GET /api/health`](#get-apihealth)
 - [Interactive Frontend UI Walkthrough](#-interactive-frontend-ui-walkthrough)
 - [Testing & Quality Assurance](#-testing--quality-assurance)
+- [Deploying to Vercel](#-deploying-to-vercel)
 - [Contributing & License](#-contributing--license)
 
 ---
@@ -384,6 +385,30 @@ Test the full production SSR and client build:
 cd frontend
 npm run build
 ```
+
+---
+
+## 🌐 Deploying to Vercel
+
+The web application is ready for zero-downtime serverless deployment on [Vercel](https://vercel.com):
+
+1. **Import the Repository**:
+   - Go to [vercel.com/new](https://vercel.com/new) and select `Sumit2003-dev/AI-Based-Emotion-Recognition-from-Text`.
+
+2. **Configure Root Directory**:
+   - Set **Root Directory** to `frontend` ⚠️ *(Required)*.
+
+3. **Build & Output Settings**:
+   - Framework preset: Auto-detected (`Vite` / `TanStack Start`).
+   - Build Command: `npm run build`
+   - Output Directory: `.vercel/output` (automatically populated by Nitro).
+
+4. **Environment Variables (Optional)**:
+   - `FASTAPI_URL`: URL of your hosted FastAPI backend (e.g., Render, Railway, or Hugging Face Spaces). If omitted, the web application functions standalone using its built-in inference heuristics.
+   - `OPENAI_API_KEY`: (Optional) For OpenAI GPT-4o-mini emotion classification.
+
+5. **Deploy**:
+   - Hit **Deploy**. Vercel will build and launch your application globally on its high-speed Edge Network.
 
 ---
 

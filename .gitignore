@@ -51,6 +51,8 @@ frontend/dist-ssr/
 frontend/.output/
 frontend/.tanstack/
 frontend/.nitro/
+frontend/.vercel/
+.vercel/
 frontend/.env
 frontend/.env.*
 !frontend/.env.example
