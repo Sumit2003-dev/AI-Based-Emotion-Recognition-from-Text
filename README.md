@@ -55,23 +55,24 @@ A production-grade, privacy-first Natural Language Processing (NLP) intelligence
 
 ```mermaid
 graph TD
-    User([User / Browser]) <-->|HTTP / JSON| Frontend[React 19 + TanStack Start UI]
-    Frontend <-->|REST API :8000| Backend[FastAPI Application Service]
+    User["User / Browser"] <-->|"HTTP / JSON"| Frontend["React 19 + TanStack Start UI"]
+    Frontend <-->|"REST API :8000"| Backend["FastAPI Application Service"]
     
-    subgraph "NLP Intelligence Engine"
-        Backend --> Preprocessor[Text Normalizer & Negation Handler]
-        Preprocessor --> Vectorizer[TF-IDF N-gram Vectorizer (34,291 Features)]
-        Vectorizer --> Model[Calibrated LinearSVC Model Pipeline]
-        Model --> Explainer[Token Attribution & VAD Calculator]
-        Explainer --> Output[Structured JSON Response]
+    subgraph Engine ["NLP Intelligence Engine"]
+        Backend --> Preprocessor["Text Normalizer & Negation Handler"]
+        Preprocessor --> Vectorizer["TF-IDF N-gram Vectorizer (34,291 Features)"]
+        Vectorizer --> Model["Calibrated LinearSVC Model Pipeline"]
+        Model --> Explainer["Token Attribution & VAD Calculator"]
+        Explainer --> Output["Structured JSON Response"]
     end
     
-    subgraph "Persistent Storage & Assets"
-        Backend -.-> Joblib[(emotion_model.joblib)]
-        Backend -.-> Metadata[(model_metadata.json)]
-        Backend -.-> DataCSV[(GoEmotions Benchmark Data)]
+    subgraph Storage ["Persistent Storage & Assets"]
+        Backend -.-> Joblib[("emotion_model.joblib")]
+        Backend -.-> Metadata[("model_metadata.json")]
+        Backend -.-> DataCSV[("GoEmotions Benchmark Data")]
     end
 ```
+
 
 ---
 
