@@ -1,0 +1,681 @@
+{
+  "model_name": "Calibrated Linear SVC (Platt Scaling)",
+  "trained_at": "2026-10-30T17:55:54.810146",
+  "total_dataset_size": 4400,
+  "train_size": 3520,
+  "test_size": 880,
+  "emotions": [
+    "anger",
+    "disgust",
+    "fear",
+    "joy",
+    "love",
+    "neutral",
+    "sadness",
+    "surprise"
+  ],
+  "vocabulary_size": 34291,
+  "metrics": {
+    "accuracy": 0.5534,
+    "macro_f1": 0.5424,
+    "weighted_f1": 0.5424,
+    "macro_precision": 0.5422,
+    "macro_recall": 0.5534
+  },
+  "model_comparison": {
+    "Calibrated Linear SVC (Platt Scaling)": {
+      "cv_macro_f1_mean": 0.5049,
+      "cv_macro_f1_std": 0.0146
+    },
+    "Logistic Regression (Balanced)": {
+      "cv_macro_f1_mean": 0.504,
+      "cv_macro_f1_std": 0.0139
+    },
+    "Complement Naive Bayes": {
+      "cv_macro_f1_mean": 0.4924,
+      "cv_macro_f1_std": 0.0079
+    }
+  },
+  "per_class_metrics": {
+    "anger": {
+      "precision": 0.494,
+      "recall": 0.3727,
+      "f1": 0.4249,
+      "support": 110
+    },
+    "disgust": {
+      "precision": 0.5847,
+      "recall": 0.6273,
+      "f1": 0.6053,
+      "support": 110
+    },
+    "fear": {
+      "precision": 0.6724,
+      "recall": 0.7091,
+      "f1": 0.6903,
+      "support": 110
+    },
+    "joy": {
+      "precision": 0.6557,
+      "recall": 0.7273,
+      "f1": 0.6897,
+      "support": 110
+    },
+    "love": {
+      "precision": 0.6308,
+      "recall": 0.7455,
+      "f1": 0.6833,
+      "support": 110
+    },
+    "neutral": {
+      "precision": 0.3968,
+      "recall": 0.2273,
+      "f1": 0.289,
+      "support": 110
+    },
+    "sadness": {
+      "precision": 0.453,
+      "recall": 0.4818,
+      "f1": 0.467,
+      "support": 110
+    },
+    "surprise": {
+      "precision": 0.4504,
+      "recall": 0.5364,
+      "f1": 0.4896,
+      "support": 110
+    }
+  },
+  "confusion_matrix": {
+    "classes": [
+      "anger",
+      "disgust",
+      "fear",
+      "joy",
+      "love",
+      "neutral",
+      "sadness",
+      "surprise"
+    ],
+    "matrix": [
+      [
+        41,
+        11,
+        2,
+        8,
+        11,
+        7,
+        15,
+        15
+      ],
+      [
+        5,
+        69,
+        10,
+        4,
+        3,
+        4,
+        8,
+        7
+      ],
+      [
+        1,
+        7,
+        78,
+        2,
+        7,
+        3,
+        6,
+        6
+      ],
+      [
+        0,
+        2,
+        3,
+        80,
+        5,
+        7,
+        6,
+        7
+      ],
+      [
+        6,
+        2,
+        6,
+        6,
+        82,
+        3,
+        4,
+        1
+      ],
+      [
+        11,
+        12,
+        3,
+        6,
+        10,
+        25,
+        17,
+        26
+      ],
+      [
+        9,
+        7,
+        10,
+        8,
+        7,
+        6,
+        53,
+        10
+      ],
+      [
+        10,
+        8,
+        4,
+        8,
+        5,
+        8,
+        8,
+        59
+      ]
+    ]
+  },
+  "top_keywords": {
+    "anger": [
+      {
+        "word": "fuck",
+        "weight": 3.9204
+      },
+      {
+        "word": "fucking",
+        "weight": 3.2346
+      },
+      {
+        "word": "not",
+        "weight": 2.6325
+      },
+      {
+        "word": "hate",
+        "weight": 2.5104
+      },
+      {
+        "word": "don",
+        "weight": 2.3375
+      },
+      {
+        "word": "stupid",
+        "weight": 2.1043
+      },
+      {
+        "word": "damn",
+        "weight": 2.0638
+      },
+      {
+        "word": "stop",
+        "weight": 1.9251
+      },
+      {
+        "word": "idiot",
+        "weight": 1.8919
+      },
+      {
+        "word": "your",
+        "weight": 1.769
+      },
+      {
+        "word": "shut",
+        "weight": 1.5516
+      },
+      {
+        "word": "dont",
+        "weight": 1.5191
+      },
+      {
+        "word": "an",
+        "weight": 1.4708
+      },
+      {
+        "word": "the fuck",
+        "weight": 1.4125
+      },
+      {
+        "word": "dumbass",
+        "weight": 1.3744
+      }
+    ],
+    "disgust": [
+      {
+        "word": "disgusting",
+        "weight": 8.0576
+      },
+      {
+        "word": "awful",
+        "weight": 5.3383
+      },
+      {
+        "word": "weird",
+        "weight": 4.7294
+      },
+      {
+        "word": "worse",
+        "weight": 4.2896
+      },
+      {
+        "word": "worst",
+        "weight": 4.2441
+      },
+      {
+        "word": "gross",
+        "weight": 2.5851
+      },
+      {
+        "word": "nasty",
+        "weight": 2.5154
+      },
+      {
+        "word": "ugly",
+        "weight": 2.4133
+      },
+      {
+        "word": "the worst",
+        "weight": 2.3631
+      },
+      {
+        "word": "hideous",
+        "weight": 2.2509
+      },
+      {
+        "word": "is",
+        "weight": 2.0888
+      },
+      {
+        "word": "ugh",
+        "weight": 2.0421
+      },
+      {
+        "word": "creepy",
+        "weight": 1.9834
+      },
+      {
+        "word": "hate",
+        "weight": 1.8394
+      },
+      {
+        "word": "horrible",
+        "weight": 1.8103
+      }
+    ],
+    "fear": [
+      {
+        "word": "scared",
+        "weight": 6.0028
+      },
+      {
+        "word": "afraid",
+        "weight": 4.8729
+      },
+      {
+        "word": "scary",
+        "weight": 4.3511
+      },
+      {
+        "word": "terrifying",
+        "weight": 3.9871
+      },
+      {
+        "word": "terrible",
+        "weight": 3.9425
+      },
+      {
+        "word": "worried",
+        "weight": 3.7743
+      },
+      {
+        "word": "fear",
+        "weight": 3.7485
+      },
+      {
+        "word": "horrible",
+        "weight": 3.6562
+      },
+      {
+        "word": "dangerous",
+        "weight": 3.0824
+      },
+      {
+        "word": "anxiety",
+        "weight": 2.7983
+      },
+      {
+        "word": "panic",
+        "weight": 2.7048
+      },
+      {
+        "word": "horrifying",
+        "weight": 2.6209
+      },
+      {
+        "word": "me",
+        "weight": 2.5362
+      },
+      {
+        "word": "nervous",
+        "weight": 2.4122
+      },
+      {
+        "word": "nightmare",
+        "weight": 2.3993
+      }
+    ],
+    "joy": [
+      {
+        "word": "lol",
+        "weight": 7.5304
+      },
+      {
+        "word": "thanks",
+        "weight": 7.3858
+      },
+      {
+        "word": "thank",
+        "weight": 5.9292
+      },
+      {
+        "word": "thank you",
+        "weight": 5.0441
+      },
+      {
+        "word": "glad",
+        "weight": 3.9638
+      },
+      {
+        "word": "haha",
+        "weight": 3.8875
+      },
+      {
+        "word": "happy",
+        "weight": 3.7914
+      },
+      {
+        "word": "fun",
+        "weight": 3.1464
+      },
+      {
+        "word": "wow",
+        "weight": 2.4899
+      },
+      {
+        "word": "funny",
+        "weight": 2.4181
+      },
+      {
+        "word": "joke",
+        "weight": 2.3115
+      },
+      {
+        "word": "hahaha",
+        "weight": 2.1978
+      },
+      {
+        "word": "welcome",
+        "weight": 2.1294
+      },
+      {
+        "word": "hilarious",
+        "weight": 2.0813
+      },
+      {
+        "word": "lmao",
+        "weight": 1.9623
+      }
+    ],
+    "love": [
+      {
+        "word": "love",
+        "weight": 11.4206
+      },
+      {
+        "word": "wish",
+        "weight": 5.189
+      },
+      {
+        "word": "like",
+        "weight": 3.8288
+      },
+      {
+        "word": "you",
+        "weight": 3.6751
+      },
+      {
+        "word": "loved",
+        "weight": 3.4923
+      },
+      {
+        "word": "favorite",
+        "weight": 2.7191
+      },
+      {
+        "word": "take",
+        "weight": 2.2692
+      },
+      {
+        "word": "my favorite",
+        "weight": 2.2175
+      },
+      {
+        "word": "keep",
+        "weight": 2.0477
+      },
+      {
+        "word": "want",
+        "weight": 1.9658
+      },
+      {
+        "word": "my",
+        "weight": 1.9051
+      },
+      {
+        "word": "stay",
+        "weight": 1.7724
+      },
+      {
+        "word": "could",
+        "weight": 1.7661
+      },
+      {
+        "word": "bless",
+        "weight": 1.6808
+      },
+      {
+        "word": "good",
+        "weight": 1.6652
+      }
+    ],
+    "neutral": [
+      {
+        "word": "how so",
+        "weight": 1.5639
+      },
+      {
+        "word": "anything",
+        "weight": 1.4459
+      },
+      {
+        "word": "anytime",
+        "weight": 1.2559
+      },
+      {
+        "word": "they",
+        "weight": 1.2508
+      },
+      {
+        "word": "way",
+        "weight": 1.2415
+      },
+      {
+        "word": "nothing",
+        "weight": 1.2306
+      },
+      {
+        "word": "finale",
+        "weight": 1.2175
+      },
+      {
+        "word": "name got",
+        "weight": 1.2096
+      },
+      {
+        "word": "illness",
+        "weight": 1.1851
+      },
+      {
+        "word": "hi",
+        "weight": 1.1754
+      },
+      {
+        "word": "about it",
+        "weight": 1.1638
+      },
+      {
+        "word": "go",
+        "weight": 1.113
+      },
+      {
+        "word": "go you",
+        "weight": 1.1075
+      },
+      {
+        "word": "quarantine",
+        "weight": 1.0813
+      },
+      {
+        "word": "two",
+        "weight": 1.0576
+      }
+    ],
+    "sadness": [
+      {
+        "word": "sorry",
+        "weight": 7.6815
+      },
+      {
+        "word": "sad",
+        "weight": 4.1895
+      },
+      {
+        "word": "bad",
+        "weight": 3.4784
+      },
+      {
+        "word": "miss",
+        "weight": 3.1404
+      },
+      {
+        "word": "hurts",
+        "weight": 2.6616
+      },
+      {
+        "word": "hurt",
+        "weight": 2.3068
+      },
+      {
+        "word": "lost",
+        "weight": 2.192
+      },
+      {
+        "word": "me",
+        "weight": 1.9114
+      },
+      {
+        "word": "disappointed",
+        "weight": 1.8253
+      },
+      {
+        "word": "so sorry",
+        "weight": 1.8073
+      },
+      {
+        "word": "feel",
+        "weight": 1.6304
+      },
+      {
+        "word": "no one",
+        "weight": 1.5881
+      },
+      {
+        "word": "missed",
+        "weight": 1.5559
+      },
+      {
+        "word": "unfortunately",
+        "weight": 1.5394
+      },
+      {
+        "word": "disappointing",
+        "weight": 1.527
+      }
+    ],
+    "surprise": [
+      {
+        "word": "what",
+        "weight": 4.4342
+      },
+      {
+        "word": "maybe",
+        "weight": 3.1538
+      },
+      {
+        "word": "is that",
+        "weight": 3.1037
+      },
+      {
+        "word": "wow",
+        "weight": 2.9366
+      },
+      {
+        "word": "did",
+        "weight": 2.9114
+      },
+      {
+        "word": "how",
+        "weight": 2.8445
+      },
+      {
+        "word": "curious",
+        "weight": 2.6047
+      },
+      {
+        "word": "or",
+        "weight": 2.332
+      },
+      {
+        "word": "is it",
+        "weight": 2.2749
+      },
+      {
+        "word": "where",
+        "weight": 2.1086
+      },
+      {
+        "word": "know",
+        "weight": 2.0413
+      },
+      {
+        "word": "surprised",
+        "weight": 2.04
+      },
+      {
+        "word": "do you",
+        "weight": 2.0236
+      },
+      {
+        "word": "why",
+        "weight": 2.004
+      },
+      {
+        "word": "unexpected",
+        "weight": 1.8879
+      }
+    ]
+  }
+}

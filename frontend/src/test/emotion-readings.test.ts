@@ -1,0 +1,52 @@
+import { describe, expect, it } from "vitest";
+
+import { toReadings } from "@/lib/emotion/classify.functions";
+
+const texts = ["Loved it, five stars!", "This is the third time support ignored me."];
+
+describe("toReadings", () => {
+  it("maps 1-based result indexes back onto the right texts", () => {
+    const readings = toReadings(
+      [
+        {
+          index: 1,
+          emotion: "happy",
+          scores: { happy: 0.9, sad: 0.02, angry: 0.02, surprise: 0.04, fear: 0.01, neutral: 0.01 },
+        },
+        {
+          index: 2,
+          emotion: "angry",
+          scores: {
+            happy: 0.01,
+            sad: 0.14,
+            angry: 0.77,
+            surprise: 0.02,
+            fear: 0.02,
+            neutral: 0.04,
+          },
+        },
+      ],
+      texts,
+    );
+    const [first, second] = readings;
+    expect(readings).toHaveLength(2);
+    expect(first?.text).toBe(texts[0]);
+    expect(first?.emotion).toBe("happy");
+    expect(second?.text).toBe(texts[1]);
+    expect(second?.emotion).toBe("angry");
+  });
+
+  it("drops results whose index is out of range", () => {
+    const readings = toReadings(
+      [
+        {
+          index: 5,
+          emotion: "happy",
+          scores: { happy: 1, sad: 0, angry: 0, surprise: 0, fear: 0, neutral: 0 },
+        },
+      ],
+      texts,
+    );
+    expect(readings).toHaveLength(0);
+  });
+});
