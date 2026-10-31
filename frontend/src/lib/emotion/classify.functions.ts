@@ -161,6 +161,30 @@ async function tryFastApiBackend(texts: string[]): Promise<EmotionReading[] | nu
           language_name?: string;
           is_multilingual?: boolean;
           translated_text?: string | null;
+          sentiment?: string;
+          sentiment_score?: number;
+          intensity?: { level: string; score: number };
+          dimensions?: {
+            valence: number;
+            arousal: number;
+            arousal_label: string;
+            dominance: number;
+            dominance_label: string;
+            subjectivity: number;
+            subjectivity_label: string;
+          };
+          guidance?: {
+            psychology?: string;
+            empathy_tip?: string;
+            suggested_reply?: string;
+          };
+          tokens?: Array<{
+            token: string;
+            is_emotional: boolean;
+            emotion: string;
+            color?: string | null;
+            weight: number;
+          }>;
           probabilities?:
             | Array<{ emotion: string; ratio?: number; probability?: number }>
             | Record<string, number>;
@@ -233,6 +257,13 @@ async function tryFastApiBackend(texts: string[]): Promise<EmotionReading[] | nu
           languageName: r.language_name,
           isMultilingual: r.is_multilingual,
           translatedText: r.translated_text,
+          sentiment: r.sentiment,
+          sentimentScore: r.sentiment_score,
+          intensityLevel: r.intensity?.level,
+          intensityScore: r.intensity?.score,
+          dimensions: r.dimensions,
+          guidance: r.guidance,
+          tokens: r.tokens,
         });
       },
     );

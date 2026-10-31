@@ -24,11 +24,10 @@ BACKEND_DIR = PROJECT_ROOT / "backend"
 if str(BACKEND_DIR) not in sys.path:
     sys.path.insert(0, str(BACKEND_DIR))
 
-from model import EmotionClassifier, EMOTION_META
-from app import app
+from model import EMOTION_META
+from app import app, classifier
 
 client = TestClient(app)
-classifier = EmotionClassifier()
 
 
 def test_model_loaded():
