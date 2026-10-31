@@ -70,3 +70,6 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# IDE & AI Assistant metadata
+.agents/
