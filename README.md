@@ -407,8 +407,8 @@ npm run build
 
 **Sumit Kumar**
 - **GitHub**: [@Sumit2003-dev](https://github.com/Sumit2003-dev)
-- **LinkedIn**: [Sumit Kumar](https://www.linkedin.com/in/sumit2003-dev)
-- **Email**: [sumit.kumar@example.com](mailto:sumit.kumar@example.com)
+- **LinkedIn**: [Sumit Kumar](https://www.linkedin.com/in/sumit2003-dev/)
+- **Email**: [sumit.ku5981@gmail.com](mailto:sumit.ku5981@gmail.com)
 - **Repository**: [AI-Based-Emotion-Recognition-from-Text](https://github.com/Sumit2003-dev/AI-Based-Emotion-Recognition-from-Text)
 
 ---

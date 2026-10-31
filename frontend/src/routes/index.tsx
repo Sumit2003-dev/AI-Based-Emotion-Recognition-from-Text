@@ -202,7 +202,7 @@ function Index() {
               </a>
 
               <a
-                href="https://www.linkedin.com/in/sumit2003-dev"
+                href="https://www.linkedin.com/in/sumit2003-dev/"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card/60 px-3 py-1.5 font-medium text-foreground hover:bg-secondary/70 hover:border-primary transition-all shadow-sm"
@@ -214,7 +214,7 @@ function Index() {
               </a>
 
               <a
-                href="mailto:sumit.kumar@example.com"
+                href="mailto:sumit.ku5981@gmail.com"
                 className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card/60 px-3 py-1.5 font-medium text-foreground hover:bg-secondary/70 hover:border-primary transition-all shadow-sm"
               >
                 <svg className="h-3.5 w-3.5 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
