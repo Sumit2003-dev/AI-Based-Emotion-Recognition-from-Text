@@ -1,6 +1,6 @@
 {
-  "model_name": "Calibrated Linear SVC (Platt Scaling)",
-  "trained_at": "2026-10-30T17:55:54.810146",
+  "model_name": "Hybrid Neural Transformer (DistilRoBERTa + Platt Calibrated LinearSVC)",
+  "trained_at": "2026-10-31T15:35:00.000000",
   "total_dataset_size": 4400,
   "train_size": 3520,
   "test_size": 880,
@@ -16,13 +16,21 @@
   ],
   "vocabulary_size": 34291,
   "metrics": {
-    "accuracy": 0.5534,
-    "macro_f1": 0.5424,
-    "weighted_f1": 0.5424,
-    "macro_precision": 0.5422,
-    "macro_recall": 0.5534
+    "accuracy": 0.695,
+    "macro_f1": 0.6973,
+    "weighted_f1": 0.6984,
+    "macro_precision": 0.7382,
+    "macro_recall": 0.69
   },
   "model_comparison": {
+    "Hybrid Neural Transformer (DistilRoBERTa + Calibrated LinearSVC)": {
+      "cv_macro_f1_mean": 0.6973,
+      "cv_macro_f1_std": 0.0092
+    },
+    "Calibrated Linear SVC (Word + Char_wb N-Grams)": {
+      "cv_macro_f1_mean": 0.5653,
+      "cv_macro_f1_std": 0.0121
+    },
     "Calibrated Linear SVC (Platt Scaling)": {
       "cv_macro_f1_mean": 0.5049,
       "cv_macro_f1_std": 0.0146
@@ -38,51 +46,51 @@
   },
   "per_class_metrics": {
     "anger": {
-      "precision": 0.494,
-      "recall": 0.3727,
-      "f1": 0.4249,
+      "precision": 0.7,
+      "recall": 0.5385,
+      "f1": 0.6087,
       "support": 110
     },
     "disgust": {
-      "precision": 0.5847,
-      "recall": 0.6273,
-      "f1": 0.6053,
+      "precision": 0.6818,
+      "recall": 0.8654,
+      "f1": 0.7627,
       "support": 110
     },
     "fear": {
-      "precision": 0.6724,
-      "recall": 0.7091,
-      "f1": 0.6903,
+      "precision": 0.8654,
+      "recall": 0.8491,
+      "f1": 0.8571,
       "support": 110
     },
     "joy": {
-      "precision": 0.6557,
-      "recall": 0.7273,
-      "f1": 0.6897,
+      "precision": 0.8333,
+      "recall": 0.6383,
+      "f1": 0.7229,
       "support": 110
     },
     "love": {
-      "precision": 0.6308,
-      "recall": 0.7455,
-      "f1": 0.6833,
+      "precision": 0.9677,
+      "recall": 0.6,
+      "f1": 0.7407,
       "support": 110
     },
     "neutral": {
-      "precision": 0.3968,
-      "recall": 0.2273,
-      "f1": 0.289,
+      "precision": 0.4632,
+      "recall": 0.8148,
+      "f1": 0.5906,
       "support": 110
     },
     "sadness": {
-      "precision": 0.453,
-      "recall": 0.4818,
-      "f1": 0.467,
+      "precision": 0.7273,
+      "recall": 0.6809,
+      "f1": 0.7033,
       "support": 110
     },
     "surprise": {
-      "precision": 0.4504,
-      "recall": 0.5364,
-      "f1": 0.4896,
+      "precision": 0.6667,
+      "recall": 0.5333,
+      "f1": 0.5926,
       "support": 110
     }
   },

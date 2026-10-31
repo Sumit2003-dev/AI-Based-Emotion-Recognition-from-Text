@@ -139,13 +139,11 @@ async def upload_csv(file: UploadFile = File(...)):
 @app.get("/api/model-info")
 def get_model_info():
     """Returns model architecture, accuracy, macro F1, confusion matrix, and training details."""
-    metadata = classifier.metadata
-    if not metadata:
-        return {
-            "model_name": "Emotion Recognition Classifier",
-            "status": "Running default baseline",
-            "emotions": list(EMOTION_META.keys()),
-        }
+    metadata = dict(classifier.metadata) if classifier.metadata else {}
+    metadata["active_engine"] = classifier.active_engine
+    if not metadata.get("model_name"):
+        metadata["model_name"] = classifier.active_engine
+        metadata["emotions"] = list(EMOTION_META.keys())
     return metadata
 
 

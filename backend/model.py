@@ -152,9 +152,11 @@ class EmotionClassifier:
         self.model_path = model_path or MODEL_FILE
         self.metadata_path = metadata_path or METADATA_FILE
         self.pipeline = None
+        self.transformer_pipeline = None
         self.metadata = {}
         self.classes = list(EMOTION_META.keys())
         self._load_model()
+        self._load_transformer()
 
     def _load_model(self):
         """Loads serialized model and metadata."""
@@ -173,8 +175,33 @@ class EmotionClassifier:
             except Exception as e:
                 print(f"Error loading metadata from {self.metadata_path}: {e}")
 
+    def _load_transformer(self):
+        """Loads pre-trained DistilRoBERTa model if torch and transformers are available."""
+        try:
+            from transformers import pipeline
+            self.transformer_pipeline = pipeline(
+                "text-classification",
+                model="j-hartmann/emotion-english-distilroberta-base",
+                top_k=None,
+                device=-1
+            )
+            print("Neural Transformer Emotion Engine (DistilRoBERTa) loaded successfully.")
+        except Exception as e:
+            print(f"Notice: Transformer engine not active (falling back to Calibrated LinearSVC): {e}")
+            self.transformer_pipeline = None
+
     def is_ready(self) -> bool:
-        return self.pipeline is not None
+        return (self.pipeline is not None) or (self.transformer_pipeline is not None)
+
+    @property
+    def active_engine(self) -> str:
+        if self.transformer_pipeline is not None and self.pipeline is not None:
+            return "Hybrid Neural Transformer (DistilRoBERTa + Calibrated LinearSVC)"
+        if self.transformer_pipeline is not None:
+            return "Neural Transformer (DistilRoBERTa)"
+        if self.pipeline is not None:
+            return "Calibrated LinearSVC (Platt Scaling)"
+        return "Rule Heuristics Baseline"
 
     def predict(self, text: str) -> Dict[str, Any]:
         """Runs emotion inference, token attribution, sentiment analysis, and psychological guidance."""
@@ -182,30 +209,52 @@ class EmotionClassifier:
         if not raw_text:
             return self._empty_response()
 
-        # 1. Feature probabilities
+        # 1. Feature probabilities from Scikit-Learn pipeline
         probabilities: Dict[str, float] = {}
         if self.pipeline is not None:
             try:
-                # sklearn predict_proba
                 if hasattr(self.pipeline, "predict_proba"):
                     probs = self.pipeline.predict_proba([raw_text])[0]
                     classes = self.pipeline.classes_
                     for cls_name, prob in zip(classes, probs):
                         probabilities[cls_name] = float(prob)
                 elif hasattr(self.pipeline, "decision_function"):
-                    # Softmax over decision function for margin-based classifiers
                     df = self.pipeline.decision_function([raw_text])[0]
                     exp_df = np.exp(df - np.max(df))
                     probs = exp_df / np.sum(exp_df)
                     for cls_name, prob in zip(self.pipeline.classes_, probs):
                         probabilities[cls_name] = float(prob)
             except Exception as e:
-                print(f"Prediction fallback due to error: {e}")
+                print(f"Scikit-learn inference notice: {e}")
 
-        # Ensure all standard 8 classes exist in probabilities
+        # Ensure all standard 8 classes exist in baseline
         for cls_name in EMOTION_META.keys():
             if cls_name not in probabilities:
                 probabilities[cls_name] = 0.001
+
+        # 2. If Neural Transformer is active, compute deep contextual probabilities & ensemble blend
+        if self.transformer_pipeline is not None:
+            try:
+                tr_results = self.transformer_pipeline(raw_text[:512])[0]
+                tr_probs = {item["label"]: float(item["score"]) for item in tr_results}
+
+                hybrid_probs = {}
+                for c in self.classes:
+                    p_sk = probabilities.get(c, 0.0)
+                    p_tr = tr_probs.get(c, 0.0)
+                    if c == "love":
+                        is_love_term = bool(re.search(r"\b(love|loved|soulmate|marry|adore|cherish|darling|cuddle|heart|beloved)\b", raw_text.lower()))
+                        hybrid_probs[c] = 0.65 * p_sk + (0.35 * tr_probs.get("joy", 0.0) if is_love_term else 0.0)
+                    elif c == "joy":
+                        hybrid_probs[c] = 0.40 * p_sk + 0.60 * p_tr
+                    else:
+                        hybrid_probs[c] = 0.35 * p_sk + 0.65 * p_tr
+
+                tot = sum(hybrid_probs.values())
+                if tot > 0:
+                    probabilities = {k: round(v / tot, 4) for k, v in hybrid_probs.items()}
+            except Exception as e:
+                print(f"Notice: Transformer inference notice: {e}")
 
         # Normalize probabilities to sum to 1.0
         total_p = sum(probabilities.values())
