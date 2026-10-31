@@ -6,11 +6,34 @@ import type { EmotionReading } from "@/lib/emotion/emotions";
 import { EmotionBars } from "./emotion-bars";
 
 const SAMPLES = [
-  "Ugh, my flight got delayed THREE hours and they lost my bag. Never flying with this airline again.",
-  "Just got the acceptance email!!! I literally screamed in the library 🎉",
-  "The meeting is moved to 3pm on Thursday. Please confirm your attendance.",
-  "Wait... they're announcing the results TODAY? I did not see that coming at all.",
-  "I keep replaying the voicemail. I don't know how to tell them, my hands won't stop shaking.",
+  {
+    label: "Delayed flight ✈️",
+    text: "Ugh, my flight got delayed THREE hours and they lost my bag. Never flying with this airline again.",
+  },
+  {
+    label: "Acceptance 🎉",
+    text: "Just got the acceptance email!!! I literally screamed in the library 🎉",
+  },
+  {
+    label: "Hindi 🇮🇳",
+    text: "मुझे आज बहुत खुशी हो रही है! परीक्षा में पहला स्थान मिला 🎉",
+  },
+  {
+    label: "Spanish 🇪🇸",
+    text: "Estoy extremadamente enojado con este servicio tan pésimo y tardío.",
+  },
+  {
+    label: "French 🇫🇷",
+    text: "Je suis tellement triste et seul depuis ton départ.",
+  },
+  {
+    label: "Hinglish 🇮🇳",
+    text: "mujhe bohot zyada gussa aa raha hai is baat par",
+  },
+  {
+    label: "Meeting note",
+    text: "The meeting is moved to 3pm on Thursday. Please confirm your attendance.",
+  },
 ];
 
 export function SingleAnalyzer({ onResult }: { onResult: (reading: EmotionReading) => void }) {
@@ -52,7 +75,7 @@ export function SingleAnalyzer({ onResult }: { onResult: (reading: EmotionReadin
           onChange={(event) => setText(event.target.value)}
           maxLength={MAX_TEXT_CHARS}
           rows={5}
-          placeholder="Paste a tweet, message, or review…"
+          placeholder="Paste a tweet, message, or review in English, Hindi, Spanish, French, or any language…"
           className="w-full resize-none rounded-md border border-input bg-background px-4 py-3 font-sans text-base leading-relaxed outline-none transition-colors placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
         />
         <span className="absolute bottom-2.5 right-3 text-[11px] tabular-nums text-muted-foreground/70">
@@ -66,19 +89,11 @@ export function SingleAnalyzer({ onResult }: { onResult: (reading: EmotionReadin
           <button
             key={i}
             type="button"
-            onClick={() => setText(sample)}
+            onClick={() => setText(sample.text)}
             disabled={loading}
             className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary hover:text-foreground disabled:opacity-50"
           >
-            {
-              [
-                "Delayed flight ✈️",
-                "Acceptance 🎉",
-                "Meeting note",
-                "Unexpected news",
-                "The voicemail",
-              ][i]
-            }
+            {sample.label}
           </button>
         ))}
       </div>
@@ -109,6 +124,16 @@ export function SingleAnalyzer({ onResult }: { onResult: (reading: EmotionReadin
               {Math.round(reading.confidence * 100)}% confidence
             </span>
           </div>
+
+          {reading.isMultilingual && reading.languageName && (
+            <div className="mt-2.5 inline-flex flex-wrap items-center gap-1.5 rounded-md border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs text-primary">
+              <span className="font-semibold">🌐 {reading.languageName}</span>
+              {reading.translatedText && (
+                <span className="text-muted-foreground">• En: "{reading.translatedText}"</span>
+              )}
+            </div>
+          )}
+
           <p className="mt-2 text-sm text-muted-foreground">
             {reading.emotion === "neutral"
               ? "Plainly stated, no strong feeling."

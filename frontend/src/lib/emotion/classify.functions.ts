@@ -157,6 +157,10 @@ async function tryFastApiBackend(texts: string[]): Promise<EmotionReading[] | nu
           dominant_emotion?: string;
           emotion?: string;
           confidence?: number;
+          detected_language?: string;
+          language_name?: string;
+          is_multilingual?: boolean;
+          translated_text?: string | null;
           probabilities?:
             | Array<{ emotion: string; ratio?: number; probability?: number }>
             | Record<string, number>;
@@ -225,6 +229,10 @@ async function tryFastApiBackend(texts: string[]): Promise<EmotionReading[] | nu
           index: idx + 1,
           emotion: dominantEmotion,
           scores,
+          detectedLanguage: r.detected_language,
+          languageName: r.language_name,
+          isMultilingual: r.is_multilingual,
+          translatedText: r.translated_text,
         });
       },
     );

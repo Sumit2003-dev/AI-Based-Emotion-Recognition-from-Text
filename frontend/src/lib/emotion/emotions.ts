@@ -22,12 +22,20 @@ export type EmotionReading = {
   emotion: Emotion;
   confidence: number;
   scores: EmotionScores;
+  detectedLanguage?: string;
+  languageName?: string;
+  isMultilingual?: boolean;
+  translatedText?: string | null;
 };
 
 export type RawReading = {
   index: number;
   emotion: string;
   scores: Partial<EmotionScores>;
+  detectedLanguage?: string;
+  languageName?: string;
+  isMultilingual?: boolean;
+  translatedText?: string | null;
 };
 
 /** Clamp scores into 0..1, renormalize to sum 1, and pick the argmax emotion. */
@@ -56,7 +64,16 @@ export function normalizeReading(text: string, raw: RawReading): EmotionReading 
     if (scores[emotion] > scores[best]) best = emotion;
   }
 
-  return { text, emotion: best, confidence: scores[best], scores };
+  return {
+    text,
+    emotion: best,
+    confidence: scores[best],
+    scores,
+    detectedLanguage: raw.detectedLanguage,
+    languageName: raw.languageName,
+    isMultilingual: raw.isMultilingual,
+    translatedText: raw.translatedText,
+  };
 }
 
 export function topEmotionDistribution(readings: EmotionReading[]): Record<Emotion, number> {

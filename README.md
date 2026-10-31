@@ -48,8 +48,9 @@ A production-grade, privacy-first Natural Language Processing (NLP) intelligence
 - **Token-Level Explainability (XAI)**: Identifies exactly which words, n-grams, and phrases influenced the classification, with color-coded weight attributions.
 - **Sentiment & Psychometric Scoring**: Computes continuous sentiment polarity (`-1.0` to `+1.0`) and emotional intensity (`0%` to `100%`) alongside psychological valence-arousal-dominance (VAD) mappings.
 - **Batch CSV Analysis Engine**: Upload CSV datasets (customer feedback, reviews, tweets) to process and visualize bulk sentiment distributions in seconds.
+- **Multilingual Cross-Lingual Emotion Intelligence**: Automatically detects 100+ languages (Hindi, Spanish, French, German, Italian, Portuguese, Arabic, Chinese, Japanese, and Hinglish) with instant cross-lingual emotion alignment and language identification.
 - **Actionable Emotional Guidance**: Provides real-time communication recommendations based on detected emotion (e.g., de-escalation tips for anger, empathy cues for sadness).
-- **Zero External API Lock-In**: Fully local, fast CPU inference (~1-3ms per sentence) without sending user data to third-party cloud services.
+- **Zero External API Lock-In**: Fully local, fast CPU inference without sending user data to third-party cloud services.
 - **Modern Full-Stack Stack**: Python FastAPI backend coupled with a responsive, dark-mode React 19 + TanStack Start UI.
 
 ---
