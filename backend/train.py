@@ -1,5 +1,7 @@
 """
 Machine Learning Training & Model Selection Pipeline for AI Emotion Recognition.
+Created & Maintained by Sumit Kumar (https://github.com/Sumit2003-dev)
+
 Strictly adheres to ML best practices:
 - Featurization ordering: split into train/test BEFORE fitting vectorizer/models.
 - Stratified sampling to preserve balanced class proportions.

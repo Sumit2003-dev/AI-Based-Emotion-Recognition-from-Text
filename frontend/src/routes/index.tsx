@@ -97,6 +97,25 @@ function Index() {
             <RecentReadings history={history} />
           </div>
         </section>
+
+        <footer className="mt-16 border-t border-border pt-6 pb-12 flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-3">
+          <p>
+            Designed & Developed by{" "}
+            <strong className="font-semibold text-foreground">Sumit Kumar</strong>
+          </p>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://github.com/Sumit2003-dev/AI-Based-Emotion-Recognition-from-Text"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-foreground transition-colors underline underline-offset-2"
+            >
+              GitHub Repository
+            </a>
+            <span>•</span>
+            <span>FastAPI + Hybrid Neural Transformer</span>
+          </div>
+        </footer>
       </main>
     </div>
   );

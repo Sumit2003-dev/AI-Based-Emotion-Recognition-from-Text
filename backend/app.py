@@ -1,5 +1,7 @@
 """
 FastAPI Backend Application for AI-Based Emotion Recognition.
+Created by: Sumit Kumar (https://github.com/Sumit2003-dev)
+
 Provides:
 - Real-time text emotion analysis with probabilities and explainability
 - Batch CSV and text array processing
@@ -32,9 +34,13 @@ from model import EmotionClassifier, EMOTION_META
 classifier = EmotionClassifier()
 
 app = FastAPI(
-    title="AI Emotion Recognition API",
-    description="Multiclass emotion recognition from text using calibrated NLP models, explainability, and empathy tips.",
-    version="1.0.0",
+    title="AI-Based Emotion Recognition API",
+    description="High-performance Multi-Class Emotion Recognition Intelligence Suite created by Sumit Kumar.",
+    version="2.1.0",
+    contact={
+        "name": "Sumit Kumar",
+        "url": "https://github.com/Sumit2003-dev/AI-Based-Emotion-Recognition-from-Text",
+    },
 )
 
 # Enable CORS for frontend flexibility

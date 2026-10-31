@@ -1,5 +1,7 @@
 """
 Inference, Explainability, and Psychological Analysis Engine for Emotion Recognition.
+Created by: Sumit Kumar (https://github.com/Sumit2003-dev)
+
 Provides:
 - Real-time multiclass emotion probabilities across 8 emotions
 - Dominant emotion, emoji, color coding

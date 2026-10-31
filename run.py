@@ -1,5 +1,7 @@
 """
-SENTI-AI: One-Click Launcher for AI-Based Emotion Recognition Application.
+AI-Based Emotion Recognition from Text - Launcher.
+Created by: Sumit Kumar (https://github.com/Sumit2003-dev)
+
 Validates environment, ensures model is trained and calibrated, and starts the FastAPI server.
 """
 
@@ -32,7 +34,8 @@ def check_and_prepare_model():
 
 def main():
     print("=" * 65)
-    print("🧠 SENTI-AI | AI-Based Emotion Recognition from Text")
+    print("🧠 AI-Based Emotion Recognition from Text")
+    print("Created by Sumit Kumar (https://github.com/Sumit2003-dev)")
     print("=" * 65)
 
     check_and_prepare_model()

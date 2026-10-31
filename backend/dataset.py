@@ -1,5 +1,7 @@
 """
 Comprehensive multi-domain emotion recognition training and benchmark dataset.
+Curated and maintained by Sumit Kumar (https://github.com/Sumit2003-dev)
+
 Covers 8 granular emotional categories:
 - joy, sadness, anger, fear, surprise, love, disgust, neutral
 

@@ -74,18 +74,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Six Signal Sentiment Compass — Emotion Recognition & Analysis" },
+      { title: "AI-Based Emotion Recognition — Created by Sumit Kumar" },
       {
         name: "description",
         content:
-          "Read the emotion behind any text: happy, sad, angry, surprise, fear, and neutral.",
+          "Advanced AI emotion recognition platform detecting granular emotional states from text. Created by Sumit Kumar.",
       },
-      { name: "author", content: "Six Signal Sentiment Compass" },
-      { property: "og:title", content: "Six Signal Sentiment Compass" },
+      { name: "author", content: "Sumit Kumar" },
+      { property: "og:title", content: "AI-Based Emotion Recognition Suite" },
       {
         property: "og:description",
         content:
-          "Read the emotion behind any tweet, message, or review — single text or batch mode.",
+          "AI-powered emotion recognition from text across 8 core dimensions. Created by Sumit Kumar.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

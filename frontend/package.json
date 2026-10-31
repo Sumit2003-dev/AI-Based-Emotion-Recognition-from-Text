@@ -1,8 +1,8 @@
 {
-  "name": "six-signal-sentiment-compass",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Six Signal Sentiment Compass — Read the emotion behind the words",
+  "name": "ai-emotion-recognition-frontend",
+  "version": "2.0.0",
+  "author": "Sumit Kumar (https://github.com/Sumit2003-dev)",
+  "description": "AI-Based Emotion Recognition Web Application — Created by Sumit Kumar",
   "type": "module",
   "sideEffects": false,
   "scripts": {

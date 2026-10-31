@@ -1,14 +1,17 @@
 # 🧠 AI-Based Emotion Recognition from Text
 
+[![Author: Sumit Kumar](https://img.shields.io/badge/Author-Sumit%20Kumar-4F46E5.svg?logo=github&logoColor=white)](https://github.com/Sumit2003-dev)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![React 19](https://img.shields.io/badge/React-19.0-61DAFB.svg?logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0-38B2AC.svg?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.6%2B-F7931E.svg?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![PyTorch & Transformers](https://img.shields.io/badge/PyTorch%20%7C%20Transformers-DistilRoBERTa-EE4C2C.svg?logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A production-grade, privacy-first Natural Language Processing (NLP) intelligence platform and multi-class emotion recognition engine. Powered by machine learning calibrated on **4,400+ authentic human comments from Google Research's GoEmotions benchmark**, this system provides sub-millisecond emotional decomposition across **8 core psychological dimensions**, transparent token-level explainability, sentiment polarity indexing, and psychometric intensity analysis.
+> **Created & Developed by [Sumit Kumar](https://github.com/Sumit2003-dev)**
+
+A production-grade, privacy-first Natural Language Processing (NLP) intelligence platform and multi-class emotion recognition engine. Powered by a **Hybrid Neural Transformer (DistilRoBERTa + Platt-Calibrated LinearSVC)** trained on **4,400+ authentic human comments from Google Research's GoEmotions benchmark**, this system provides sub-millisecond emotional decomposition across **8 core psychological dimensions**, transparent token-level explainability, sentiment polarity indexing, and psychometric intensity analysis.
 
 ---
 
@@ -389,6 +392,7 @@ npm run build
 | :--- | :--- | :--- |
 | **Backend Framework** | [FastAPI](https://fastapi.tiangolo.com/) | High-performance asynchronous REST API |
 | **Server Engine** | [Uvicorn](https://www.uvicorn.org/) | Lightning-fast ASGI production web server |
+| **Deep Learning** | [PyTorch](https://pytorch.org/) & [Hugging Face Transformers](https://huggingface.co/) | DistilRoBERTa contextual self-attention neural engine |
 | **Machine Learning** | [Scikit-Learn](https://scikit-learn.org/) | TF-IDF Vectorization, LinearSVC, Platt Calibration |
 | **Dataset Source** | [Google Research GoEmotions](https://github.com/google-research/google-research/tree/master/goemotions) | 4,400+ authentic fine-grained human annotations |
 | **Frontend Framework** | [React 19](https://react.dev/) + [TanStack Start](https://tanstack.com/start) | SSR + Client routing and interactive state |
@@ -398,6 +402,15 @@ npm run build
 
 ---
 
+## 👤 Author & Creator
+
+**Sumit Kumar**
+- **GitHub**: [@Sumit2003-dev](https://github.com/Sumit2003-dev)
+- **Repository**: [AI-Based-Emotion-Recognition-from-Text](https://github.com/Sumit2003-dev/AI-Based-Emotion-Recognition-from-Text)
+
+---
+
 ## 📄 License
 
 This project is licensed under the **MIT License**. You are free to use, modify, and distribute this software for personal, academic, or commercial applications.
+

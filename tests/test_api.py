@@ -1,5 +1,7 @@
 """
 Unit and Integration Test Suite for AI Emotion Recognition.
+Created & Maintained by Sumit Kumar (https://github.com/Sumit2003-dev)
+
 Tests:
 - Model initialization & serialization integrity
 - Prediction accuracy on benchmark phrases

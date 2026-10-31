@@ -1,16 +1,18 @@
-# Six Signal Sentiment Compass
+# 🧠 AI-Based Emotion Recognition Frontend
 
-An intuitive AI system that detects emotions from textual data such as tweets, messages, customer feedback, and reviews. The system classifies text across six foundational emotion signals: **Happy**, **Sad**, **Angry**, **Surprise**, **Fear**, and **Neutral**.
+> **Created & Developed by [Sumit Kumar](https://github.com/Sumit2003-dev)**
+
+An intuitive AI web application that detects emotions from textual data such as tweets, messages, customer feedback, and reviews. Powered by React 19, TanStack Start & Router, and Tailwind CSS v4, connecting seamlessly to the Python FastAPI NLP & Hybrid Neural Transformer backend.
 
 ---
 
 ## ✨ Features
 
-- **Single Text Emotion Reader**: Paste any tweet, review, or message to see the emotion breakdown and dominant feeling.
-- **Batch Analyzer**: Process up to 40 inputs simultaneously with aggregate emotion distributions.
+- **Single Text Emotion Reader**: Paste any tweet, review, or message to see the emotion breakdown, confidence score, and psychological guidance.
+- **Batch Analyzer**: Process bulk inputs simultaneously with aggregate emotion distributions and CSV export.
 - **Recent Readings History**: Keep track of inspected texts, dominant emotion badges, and score percentages.
-- **Zero-Dependency Fallback**: Built-in calibrated NLP rule engine works immediately out of the box with zero external configuration, plus optional integration with local FastAPI or OpenAI models.
-- **Modern UI**: Designed with React 19, TanStack Start & Router, Tailwind CSS v4, and Radix UI.
+- **Dual-Engine Support**: Automatically connects to the local FastAPI backend (Hybrid DistilRoBERTa + LinearSVC) with local fallback.
+- **Modern UI**: Designed with React 19, TanStack Start, and Tailwind CSS v4.
 
 ---
 
