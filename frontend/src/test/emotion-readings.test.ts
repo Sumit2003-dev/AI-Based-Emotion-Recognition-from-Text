@@ -61,6 +61,15 @@ describe("classifyLocalText", () => {
     expect(result.tokens.some((t) => t.token.includes("gussa") && t.is_emotional)).toBe(true);
   });
 
+  it("accurately classifies 'bhai deemag mat kharab kr' as angry with coherent translation", async () => {
+    const result = await classifyLocalText("bhai deemag mat kharab kr");
+    expect(result.dominantEmotion).toBe("angry");
+    expect(result.scores.angry).toBeGreaterThan(0.7);
+    expect(result.scores.sad).toBeLessThan(0.15);
+    expect(result.isMultilingual).toBe(true);
+    expect(result.translatedText?.toLowerCase()).toContain("mind");
+  });
+
   it("accurately classifies Hinglish disbelief / frustration sentence", async () => {
     const result = await classifyLocalText("pagal h kya bhai");
     expect(["angry", "surprise"]).toContain(result.dominantEmotion);

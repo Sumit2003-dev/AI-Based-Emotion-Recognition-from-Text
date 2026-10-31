@@ -147,26 +147,41 @@ export async function translateWithGoogle(
  * Maps common Romanized Hindi emotion phrases and idioms directly into English.
  */
 const HINGLISH_PHRASES: Array<[RegExp, string]> = [
-  // Anger / Irritation Phrases
-  [/\b(dimag|dimaag)\s+(kharab|khrab)\b/gi, "irritated angry mind"],
-  [/\b(dimag|dimaag)\s+ka\s+dahi\b/gi, "annoying frustrating headache"],
-  [/\b(dimag|dimaag)\s+mat\s+khao\b/gi, "do not irritate me"],
-  [/\bmood\s+(bohot\s+|bahut\s+)?(kharab|khrab|off)\b/gi, "mood is terrible and angry"],
+  // Anger / Irritation Phrases (Flexible spacing and spelling variants: deemag/dimag/dimaag, mat/mt, kharab/khrab, kar/kr)
+  [
+    /\b(bhai|yaar|bro|dost)?\s*(dimag|dimaag|deemag|demag)\s*(mat|mt|mtt)\s*(kharab|khrab)\s*(kar|kr|karo|kro)?\b/gi,
+    "brother, do not irritate my mind",
+  ],
+  [
+    /\b(dimag|dimaag|deemag|demag)\s*(mat|mt|mtt)\s*(kharab|khrab)\s*(kar|kr|karo|kro)?\b/gi,
+    "do not irritate my mind",
+  ],
+  [
+    /\b(dimag|dimaag|deemag|demag)\s*(kharab|khrab)\s*(mat|mt|mtt)?\s*(kar|kr|karo|kro)?\b/gi,
+    "irritated angry mind",
+  ],
+  [/\b(dimag|dimaag|deemag|demag)\s+ka\s+dahi\b/gi, "extremely annoying frustrating headache"],
+  [/\b(dimag|dimaag|deemag|demag)\s+mat\s+khao\b/gi, "do not irritate me"],
+  [/\bmood\s*(bohot\s+|bahut\s+)?(kharab|khrab|off)\b/gi, "mood is terrible and angry"],
   [/\bgussa\s+aa\s*(raha|rha|rahi|rhi)\b/gi, "getting very angry"],
+  [/\bgussa\s+mat\s*(dila|dilao|karo|kar|kr)\b/gi, "do not make me angry"],
   [/\bbata\s+raha\s*(hu|hoon|rha)\b/gi, "i am warning you"],
+  [/\bpagal\s+(hai|h|ho)\s*kya\s*(bhai|yaar|bro)?\b/gi, "are you crazy or mad brother"],
   [/\bpagal\s+(hai|h|ho)\s*kya\b/gi, "are you crazy or mad"],
   [/\bpaagal\s+(hai|h|ho)\s*kya\b/gi, "are you crazy or mad"],
-  [/\bchup\s+(kar|chap|hoja|ho\s*ja)\b/gi, "shut up and be quiet"],
+  [/\bchup\s+(kar|chap|hoja|ho\s*ja|raho)\b/gi, "shut up and be quiet"],
+  [/\bbakwas\s*(band\s*kar|mat\s*kar|mat\s*kr|hai|h)?\b/gi, "stop talking nonsense"],
+  [/\bbakwaas\s*(band\s*kar|mat\s*kar|mat\s*kr|hai|h)?\b/gi, "stop talking nonsense"],
   [/\b(mar|maar)\s+(dalunga|doonga|dunga)\b/gi, "i will kill you in rage"],
   [/\bnafrat\s+karta\s*(hu|hoon)\b/gi, "i hate you with disgust"],
   [/\bnafrat\s+karti\s*(hu|hoon)\b/gi, "i hate you with disgust"],
 
   // Sadness / Grief Phrases
-  [/\bdil\s+toot\s*(gaya)?\b/gi, "heartbroken with sadness"],
-  [/\bbura\s+(lag\s*(raha|rha)|laga)\b/gi, "feeling hurt and bad"],
+  [/\bdil\s+toot\s*(gaya|gya)?\b/gi, "heartbroken with sadness"],
+  [/\bbura\s+(lag\s*(raha|rha)|laga)\b/gi, "feeling very hurt and sad"],
   [/\bdukh\s+(hua|ho\s*(raha|rha))\b/gi, "feeling deep sorrow and grief"],
   [/\brona\s+aa\s*(raha|rha)\b/gi, "crying with tears"],
-  [/\baansoo\s+aa\s*(rahe|rhey)\b/gi, "tears are falling"],
+  [/\baansoo\s+aa\s*(rahe|rhey|gaye|gye)\b/gi, "tears are falling"],
 
   // Fear / Anxiety Phrases
   [/\b(dar|darr)\s+lag\s*(raha|rha|rahi|rhi)\b/gi, "feeling very scared and fearful"],
@@ -175,31 +190,35 @@ const HINGLISH_PHRASES: Array<[RegExp, string]> = [
   [/\btension\s+ho\s*(rahi|rhi)\b/gi, "stressed with worry"],
 
   // Joy / Happiness Phrases
+  [
+    /\b(bhai|bro|yaar)?\s*(bohot|bahut|bht)?\s*mast\s*(film|movie|cheez)?\s*(thi|tha)?\b/gi,
+    "brother, it was an awesome wonderful movie",
+  ],
   [/\bhasi\s+aa\s*(rahi|rhi)\b/gi, "laughing with pure joy"],
   [/\bhansi\s+aa\s*(rahi|rhi)\b/gi, "laughing with pure joy"],
-  [/\b(bohot|bahut|bht)\s+(accha|acha|achha)\b/gi, "very wonderful and happy"],
+  [/\b(bohot|bahut|bht)\s+(accha|acha|achha)\s*(laga)?\b/gi, "felt very wonderful and happy"],
   [/\b(bohot|bahut|bht)\s+(badiya|badhiya|mast)\b/gi, "very awesome and great"],
   [/\bmaza\s+aa\s*(gaya|gya)\b/gi, "had so much fun and joy"],
   [/\bmaja\s+aa\s*(gaya|gya)\b/gi, "had so much fun and joy"],
 
   // Surprise Phrases
-  [/\bkya\s+baat\s*(hai|h)?\b/gi, "how wonderful and surprising"],
-  [/\bsach\s+me\s*kya\b/gi, "really, are you serious"],
-  [/\bsach\s+mein\s*kya\b/gi, "really, are you serious"],
+  [/\bkya\s+baat\s*(hai|h)?\b/gi, "what an amazing surprise"],
+  [/\bsach\s+me\s*(kya)?\b/gi, "really, is that true in surprise"],
+  [/\bsach\s+mein\s*(kya)?\b/gi, "really, is that true in surprise"],
   [/\b(vishwaas|vishwas)\s+nahi\s+ho\s+raha\b/gi, "unbelievable and astonished"],
 
   // Neutral Phrases
-  [/\bsab\s+theek\s*(hai|h)?\b/gi, "everything is fine"],
-  [/\bsab\s+thik\s*(hai|h)?\b/gi, "everything is fine"],
+  [/\bsab\s+theek\s*(hai|h)?\b/gi, "everything is fine and normal"],
+  [/\bsab\s+thik\s*(hai|h)?\b/gi, "everything is fine and normal"],
   [/\bsab\s+badhiya\s*(hai|h)?\b/gi, "everything is good and fine"],
   [/\bkya\s+chal\s+raha\s*(hai|h)?\b/gi, "what is going on"],
-  [/\bkuch\s+nahi\b/gi, "nothing much"],
-  [/\bkuch\s+nhi\b/gi, "nothing much"],
-  [/\bkal\s+milte\s*(hai|h)?\b/gi, "meet you tomorrow"],
+  [/\bkuch\s+(nahi|nhi)\s*(bhai|yaar|bro)?\b/gi, "nothing much brother"],
+  [/\bkal\s+milte\s*(hai|h)?\b/gi, "see you tomorrow"],
 ];
 
 /**
  * Idiomatic Hinglish single-word vocabulary dictionary.
+ * Translates individual Romanized words into clear single English equivalents.
  */
 const HINGLISH_SINGLE_WORDS: Record<string, string> = {
   // Anger / Irritation / Abuse
@@ -217,10 +236,10 @@ const HINGLISH_SINGLE_WORDS: Record<string, string> = {
   bakwaas: "nonsense",
   faltu: "useless",
   kachra: "garbage",
-  bakchodi: "bullshit nonsense",
+  bakchodi: "annoying nonsense",
   bakchod: "annoying nonsense",
-  pagal: "crazy mad",
-  paagal: "crazy mad",
+  pagal: "crazy",
+  paagal: "crazy",
   mental: "insane",
   kamina: "scoundrel",
   kamine: "scoundrel",
@@ -230,116 +249,120 @@ const HINGLISH_SINGLE_WORDS: Record<string, string> = {
   bewakoof: "fool",
   bewkoof: "fool",
   ullu: "fool",
-  gadhe: "donkey fool",
-  gadha: "donkey fool",
+  gadhe: "idiot",
+  gadha: "idiot",
   kutta: "jerk",
   kutte: "jerk",
   haramkhor: "bastard",
-  ghatiya: "terrible cheap",
-  badtameez: "rude ill-mannered",
-  jhagda: "fight quarrel",
-  ladai: "fight battle",
-  dushmani: "hostility enmity",
-  nafrat: "hate hatred",
+  ghatiya: "terrible",
+  badtameez: "rude",
+  jhagda: "quarrel",
+  ladai: "fight",
+  dushmani: "hostility",
+  nafrat: "hate",
   ghrina: "disgust",
-  chup: "shut-up quiet",
+  chup: "quiet",
   thappad: "slap",
 
+  // Mind / Head words
+  deemag: "mind",
+  dimag: "mind",
+  dimaag: "mind",
+  demag: "mind",
+
   // Sadness / Grief / Pain
-  dukh: "sorrow sadness",
-  dukhi: "sad sorrowful",
-  shok: "mourning grief",
-  gham: "grief sorrow",
-  udas: "gloomy sad",
-  udaas: "gloomy sad",
-  mayus: "disappointed gloomy",
-  mayoos: "hopeless gloomy",
-  dard: "pain hurt",
-  peeda: "agony suffering",
-  kasht: "hardship pain",
-  takleef: "trouble pain",
-  rona: "crying weeping",
-  aansoo: "tears crying",
-  aansu: "tears crying",
-  akela: "lonely alone",
-  akele: "lonely alone",
-  tanha: "isolated lonely",
+  dukh: "sorrow",
+  dukhi: "sorrowful",
+  shok: "grief",
+  gham: "sorrow",
+  udas: "gloomy",
+  udaas: "gloomy",
+  mayus: "disappointed",
+  mayoos: "hopeless",
+  dard: "pain",
+  peeda: "pain",
+  kasht: "pain",
+  takleef: "trouble",
+  rona: "crying",
+  aansoo: "tears",
+  aansu: "tears",
+  akela: "lonely",
+  akele: "lonely",
+  tanha: "lonely",
   tanhai: "loneliness",
-  afsos: "regret sorrow",
-  pachtawa: "remorse regret",
-  bura: "bad hurt",
-  bure: "bad hurt",
-  kharab: "bad broken ruined",
-  khrab: "bad broken ruined",
-  bechara: "pitiful helpless",
+  afsos: "regret",
+  pachtawa: "regret",
+  bura: "bad",
+  bure: "bad",
+  bechara: "helpless",
   lachaar: "helpless",
-  majboor: "helpless forced",
-  barbaad: "ruined devastated",
-  tabaah: "destroyed ruined",
+  majboor: "helpless",
+  barbaad: "ruined",
+  tabaah: "destroyed",
 
   // Joy / Love / Happiness
-  khush: "happy joyful",
-  khushi: "joy happiness",
-  anand: "delight bliss",
-  prasann: "pleased joyful",
-  mast: "awesome fantastic",
-  zabardast: "spectacular awesome",
-  shandaar: "magnificent wonderful",
-  lajawab: "unmatched superb",
-  kamaal: "wonderful amazing",
-  dhamaal: "super fun celebration",
-  gazab: "astounding brilliant",
-  badiya: "great good",
-  badhiya: "great good",
-  bindaas: "carefree great",
-  jhakaas: "super cool awesome",
+  khush: "happy",
+  khushi: "joy",
+  anand: "bliss",
+  prasann: "joyful",
+  mast: "awesome",
+  zabardast: "awesome",
+  shandaar: "wonderful",
+  lajawab: "superb",
+  kamaal: "amazing",
+  dhamaal: "celebration",
+  gazab: "brilliant",
+  badiya: "great",
+  badhiya: "great",
+  bindaas: "carefree",
+  jhakaas: "awesome",
   pyaar: "love",
   pyar: "love",
-  mohabbat: "deep love",
-  ishq: "passion love",
-  prem: "love affection",
-  maza: "fun enjoyment",
-  maja: "fun enjoyment",
-  maje: "fun pleasure",
-  mauj: "enjoyment thrill",
-  masti: "playful fun",
-  hasi: "laugh laughter",
-  hansi: "laugh laughter",
+  mohabbat: "love",
+  ishq: "love",
+  prem: "love",
+  maza: "fun",
+  maja: "fun",
+  maje: "fun",
+  mauj: "thrill",
+  masti: "fun",
+  hasi: "laugh",
+  hansi: "laugh",
   muskaan: "smile",
   badhai: "congratulations",
-  mubarak: "congratulations blessings",
-  shukriya: "thank you grateful",
-  dhanyawad: "thank you gratitude",
-  accha: "good pleasant",
-  achha: "good pleasant",
-  acha: "good pleasant",
-  sundar: "beautiful wonderful",
-  khoobsurat: "gorgeous lovely",
+  mubarak: "blessings",
+  shukriya: "grateful",
+  dhanyawad: "gratitude",
+  accha: "good",
+  achha: "good",
+  acha: "good",
+  sundar: "beautiful",
+  khoobsurat: "lovely",
 
   // Fear / Anxiety
-  dar: "fear scared",
-  darr: "fear scared",
-  khauf: "terror horror",
-  bhay: "dread fear",
-  dahshat: "panic terror",
-  ghabrahat: "nervous anxiety",
-  ghabra: "panic anxious",
-  bechaini: "restlessness anxiety",
-  chinta: "worry anxiety",
-  tension: "stress tension",
-  fikr: "concern worry",
-  pareshan: "troubled upset",
-  pareshani: "trouble distress",
-  musibat: "danger trouble",
+  dar: "fear",
+  darr: "fear",
+  khauf: "terror",
+  bhay: "dread",
+  dahshat: "panic",
+  ghabrahat: "nervousness",
+  ghabra: "anxious",
+  bechaini: "anxiety",
+  chinta: "worry",
+  tension: "stress",
+  fikr: "concern",
+  pareshan: "troubled",
+  pareshani: "distress",
+  musibat: "danger",
 
   // Surprise
-  hairan: "surprised astonished",
-  hairaan: "surprised astonished",
-  hairani: "amazement wonder",
-  chauk: "shocked startled",
-  achambha: "wonder surprise",
-  ajeeb: "strange bizarre",
-  anokha: "unique strange",
+  hairan: "surprised",
+  hairaan: "surprised",
+  hairani: "wonder",
+  chauk: "shocked",
+  achambha: "surprise",
+  ajeeb: "strange",
+  anokha: "unique",
 
   // Pronouns and conversational helpers
   mujhe: "I",
@@ -368,6 +391,8 @@ const HINGLISH_SINGLE_WORDS: Record<string, string> = {
   boht: "very",
   bht: "very",
   mat: "do not",
+  mt: "do not",
+  mtt: "do not",
   nahi: "not",
   nhi: "not",
   na: "no",
@@ -381,20 +406,26 @@ const HINGLISH_SINGLE_WORDS: Record<string, string> = {
   ho: "are",
   tha: "was",
   thi: "was",
-  the: "were",
   aaj: "today",
-  kal: "tomorrow/yesterday",
+  kal: "tomorrow",
   abhi: "right now",
   milkar: "to meet",
   sunkar: "to hear",
   laga: "felt",
   kar: "do",
+  kr: "do",
+  karo: "do",
+  kro: "do",
   diya: "did",
   kya: "what",
   kyun: "why",
   kaise: "how",
   kab: "when",
   kaha: "where",
+  tune: "you",
+  bilkul: "at all",
+  aisa: "this",
+  hua: "happened",
 };
 
 /**
@@ -440,13 +471,13 @@ const HAPPY_REGEX =
   /\b(happy|joy|great|awesome|love|wonderful|fantastic|excited|screamed|celebrat\w*|won|win\w*|yay|hooray|glad|delight\w*|best|congrat\w*|smile|cheer\w*|proud\w*|thank\w*|blessed|terrific|brilliant|good|nice|enjoy\w*|fun\w*|laugh\w*|bliss\w*|superb|excellent|outstanding|fabulous|pleased|pleasure|sweet|cute|adorable|charming|hilarious|haha\w*|loving|adore\w*|liked?|khush\w*|maja|maza|pyaar|pyar|mohabbat|shandaar|badhai|mubarak|mast|zabardast|badiya|badhiya|sundar|shukriya|dhanyawad|accha|achha|acha|hasi|hansi|tareef|gazab|bindaas|jhakaas|khoobsurat|feliz\w*|alegr\w*|heureu\w*|joie)\b/i;
 
 const SAD_REGEX =
-  /\b(sad|depressed|grief|cry\w*|tears|unfortunate|lonely|heartbroken|sorrow|loss|lose|lost|miss\w*|hopeless|gloomy|pain\w*|regret\w*|down|miserable|heartbreak|bad|hurt\w*|unhappy|disappoint\w*|awful|upset|suffer\w*|crying|weep\w*|sob\w*|loneliness|broken|mourn\w*|pity|tragic|failure|failed|alone|helpless|worthless|dukh\w*|udas\w*|udaas|mayus|mayoos|rona|dard|peeda|kasht|takleef|akela|akele|toot gaya|dil toot|bechara|afsos|tanha|tanhai|bura|bure|kharab|shok|gham\w*|triste\w*|llor\w*|pleur\w*|douleur)\b/i;
+  /\b(sad|depressed|grief|cry\w*|tears|unfortunate|lonely|heartbroken|sorrow|loss|lose|lost|miss\w*|hopeless|gloomy|pain\w*|regret\w*|down|miserable|heartbreak|hurt\w*|unhappy|disappoint\w*|awful|suffer\w*|crying|weep\w*|sob\w*|loneliness|broken|mourn\w*|pity|tragic|failure|failed|alone|helpless|worthless|dukh\w*|udas\w*|udaas|mayus|mayoos|rona|dard|peeda|kasht|takleef|akela|akele|toot gaya|dil toot|bechara|afsos|tanha|tanhai|bura|bure|shok|gham\w*|triste\w*|llor\w*|pleur\w*|douleur)\b/i;
 
 const ANGRY_REGEX =
-  /\b(angry|anger\w*|angr\w*|furious|outrage\w*|hate|annoy\w*|irritat\w*|frustrat\w*|worst|delayed|terrible|horrible|disgust\w*|scam|never flying|fix this|ridiculous|infuriat\w*|screw|damn|mad|pissed|idiot|stupid|shame|rage|fury|shut up|kill you|punch|slap|bad mood|spoil my mind|fuming|wrath|bullshit|trash|rubbish|cheat\w*|gussa\w*|gusse|pagal|paagal|krodh|krodhit|naraz|naraaz|bakwas|bakwaas|bakchodi|bakchod|chup|maroong\w*|marung\w*|chutiya|kamina|kamine|saale|saala|bewakoof|bewkoof|ghatiya|faltu|chidh\w*|jhagda|ladai|dushmani|nafrat\w*|ghrina|bhaad me|bhaad|dimag kharab|dimaag kharab|dimag ka dahi|dimag mat khao|mood kharab|bata raha hu|bata raha hoon|bata rha hu|enojad\w*|furia|rabia|fâché\w*|colère)\b/i;
+  /\b(angry|anger\w*|angr\w*|furious|outrage\w*|hate|annoy\w*|irritat\w*|frustrat\w*|worst|delayed|terrible|horrible|disgust\w*|scam|never flying|fix this|ridiculous|infuriat\w*|screw|damn|mad|pissed|idiot|stupid|shame|rage|fury|shut up|kill you|punch|slap|bad mood|spoil my mind|fuming|wrath|bullshit|trash|rubbish|cheat\w*|gussa\w*|gusse|pagal|paagal|krodh|krodhit|naraz|naraaz|bakwas|bakwaas|bakchodi|bakchod|chup|maroong\w*|marung\w*|chutiya|kamina|kamine|saale|saala|bewakoof|bewkoof|ghatiya|faltu|chidh\w*|jhagda|ladai|dushmani|nafrat\w*|ghrina|bhaad me|bhaad|dimag kharab|dimaag kharab|deemag kharab|demag kharab|dimag ka dahi|deemag ka dahi|dimag mat khao|deemag mat khao|mood kharab|bata raha hu|bata raha hoon|bata rha hu|do not irritate my mind|brother, do not irritate my mind|irritated angry mind|enojad\w*|furia|rabia|fâché\w*|colère)\b/i;
 
 const SURPRISE_REGEX =
-  /\b(surprise\w*|astonish\w*|stunned|shock\w*|unbelievable|whoa|omg|wow|sudden\w*|unexpected\w*|speechless|mindblown|crazy|jaw-dropping|unreal|no way|mind blown|miracle|mysterious|bizarre|weird|hairan\w*|hairaan|chauk|kya baat|arey|sach me|sach mein|bhai kya|pagal h kya|ajeeb|anokha|vishwaas nahi|vishwas nahi|sorpresa|asombr\w*|increíble|étonn\w*|inattendu\w*)\b/i;
+  /\b(surprise\w*|astonish\w*|stunned|shock\w*|unbelievable|whoa|omg|wow|sudden\w*|unexpected\w*|speechless|mindblown|crazy|jaw-dropping|unreal|no way|mind blown|miracle|mysterious|bizarre|weird|hairan\w*|hairaan|chauk|kya baat|arey|sach me|sach mein|bhai kya|ajeeb|anokha|vishwaas nahi|vishwas nahi|sorpresa|asombr\w*|increíble|étonn\w*|inattendu\w*)\b/i;
 
 const FEAR_REGEX =
   /\b(fear|afraid|scared|terrified|anxious|anxiety|dread|panic|worry|worried|trembl\w*|nervous|horror|alarm\w*|freak\w*|fearful|fright\w*|danger\w*|threat\w*|creepy|stress\w*|shaking|scary|darr\w*|dar\b|dar lag\w*|darr lag\w*|dar raha|darr raha|ghabrahat|ghabra|bechaini|khauf|bhay|dahshat|tension|chinta|fikr|pareshan\w*|pareshani|musibat|miedo|asustad\w*|peur|effrayé\w*)\b/i;
@@ -485,11 +516,17 @@ export async function classifyLocalText(
     } else {
       detectedLanguage = "hinglish";
       languageName = "Hinglish (Hindi-English)";
-      // Prefer Google Translate if it successfully produced natural English, else use Hinglish translator
+
+      // For Hinglish, check if Google Translate produced clean English or left broken Hindi words
+      const hasMangledWords =
+        /\b(bhai|bro|yaar|deemag|dimag|dimaag|mat|mt|kr|kar|karo|gussa|pagal|bohot|bahut|hai|h|kya|ki|ko|se|pe)\b/i.test(
+          trans?.translated || "",
+        );
+
       if (
         trans?.translated &&
         trans.translated.toLowerCase() !== text.toLowerCase() &&
-        !/\b(bhai|bohot|mast|gussa|pagal)\b/i.test(trans.translated)
+        !hasMangledWords
       ) {
         translatedText = trans.translated;
       } else {
@@ -611,7 +648,7 @@ export async function classifyLocalText(
       if (
         ANGRY_REGEX.test(cleanWord) ||
         (dominantEmotion === "angry" &&
-          /gussa|pagal|paagal|hate|angry|mad|bata|kharab|bakwas|bakwaas|bakchodi|chup|dimag|krodh|naraz|chutiya|kamina|saale/i.test(
+          /gussa|pagal|paagal|hate|angry|mad|bata|kharab|bakwas|bakwaas|bakchodi|chup|dimag|dimaag|deemag|demag|krodh|naraz|chutiya|kamina|saale/i.test(
             cleanWord,
           ))
       ) {
