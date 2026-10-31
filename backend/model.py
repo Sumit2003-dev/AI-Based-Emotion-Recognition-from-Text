@@ -335,14 +335,18 @@ class EmotionClassifier:
         # Quick emotional slang boosts
         if re.search(r"\b(omg|wtf|holy cow|no way|unbelievable)\b", lowered):
             adjusted["surprise"] = max(adjusted.get("surprise", 0) * 1.8, 0.35)
-        if re.search(r"\b(livid|furious|pissed|shut up|hate you|scam)\b", lowered):
-            adjusted["anger"] = max(adjusted.get("anger", 0) * 2.0, 0.40)
+        if re.search(r"\b(livid|furious|pissed|shut up|hate you|scam|angery|never flying)\b", lowered):
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 2.2, 0.55)
         if re.search(r"\b(i love you|my soulmate|marry me|adore you)\b", lowered):
             adjusted["love"] = max(adjusted.get("love", 0) * 2.0, 0.45)
         if re.search(r"\b(gross|disgusting|vomit|puke|nauseating|repulsive)\b", lowered):
             adjusted["disgust"] = max(adjusted.get("disgust", 0) * 2.0, 0.45)
         if re.search(r"\b(terrified|panic attack|frightened|petrified)\b", lowered):
             adjusted["fear"] = max(adjusted.get("fear", 0) * 2.0, 0.45)
+        if any(emoji in text for emoji in ["🎉", "🥳", "🎊", "🥂"]) or re.search(r"\b(acceptance|accepted|screamed with joy|screamed in (?:the )?library|we won)\b", lowered):
+            adjusted["joy"] = max(adjusted.get("joy", 0) * 2.5, 0.65)
+            if "anger" in adjusted:
+                adjusted["anger"] *= 0.15
 
         # Re-normalize
         total = sum(adjusted.values())
