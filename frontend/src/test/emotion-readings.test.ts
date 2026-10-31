@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { toReadings } from "@/lib/emotion/classify.functions";
+import { classifyLocalText, toReadings } from "@/lib/emotion/classify.functions";
 
 const texts = ["Loved it, five stars!", "This is the third time support ignored me."];
 
@@ -48,5 +48,29 @@ describe("toReadings", () => {
       texts,
     );
     expect(readings).toHaveLength(0);
+  });
+});
+
+describe("classifyLocalText", () => {
+  it("accurately classifies Hinglish anger sentence", () => {
+    const result = classifyLocalText("mujhe gussa aa raha h bata raha hu");
+    expect(result.dominantEmotion).toBe("angry");
+    expect(result.scores.angry).toBeGreaterThan(0.5);
+    expect(result.detectedLanguage).toBe("hinglish");
+    expect(result.isMultilingual).toBe(true);
+    expect(result.tokens.some((t) => t.token.includes("gussa") && t.is_emotional)).toBe(true);
+  });
+
+  it("accurately classifies Hinglish disbelief / frustration sentence", () => {
+    const result = classifyLocalText("pagal h kya bhai");
+    expect(["angry", "surprise"]).toContain(result.dominantEmotion);
+    expect(result.detectedLanguage).toBe("hinglish");
+    expect(result.scores.neutral).toBeLessThan(0.3);
+  });
+
+  it("accurately classifies Hindi joy sentence", () => {
+    const result = classifyLocalText("आज मैं बहुत खुश हूँ");
+    expect(result.dominantEmotion).toBe("happy");
+    expect(result.detectedLanguage).toBe("hi");
   });
 });

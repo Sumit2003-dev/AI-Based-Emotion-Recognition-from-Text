@@ -10,6 +10,7 @@ import {
   normalizeReading,
   type Emotion,
   type EmotionReading,
+  type EmotionToken,
   type RawReading,
 } from "./emotions";
 
@@ -58,12 +59,22 @@ export function toReadings(results: ParsedResult[], texts: string[]): EmotionRea
   });
 }
 
+type LocalClassification = {
+  scores: Record<Emotion, number>;
+  dominantEmotion: Emotion;
+  detectedLanguage: string;
+  languageName: string;
+  isMultilingual: boolean;
+  tokens: EmotionToken[];
+};
+
 /**
- * Intelligent local calibrated emotion classifier.
- * Evaluates semantic keywords, emojis, punctuation, and valence.
- * Serves as an instant, zero-configuration engine when no external API key is set.
+ * Intelligent local calibrated emotion classifier with cross-lingual & Hinglish support.
+ * Evaluates semantic keywords across English, Hinglish, Hindi, Spanish, and French,
+ * emojis, punctuation, and valence.
+ * Serves as an instant, zero-configuration engine when running on Vercel or standalone.
  */
-function classifyLocalText(text: string): Record<Emotion, number> {
+export function classifyLocalText(text: string): LocalClassification {
   const lower = text.toLowerCase();
   const scores: Record<Emotion, number> = {
     happy: 0.05,
@@ -74,28 +85,80 @@ function classifyLocalText(text: string): Record<Emotion, number> {
     neutral: 0.15,
   };
 
+  // Language detection
+  const isDevanagari = /[\u0900-\u097F]/.test(text);
+  const isHinglish =
+    /\b(kya|hai|h|bhai|mujhe|mera|meri|mere|raha|rahi|hu|hoon|yaar|nahi|kyun|hoga|hogi|wala|wali|tere|apna|bata|karo|dekh|bahut|kaise|pe|se|ko|aur|par|gussa|pagal|chup|dukhi|khush|maza|darr|dard|rona)\b/i.test(
+      text,
+    );
+  const isSpanish =
+    /\b(el|la|los|las|un|una|por|para|con|que|estoy|es|son|pero|mas|muy|enojad\w*|feliz\w*|triste\w*|miedo|gracias)\b/i.test(
+      text,
+    );
+  const isFrench =
+    /\b(le|la|les|des|est|sont|avec|pour|dans|je|tu|il|elle|nous|vous|très|mais|fâché\w*|heureu\w*|peur|merci)\b/i.test(
+      text,
+    );
+
+  let detectedLanguage = "en";
+  let languageName = "English";
+  if (isDevanagari) {
+    detectedLanguage = "hi";
+    languageName = "Hindi (हिन्दी)";
+  } else if (isHinglish) {
+    detectedLanguage = "hinglish";
+    languageName = "Hinglish (Hindi-English)";
+  } else if (isSpanish) {
+    detectedLanguage = "es";
+    languageName = "Spanish (Español)";
+  } else if (isFrench) {
+    detectedLanguage = "fr";
+    languageName = "French (Français)";
+  }
+
   const happyPatterns = [
-    /\b(happy|joy|great|awesome|love|wonderful|fantastic|excited|screamed|celebrat\w*|won|win\w*|yay|hooray|glad|delight\w*|best|congrat\w*|smile|cheer\w*|prouder?|proud|thank\w*|acceptance\w*)\b/g,
-    /(?:🎉|😊|✨|❤️|💖|🥰|😁|😄|👏|🙌|😃|🤩)/gu,
+    /\b(happy|joy|great|awesome|love|wonderful|fantastic|excited|screamed|celebrat\w*|won|win\w*|yay|hooray|glad|delight\w*|best|congrat\w*|smile|cheer\w*|prouder?|proud|thank\w*|acceptance\w*|blessed|terrific|brilliant)\b/gi,
+    /\b(khush|khushi|maja|maza|pyaar|pyar|mohabbat|shandaar|badhai|mubarak|mast|zabardast|badiya|badhiya|sundar|shukriya|dhanyawad|khoob|accha|achha)\b/gi,
+    /(?:खुश|खुशी|प्यार|मज़ा|शानदार|बधाई|मुबारक|मस्त|बढ़िया|धन्यवाद)/gu,
+    /\b(feliz\w*|felicidad|alegr\w*|amor|genial|excelente|encant\w*|gracias|heureu\w*|joie|merveilleu\w*|merci|bravo)\b/gi,
+    /(?:🎉|😊|✨|❤️|💖|🥰|😁|😄|👏|🙌|😃|🤩|💃|🕺)/gu,
   ];
+
   const sadPatterns = [
-    /\b(sad|depressed|grief|cry\w*|tears|unfortunate|lonely|heartbroken|sorrow|loss|lose|lost bag|miss\w*|hopeless|gloomy|pain\w*|regret\w*|down|broke my heart)\b/g,
-    /(?:😢|😭|💔|😞|😔|😿|☹️|🙁)/gu,
+    /\b(sad|depressed|grief|cry\w*|tears|unfortunate|lonely|heartbroken|sorrow|loss|lose|lost bag|miss\w*|hopeless|gloomy|pain\w*|regret\w*|down|broke my heart|miserable|heartbreak)\b/gi,
+    /\b(dukh|dukhi|udas|udaas|rona|ro raha|ro rahi|dard|chhod diya|akela|akele|toot gaya|dil toot|bechara|afsos|tanha|mayus)\b/gi,
+    /(?:दुख|दुखी|उदास|रोना|दर्द|अकेला|टूटा|अफसोस|तन्हा)/gu,
+    /\b(triste\w*|tristeza|llor\w*|dolor|deprimi\w*|soledad|pena|pleur\w*|douleur|chagrin|seul\w*|déçu\w*)\b/gi,
+    /(?:😢|😭|💔|😞|😔|😿|☹️|🙁|🥺)/gu,
   ];
+
   const angryPatterns = [
-    /\b(angry|anger\w*|angr\w*|furious|outrage\w*|hate|annoy\w*|irritat\w*|frustrat\w*|worst|delayed|terrible|horrible|disgust\w*|scam|never flying|fix this|ridiculous|infuriat\w*|screw|damn|mad)\b/g,
-    /(?:😡|🤬|💢|😤|👿)/gu,
+    /\b(angry|anger\w*|angr\w*|furious|outrage\w*|hate|annoy\w*|irritat\w*|frustrat\w*|worst|delayed|terrible|horrible|disgust\w*|scam|never flying|fix this|ridiculous|infuriat\w*|screw|damn|mad|pissed|idiot|stupid|shame)\b/gi,
+    /\b(gussa|gusse|pagal|krodh|naraz|bakwas|bakwaas|chup|maroonga|marunga|chutiya|kamina|saale|bewakoof|ghatiya|faltu|chidh|jhagda|bhaad me|dimag kharab|bata raha hu|bhadak)\b/gi,
+    /(?:गुस्सा|क्रोध|नाराज|बकवास|पागल|घटिया|चुप|झगड़ा)/gu,
+    /\b(enojad\w*|furia|rabia|odio|bronca|molest\w*|maldit\w*|fâché\w*|colère|énerv\w*|détester|haine|furieu\w*)\b/gi,
+    /(?:😡|🤬|💢|😤|👿|😠)/gu,
   ];
+
   const surprisePatterns = [
-    /\b(surprise\w*|astonish\w*|stunned|shock\w*|wait\b|didn't see|unbelievable|whoa|omg|wow|sudden\w*|unexpected\w*|today\?|really\?|speechless)\b/g,
+    /\b(surprise\w*|astonish\w*|stunned|shock\w*|wait\b|didn't see|unbelievable|whoa|omg|wow|sudden\w*|unexpected\w*|today\?|really\?|speechless|mindblown)\b/gi,
+    /\b(hairan|hairani|chauk|kya baat|arey|sach me|sach mein|bhai kya|pagal h kya|shock|ajeeb|vishwaas nahi|itna jaldi)\b/gi,
+    /(?:हैरान|चौंक|अरे|सच में|अजीब|विश्वास नहीं)/gu,
+    /\b(sorpresa|asombr\w*|increíble|no me digas|vaya|étonn\w*|inattendu\w*)\b/gi,
     /(?:😲|😮|😱|🤯|🪄|❗|❓)/gu,
   ];
+
   const fearPatterns = [
-    /\b(fear|afraid|scared|terrified|anxious|anxiety|dread|panic|worry|worried|trembl\w*|hands won't stop|nervous|horror|alarm\w*|freak\w*)\b/g,
+    /\b(fear|afraid|scared|terrified|anxious|anxiety|dread|panic|worry|worried|trembl\w*|hands won't stop|nervous|horror|alarm\w*|freak\w*)\b/gi,
+    /\b(darr|dar lag raha|darr lag|ghabrahat|khauf|bhay|tension|dar lagta|chinta|fati padi)\b/gi,
+    /(?:डर|घबराहट|खौफ|भय|चिंता|डरना)/gu,
+    /\b(miedo|asustad\w*|terror|pánico|preocupad\w*|temor|peur|effrayé\w*|angoisse)\b/gi,
     /(?:😨|😰|😱|🥶|⚠️)/gu,
   ];
+
   const neutralPatterns = [
-    /\b(meeting|schedule\w*|thursday|confirm|attendance|report|update|document|review|balance sheet|presented|system|status|quarterly|information)\b/g,
+    /\b(meeting|schedule\w*|thursday|confirm|attendance|report|update|document|review|balance sheet|presented|system|status|quarterly|information)\b/gi,
+    /\b(theek h|thik h|info|kaam|time|kal|aaj|pahuche|kuch nahi)\b/gi,
     /(?:😐|ℹ️|📅|📋|📄)/gu,
   ];
 
@@ -109,26 +172,89 @@ function classifyLocalText(text: string): Record<Emotion, number> {
   const fearCount = countMatches(fearPatterns);
   const neutralCount = countMatches(neutralPatterns);
 
-  scores.happy += happyCount * 0.45;
-  scores.sad += sadCount * 0.45;
-  scores.angry += angryCount * 0.45;
-  scores.surprise += surpriseCount * 0.45;
-  scores.fear += fearCount * 0.45;
-  scores.neutral += neutralCount * 0.35;
+  // Apply emotional boost
+  scores.happy += happyCount * 0.75;
+  scores.sad += sadCount * 0.75;
+  scores.angry += angryCount * 0.75;
+  scores.surprise += surpriseCount * 0.65;
+  scores.fear += fearCount * 0.75;
+  scores.neutral += neutralCount * 0.45;
 
   if (/[!?]{2,}/.test(text)) {
     scores.surprise += 0.2;
-    scores.happy += 0.15;
-    scores.angry += 0.15;
+    scores.angry += 0.2;
   }
 
-  // Normalize
+  // Normalize scores
   const total = Object.values(scores).reduce((sum, v) => sum + v, 0);
   for (const emotion of EMOTIONS) {
     scores[emotion] = parseFloat((scores[emotion] / total).toFixed(4));
   }
 
-  return scores;
+  let dominantEmotion: Emotion = "neutral";
+  let maxScore = -1;
+  for (const emotion of EMOTIONS) {
+    if (scores[emotion] > maxScore) {
+      maxScore = scores[emotion];
+      dominantEmotion = emotion;
+    }
+  }
+
+  // Tokenize and build explainability
+  const words = text.split(/(\s+)/);
+  const tokens: EmotionToken[] = words
+    .filter((w) => w.trim().length > 0)
+    .map((w) => {
+      const cleanWord = w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+      let isEmotional = false;
+      let tokenEmotion = "neutral";
+      let color: string | null = null;
+      let weight = 0.0;
+
+      if (angryPatterns.some((p) => p.test(cleanWord))) {
+        isEmotional = true;
+        tokenEmotion = "angry";
+        color = "#EF4444";
+        weight = 0.85;
+      } else if (happyPatterns.some((p) => p.test(cleanWord))) {
+        isEmotional = true;
+        tokenEmotion = "happy";
+        color = "#F59E0B";
+        weight = 0.85;
+      } else if (sadPatterns.some((p) => p.test(cleanWord))) {
+        isEmotional = true;
+        tokenEmotion = "sad";
+        color = "#3B82F6";
+        weight = 0.85;
+      } else if (surprisePatterns.some((p) => p.test(cleanWord))) {
+        isEmotional = true;
+        tokenEmotion = "surprise";
+        color = "#10B981";
+        weight = 0.75;
+      } else if (fearPatterns.some((p) => p.test(cleanWord))) {
+        isEmotional = true;
+        tokenEmotion = "fear";
+        color = "#8B5CF6";
+        weight = 0.85;
+      }
+
+      return {
+        token: w,
+        is_emotional: isEmotional,
+        emotion: tokenEmotion,
+        color,
+        weight,
+      };
+    });
+
+  return {
+    scores,
+    dominantEmotion,
+    detectedLanguage,
+    languageName,
+    isMultilingual: detectedLanguage !== "en",
+    tokens,
+  };
 }
 
 /** Try query the local FastAPI backend if running */
@@ -338,20 +464,15 @@ export const classifyEmotions = createServerFn({ method: "POST" })
 
     // 3. High-quality calibrated local heuristic fallback
     const localReadings: EmotionReading[] = texts.map((text, idx) => {
-      const scores = classifyLocalText(text);
-      let dominant: Emotion = "neutral";
-      let highest = -1;
-      for (const emotion of EMOTIONS) {
-        if (scores[emotion] > highest) {
-          highest = scores[emotion];
-          dominant = emotion;
-        }
-      }
-
+      const local = classifyLocalText(text);
       return normalizeReading(text, {
         index: idx + 1,
-        emotion: dominant,
-        scores,
+        emotion: local.dominantEmotion,
+        scores: local.scores,
+        detectedLanguage: local.detectedLanguage,
+        languageName: local.languageName,
+        isMultilingual: local.isMultilingual,
+        tokens: local.tokens,
       });
     });
 
