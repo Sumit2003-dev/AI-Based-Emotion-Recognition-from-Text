@@ -172,20 +172,35 @@ export function classifyLocalText(text: string): LocalClassification {
   const fearCount = countMatches(fearPatterns);
   const neutralCount = countMatches(neutralPatterns);
 
-  // Apply emotional boost
-  scores.happy += happyCount * 0.75;
-  scores.sad += sadCount * 0.75;
-  scores.angry += angryCount * 0.75;
-  scores.surprise += surpriseCount * 0.65;
-  scores.fear += fearCount * 0.75;
-  scores.neutral += neutralCount * 0.45;
+  const hasEmotionalTrigger =
+    happyCount > 0 || sadCount > 0 || angryCount > 0 || surpriseCount > 0 || fearCount > 0;
 
-  if (/[!?]{2,}/.test(text)) {
-    scores.surprise += 0.2;
-    scores.angry += 0.2;
+  if (hasEmotionalTrigger) {
+    // When emotional indicators are present, scale the emotional scores dynamically
+    scores.happy = 0.03 + happyCount * 0.85;
+    scores.sad = 0.03 + sadCount * 0.85;
+    scores.angry = 0.03 + angryCount * 0.85;
+    scores.surprise = 0.03 + surpriseCount * 0.75;
+    scores.fear = 0.03 + fearCount * 0.85;
+    scores.neutral = 0.05 + neutralCount * 0.2;
+
+    if (/[!?]{2,}/.test(text)) {
+      scores.surprise += 0.25;
+      scores.angry += 0.25;
+    }
+  } else {
+    // Pure neutral / factual statement: produce a confident, natural reading
+    const lengthBonus = Math.min(text.trim().length * 0.002, 0.1);
+    const factualBonus = neutralCount > 0 ? 0.25 : 0.15;
+    scores.neutral = 0.7 + factualBonus + lengthBonus;
+    scores.happy = 0.06;
+    scores.sad = 0.06;
+    scores.angry = 0.06;
+    scores.surprise = 0.06;
+    scores.fear = 0.06;
   }
 
-  // Normalize scores
+  // Normalize scores so they sum to 100%
   const total = Object.values(scores).reduce((sum, v) => sum + v, 0);
   for (const emotion of EMOTIONS) {
     scores[emotion] = parseFloat((scores[emotion] / total).toFixed(4));
