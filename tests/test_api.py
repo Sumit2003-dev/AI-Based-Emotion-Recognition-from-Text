@@ -92,6 +92,12 @@ def test_negation_handling():
     assert res_dislike["dominant_emotion"] in ("anger", "sadness", "disgust"), f"Dislike negation should be negative, got {res_dislike['dominant_emotion']}"
     assert res_dislike["dominant_emotion"] not in ("joy", "love"), "Dislike negation 'i dont like you' should not predict joy or love"
 
+    # Phrase-level negated positive traits like 'you are not that great', 'huh you are not that great'
+    res_critique = classifier.predict("huh you are not that great")
+    assert res_critique["dominant_emotion"] in ("anger", "disgust"), f"Critique should predict anger/disgust, got {res_critique['dominant_emotion']}"
+    assert res_critique["dominant_emotion"] not in ("joy", "love"), "Critique 'huh you are not that great' should not predict joy or love"
+    assert res_critique["sentiment"] == "Negative"
+
 
 def test_sarcasm_and_irony_handling():
     # Sarcastic text with positive words + negative situation should predict anger/frustration, never joy

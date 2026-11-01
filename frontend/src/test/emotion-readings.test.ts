@@ -128,6 +128,21 @@ describe("classifyLocalText", () => {
     expect(result.scores.angry).toBeLessThan(0.1);
   });
 
+  it("accurately classifies 'you are not that great' and 'huh you are not that great' as angry without mapping to happy", async () => {
+    const res1 = await classifyLocalText("you are not that great");
+    expect(res1.dominantEmotion).toBe("angry");
+    expect(res1.scores.happy).toBeLessThan(0.1);
+    expect(res1.tokens.some((t) => t.token.includes("great") && t.emotion === "happy")).toBe(false);
+
+    const res2 = await classifyLocalText("huh you are not that great");
+    expect(res2.dominantEmotion).toBe("angry");
+    expect(res2.scores.happy).toBeLessThan(0.1);
+
+    const res3 = await classifyLocalText("you are nit that great");
+    expect(res3.dominantEmotion).toBe("angry");
+    expect(res3.scores.happy).toBeLessThan(0.1);
+  });
+
   it("accurately classifies Hindi joy sentence", async () => {
     const result = await classifyLocalText("आज मैं बहुत खुश हूँ");
     expect(result.dominantEmotion).toBe("happy");

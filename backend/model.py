@@ -464,14 +464,26 @@ class EmotionClassifier:
         lowered = text.lower()
         adjusted = dict(probs)
 
-        # Check for negations like 'not happy', 'never loved', 'cannot smile'
-        negations = ["not happy", "never happy", "not pleased", "not satisfied", "not good", "hardly joyful", "not glad"]
-        if any(neg in lowered for neg in negations):
-            # Dampen joy, boost sadness/disappointment
+        # Check for phrase-level negations of positive traits (e.g., 'not that great', 'you are not that good', 'not impressive')
+        has_negated_positive = bool(re.search(
+            r"\b(not|nit|never|hardly|barely|rarely|ain'?t|aint|isn'?t|isnt|aren'?t|arent|wasn'?t|wasnt|weren'?t|werent|don'?t|dont|didn'?t|didnt)\s+(that\s+|so\s+|very\s+|really\s+|too\s+|all\s+that\s+|at\s+all\s+|quite\s+|much\s+)?(great|good|happy|glad|pleased|satisfied|fine|delighted|thrilled|excited|blessed|awesome|wonderful|special|cool|smart|impressive|amazing|fantastic|super|brilliant|fond|keen|accha|achha|badhiya|badiya|shandaar)\b|\b(khush\s+na?hi|na?hi\s+khush|accha\s+na?hi|na?hi\s+accha)\b",
+            lowered
+        ))
+        is_personal_critique = bool(re.search(r"\b(you|u|he|she|they|it)\s+(are|r|is|ain'?t|aint|aren'?t|was)\s+(not|nit)\b|\b(huh|pfft|meh|whatever|ugh|bleh|nah)\b", lowered))
+
+        if has_negated_positive:
             if "joy" in adjusted:
-                adjusted["joy"] *= 0.15
-            if "sadness" in adjusted:
-                adjusted["sadness"] = max(adjusted["sadness"] * 2.5, 0.45)
+                adjusted["joy"] *= 0.05
+            if "love" in adjusted:
+                adjusted["love"] *= 0.05
+            if "surprise" in adjusted:
+                adjusted["surprise"] = min(adjusted["surprise"], 0.15)
+            if is_personal_critique:
+                adjusted["anger"] = max(adjusted.get("anger", 0) * 3.5, 0.60)
+                adjusted["disgust"] = max(adjusted.get("disgust", 0) * 2.0, 0.35)
+            else:
+                adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.0, 0.55)
+                adjusted["neutral"] = max(adjusted.get("neutral", 0) * 1.5, 0.35)
 
         # Check for dislike / aversion negations like 'dont like', "don't like", 'do not like', 'dont love'
         if re.search(r"\b(don'?t|dont|do not|didn'?t|didnt|did not|never|can'?t|cannot)\s+(like|love|adore|care for|enjoy|stand)\b|\b(pasand\s+na?hi|na?hi\s+pasand|nafrat)\b|dislike", lowered):
@@ -605,13 +617,19 @@ class EmotionClassifier:
         ))
         sarcastic_words = {"fantastic", "joy", "great", "wonderful", "perfect", "lovely", "awesome", "super", "brilliant"}
 
+        has_negated_positive = bool(re.search(
+            r"\b(not|nit|never|hardly|barely|rarely|ain'?t|aint|isn'?t|isnt|aren'?t|arent|wasn'?t|wasnt|weren'?t|werent|don'?t|dont|didn'?t|didnt)\s+(that\s+|so\s+|very\s+|really\s+|too\s+|all\s+that\s+|at\s+all\s+|quite\s+|much\s+)?(great|good|happy|glad|pleased|satisfied|fine|delighted|thrilled|excited|blessed|awesome|wonderful|special|cool|smart|impressive|amazing|fantastic|super|brilliant|fond|keen)\b",
+            text.lower()
+        ))
+        negated_positive_words = {"great", "good", "happy", "glad", "pleased", "satisfied", "fine", "delighted", "thrilled", "excited", "blessed", "awesome", "wonderful", "special", "cool", "smart", "impressive", "amazing", "fantastic", "super", "brilliant", "fond", "keen", "not", "nit", "that", "huh"}
+
         for token in tokens_raw:
             cleaned = token.lower().strip()
             is_cue = False
             associated_emo = dominant
             weight = 0.0
 
-            if is_sarcastic_text and cleaned in sarcastic_words:
+            if (is_sarcastic_text and cleaned in sarcastic_words) or (has_negated_positive and cleaned in negated_positive_words):
                 is_cue = True
                 associated_emo = dominant
                 weight = 0.85

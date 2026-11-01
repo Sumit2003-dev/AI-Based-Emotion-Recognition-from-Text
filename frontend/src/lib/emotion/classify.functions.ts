@@ -499,7 +499,10 @@ const NEGATIVE_LIKE_LOVE_REGEX =
   /\b(?:don'?t|dont|do not|didn'?t|didnt|did not|never|can'?t|cannot|hardly|not)\s+(?:like|love|care for|enjoy|stand|appreciate)\b|\b(?:pasand\s+na?h[iī]|na?h[iī]\s+pasand|nafrat)\b|dislike\w*|hate\w*|(?:पसंद नहीं|अच्छा नहीं|प्यार नहीं)/iu;
 
 const NEGATIVE_HAPPY_REGEX =
-  /\b(?:not|never|hardly|barely|rarely|isn'?t|aren'?t|wasn'?t)\s+(?:happy|glad|pleased|satisfied|good|fine|delighted|thrilled|excited|blessed)\b|\b(?:khush\s+na?h[iī]|na?h[iī]\s+khush)\b|(?:खुश नहीं)/iu;
+  /\b(?:not|nit|never|hardly|barely|rarely|ain'?t|aint|isn'?t|isnt|aren'?t|arent|wasn'?t|wasnt|weren'?t|werent|don'?t|dont|didn'?t|didnt)\s+(?:that\s+|so\s+|very\s+|really\s+|too\s+|all\s+that\s+|at\s+all\s+|quite\s+|much\s+)?(?:great|good|happy|glad|pleased|satisfied|fine|delighted|thrilled|excited|blessed|awesome|wonderful|special|cool|smart|impressive|amazing|fantastic|super|brilliant|fond|keen|accha|achha|badhiya|badiya|shandaar)\b|\b(?:khush\s+na?h[iī]|na?h[iī]\s+khush|accha\s+na?h[iī]|na?h[iī]\s+accha)\b|(?:खुश नहीं|अच्छा नहीं)/iu;
+
+const PERSONAL_CRITIQUE_REGEX =
+  /\b(?:you|u|he|she|they|it)\s+(?:are|r|is|ain'?t|aint|aren'?t|was)\s+(?:not|nit)\b|\b(?:huh|pfft|meh|whatever|ugh|bleh|nah)\b/i;
 
 const SARCASM_REGEX =
   /\b(?:oh\s+(?:great|fantastic|wonderful|brilliant|perfect|lovely|super|awesome|joy)|what a joy|just what i (?:needed|wanted)|thanks for (?:nothing|ruining)|love it when (?:my|the|it)|couldn'?t be better\b.*(?:broken|ruined|delayed|lost|crashed|failed)|pure joy\b.*(?:waiting|stuck|traffic|delay)|kya baat h\b.*(?:kharab|gussa|der|delay))\b/i;
@@ -592,6 +595,7 @@ export async function classifyLocalText(
 
   const hasDislike = NEGATIVE_LIKE_LOVE_REGEX.test(combined);
   const hasNotHappy = NEGATIVE_HAPPY_REGEX.test(combined);
+  const isPersonalCritique = hasNotHappy && PERSONAL_CRITIQUE_REGEX.test(combined);
   const isSarcastic =
     SARCASM_REGEX.test(combined) ||
     (POSITIVE_SARCASM_FRAME.test(combined) && NEGATIVE_SITUATIONAL_CONTEXT.test(combined));
@@ -607,7 +611,13 @@ export async function classifyLocalText(
     happyScore += 2.2;
   }
   if (hasNotHappy) {
-    sadScore += 2.2;
+    if (isPersonalCritique) {
+      angryScore += 3.2;
+      sadScore += 1.0;
+    } else {
+      sadScore += 2.4;
+    }
+    happyScore = 0;
   }
   if (hasDislike) {
     angryScore += 2.5;
@@ -626,7 +636,11 @@ export async function classifyLocalText(
   if (!isLitotes && (SAD_REGEX.test(combined) || DEVANAGARI_SAD.test(combined))) sadScore += 2.2;
   if (!isLitotes && (ANGRY_REGEX.test(combined) || DEVANAGARI_ANGRY.test(combined)))
     angryScore += 2.2;
-  if (!isSarcastic && (SURPRISE_REGEX.test(combined) || DEVANAGARI_SURPRISE.test(combined)))
+  if (
+    !isSarcastic &&
+    !isPersonalCritique &&
+    (SURPRISE_REGEX.test(combined) || DEVANAGARI_SURPRISE.test(combined))
+  )
     surpriseScore += 1.8;
   if (FEAR_REGEX.test(combined) || DEVANAGARI_FEAR.test(combined)) fearScore += 2.2;
   if (NEUTRAL_REGEX.test(combined) || DEVANAGARI_NEUTRAL.test(combined)) neutralScore += 1.4;
@@ -714,14 +728,18 @@ export async function classifyLocalText(
           /^(?:fantastic|joy|great|wonderful|perfect|lovely|super|awesome|brilliant)$/i.test(
             cleanWord,
           )) ||
+        (hasNotHappy &&
+          /^(?:great|good|happy|glad|special|impressive|cool|smart|awesome|not|nit|that|so|very|huh|pfft|meh)$/i.test(
+            cleanWord,
+          )) ||
         (dominantEmotion === "angry" &&
           /gussa|pagal|paagal|hate|angry|mad|bata|kharab|bakwas|bakwaas|bakchodi|chup|dimag|dimaag|deemag|demag|krodh|naraz|chutiya|kamina|saale/i.test(
             cleanWord,
           ))
       ) {
         isEmotional = true;
-        tokenEmotion = "angry";
-        color = "#EF4444";
+        tokenEmotion = isPersonalCritique || dominantEmotion === "angry" ? "angry" : "sad";
+        color = tokenEmotion === "angry" ? "#EF4444" : "#3B82F6";
         weight = 0.85;
       } else if (
         !hasDislike &&
