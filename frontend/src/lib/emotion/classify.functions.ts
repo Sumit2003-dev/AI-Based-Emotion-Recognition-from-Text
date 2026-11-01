@@ -1048,12 +1048,13 @@ export const classifyEmotions = createServerFn({ method: "POST" })
       }
     }
 
-    // 3. Backup Cloud LLM: Google Gemini (100% Free Gemini 2.0 Flash)
+    // 3. Backup / Primary Cloud LLM: Google Gemini
     const geminiKey =
       process.env["GEMINI_API_KEY"] ||
       (process.env["OPENAI_BASE_URL"]?.includes("generativelanguage")
         ? process.env["OPENAI_API_KEY"]
-        : process.env["OPENAI_API_KEY"]?.startsWith("AIzaSy")
+        : process.env["OPENAI_API_KEY"]?.startsWith("AIzaSy") ||
+            process.env["OPENAI_API_KEY"]?.startsWith("AQ.")
           ? process.env["OPENAI_API_KEY"]
           : "");
 
@@ -1063,7 +1064,7 @@ export const classifyEmotions = createServerFn({ method: "POST" })
         baseURL:
           process.env["GEMINI_BASE_URL"] ||
           "https://generativelanguage.googleapis.com/v1beta/openai/",
-        model: process.env["GEMINI_MODEL"] || "gemini-2.0-flash",
+        model: process.env["GEMINI_MODEL"] || "gemini-3.8-flash",
         name: "Google Gemini",
       });
       if (geminiReadings && geminiReadings.length === texts.length) {
