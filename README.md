@@ -11,7 +11,7 @@
 
 > **Created & Developed by [Sumit Kumar](https://github.com/Sumit2003-dev)**
 
-A production-grade, privacy-first Natural Language Processing (NLP) intelligence platform and multi-class emotion recognition engine. Powered by a **Hybrid Neural Transformer (DistilRoBERTa + Platt-Calibrated LinearSVC)** trained on **4,400+ authentic human comments from Google Research's GoEmotions benchmark**, this system provides sub-millisecond emotional decomposition across **8 core psychological dimensions**, transparent token-level explainability, sentiment polarity indexing, and psychometric intensity analysis.
+A production-grade, privacy-first Natural Language Processing (NLP) intelligence platform and multi-class emotion recognition engine. Powered by a **Hybrid Neural Transformer (DistilRoBERTa + Platt-Calibrated LinearSVC)** trained on **4,400+ authentic human comments from Google Research's GoEmotions benchmark**, this system provides high-speed inference (~15–35ms CPU / sub-second edge) across **8 fine-grained psychological dimensions** and **6 universal Ekman web spectrums** with mixed-emotion blend detection, transparent token-level explainability, sentiment polarity indexing, and psychometric intensity analysis.
 
 ---
 
@@ -476,6 +476,15 @@ The web application is ready for zero-downtime serverless deployment on [Vercel]
 - **LinkedIn**: [Sumit Kumar](https://www.linkedin.com/in/sumit2003-dev/)
 - **Email**: [sumit.ku5981@gmail.com](mailto:sumit.ku5981@gmail.com)
 - **Repository**: [AI-Based-Emotion-Recognition-from-Text](https://github.com/Sumit2003-dev/AI-Based-Emotion-Recognition-from-Text)
+
+---
+
+## 🛡️ Methodology, Calibration & Privacy Disclosures
+
+- **Emotion Classes & Taxonomy**: The underlying PyTorch model is an 8-class fine-grained classifier (`joy`, `love`, `sadness`, `anger`, `disgust`, `fear`, `surprise`, `neutral`), while the web frontend surfaces 6 universal Ekman classes (`happy`, `sad`, `angry`, `surprise`, `fear`, `neutral`) with co-occurring mixed-emotion blend detection.
+- **Estimated Affective Dimensions (VAD)**: Valence, Arousal, and Dominance scores are derived psychometric projections (Mehrabian-Russell framework) weighted by model probabilities, rather than a standalone dimensional regression model.
+- **Explainability & Token Cues**: Highlighted tokens provide rule-based lexical explainability cues and emotional salience markers rather than raw neural gradient attributions.
+- **Data Transmission**: Analysis runs strictly in-memory. Cross-lingual queries utilize Google Translate endpoints. Serverless edge deployments optionally query Groq (LLaMA 3.3) or Google Gemini (Gemini 3.8 Flash) APIs for nuanced generation. No user messages or text inputs are persisted or logged.
 
 ---
 

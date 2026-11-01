@@ -57,6 +57,11 @@ export type EmotionReading = {
   dimensions?: AffectiveDimensions | undefined;
   guidance?: EmotionalGuidance | undefined;
   tokens?: EmotionToken[] | undefined;
+  isMixedEmotion?: boolean | undefined;
+  secondaryEmotion?: Emotion | undefined;
+  secondaryConfidence?: number | undefined;
+  blendLabel?: string | undefined;
+  blendExplanation?: string | undefined;
 };
 
 export type RawReading = {
@@ -74,6 +79,11 @@ export type RawReading = {
   dimensions?: AffectiveDimensions | undefined;
   guidance?: EmotionalGuidance | undefined;
   tokens?: EmotionToken[] | undefined;
+  isMixedEmotion?: boolean | undefined;
+  secondaryEmotion?: Emotion | undefined;
+  secondaryConfidence?: number | undefined;
+  blendLabel?: string | undefined;
+  blendExplanation?: string | undefined;
 };
 
 /** Compute fallback affective dimensions for an emotion when backend dimensions are absent. */
@@ -301,6 +311,58 @@ export function computeDefaultGuidance(
   return defaultEnglishMap[emotion];
 }
 
+/** Characterizes co-occurring affective blends when multiple emotions co-exist. */
+export function computeEmotionBlend(
+  primary: Emotion,
+  secondary: Emotion,
+): { label: string; explanation: string } {
+  const pair = [primary, secondary].sort().join("+");
+  const blendMap: Record<string, { label: string; explanation: string }> = {
+    "angry+sad": {
+      label: "Bitter Disappointment & Hurt",
+      explanation:
+        "Underlying hurt or unacknowledged effort expressed with outward frustration, grievance, or resentment.",
+    },
+    "happy+surprise": {
+      label: "Delighted Astonishment",
+      explanation:
+        "Joy, elation, and positive excitement provoked by an unexpected revelation or pleasant turn of events.",
+    },
+    "fear+sad": {
+      label: "Anxious Despair",
+      explanation:
+        "Feelings of loss, grief, or isolation combined with apprehension and vulnerability about the future.",
+    },
+    "angry+fear": {
+      label: "Defensive Vigilance",
+      explanation:
+        "Heightened threat-perception provoking a defensive, guarded, or combative affective state.",
+    },
+    "happy+sad": {
+      label: "Bittersweet Ambivalence",
+      explanation:
+        "Complex dual emotional valence — fond gratitude or love intertwined with sorrow or nostalgia.",
+    },
+    "fear+surprise": {
+      label: "Alarmed Disorientation",
+      explanation:
+        "Sudden disruption to expectations accompanied by acute wariness or uncertainty.",
+    },
+    "angry+happy": {
+      label: "Triumphant Aggression / Spite",
+      explanation:
+        "Assertive satisfaction derived from vindication, confrontation, or overcoming opposition.",
+    },
+  };
+
+  return (
+    blendMap[pair] || {
+      label: `Mixed ${primary} & ${secondary}`,
+      explanation: `Co-occurring affective signals where ${primary} dominates alongside measurable ${secondary}.`,
+    }
+  );
+}
+
 /** Clamp scores into 0..1, renormalize to sum 1, and pick the argmax emotion. */
 export function normalizeReading(text: string, raw: RawReading): EmotionReading {
   const scores = {} as EmotionScores;
@@ -328,6 +390,19 @@ export function normalizeReading(text: string, raw: RawReading): EmotionReading 
   }
 
   const confidence = scores[best];
+
+  // Identify secondary co-occurring emotion for mixed-emotion detection
+  const sortedDesc = [...EMOTIONS].sort((a, b) => scores[b] - scores[a]);
+  const runnerUp = sortedDesc.find((e) => e !== best) ?? "neutral";
+  const runnerUpScore = scores[runnerUp];
+  const isMixed =
+    runnerUpScore >= 0.18 &&
+    runnerUp !== "neutral" &&
+    best !== "neutral" &&
+    (runnerUpScore / (confidence || 1) >= 0.35 || runnerUpScore >= 0.25);
+
+  const blend = isMixed ? computeEmotionBlend(best, runnerUp) : undefined;
+
   const sentiment =
     raw.sentiment || (best === "happy" ? "Positive" : best === "neutral" ? "Neutral" : "Negative");
   const sentimentScore =
@@ -359,6 +434,11 @@ export function normalizeReading(text: string, raw: RawReading): EmotionReading 
     dimensions: raw.dimensions || computeDefaultDimensions(best, confidence),
     guidance: raw.guidance || computeDefaultGuidance(best, raw.detectedLanguage),
     tokens: raw.tokens || [],
+    isMixedEmotion: raw.isMixedEmotion ?? isMixed,
+    secondaryEmotion: raw.secondaryEmotion ?? (isMixed ? runnerUp : undefined),
+    secondaryConfidence: raw.secondaryConfidence ?? (isMixed ? runnerUpScore : undefined),
+    blendLabel: raw.blendLabel ?? blend?.label,
+    blendExplanation: raw.blendExplanation ?? blend?.explanation,
   };
 }
 

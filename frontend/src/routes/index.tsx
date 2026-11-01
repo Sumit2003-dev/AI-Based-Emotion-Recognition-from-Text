@@ -236,6 +236,37 @@ function Index() {
             </div>
           </div>
 
+          {/* Methodology, Calibration & Privacy Transparency Disclosure */}
+          <div className="rounded-xl border border-border/60 bg-secondary/15 p-4 text-xs text-muted-foreground space-y-2">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-foreground font-medium">
+              <span className="flex items-center gap-1.5">
+                <span>🛡️</span>
+                <span>Methodology & Privacy Disclosure</span>
+              </span>
+              <span className="text-[11px] text-muted-foreground">
+                6 Web Spectrums • 8 Neural Classes • Zero Data Retention
+              </span>
+            </div>
+            <p className="text-[11px] leading-relaxed">
+              <strong>Emotion Taxonomy:</strong> The interactive web cockpit surfaces 6 universal
+              Ekman emotion spectrums (Happy, Sad, Angry, Surprise, Fear, Neutral) alongside
+              mixed-emotion blend detection, mapped from our 8-class fine-grained PyTorch
+              DistilRoBERTa model.
+            </p>
+            <p className="text-[11px] leading-relaxed">
+              <strong>Affective Projections:</strong> Valence, Arousal, and Dominance (VAD) are
+              mathematically derived psychometric estimates based on the Mehrabian & Russell
+              affective framework. Highlighted token cues represent rule-based lexical
+              explainability markers.
+            </p>
+            <p className="text-[11px] leading-relaxed">
+              <strong>Data Transmission & Privacy:</strong> Input sentences are evaluated in real
+              time in memory. Multilingual translation uses Google Translate endpoints; cloud
+              inference optionally leverages Groq LLaMA 3.3 or Google Gemini serverless APIs. No
+              user messages are logged, stored, or used for model training.
+            </p>
+          </div>
+
           <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-3 border-t border-border/50 pt-6">
             <p className="flex items-center gap-1.5">
               <span>© {new Date().getFullYear()}</span>

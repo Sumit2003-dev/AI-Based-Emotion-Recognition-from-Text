@@ -166,7 +166,12 @@ export function SingleAnalyzer({
       {/* Token Highlights (if words were identified as emotional cues) */}
       {emotionalTokens.length > 0 && (
         <div className="rounded-xl border border-border/70 bg-card/40 p-3.5">
-          <p className="eyebrow text-muted-foreground">Emotional Semantic Cues</p>
+          <div className="flex items-center justify-between">
+            <p className="eyebrow text-muted-foreground">Lexical & Semantic Cues</p>
+            <span className="text-[10px] text-muted-foreground">
+              Rule-based explainability markers
+            </span>
+          </div>
           <div className="mt-2 flex flex-wrap gap-1.5">
             {emotionalTokens.map((t, idx) => (
               <span

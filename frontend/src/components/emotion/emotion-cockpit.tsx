@@ -58,31 +58,31 @@ export function EmotionCockpit({
         {/* Feature Preview Cards */}
         <div className="grid gap-3 pt-2 sm:grid-cols-2">
           <div className="rounded-lg border border-border/70 bg-background/50 p-3.5">
-            <div className="text-base">🌐</div>
-            <p className="mt-1 font-medium text-xs text-foreground">100+ Languages</p>
+            <div className="text-base">🎭</div>
+            <p className="mt-1 font-medium text-xs text-foreground">Mixed-Emotion Detection</p>
             <p className="mt-0.5 text-[11px] text-muted-foreground leading-snug">
-              Cross-lingual neural understanding for Hindi, Spanish, French, Hinglish, & more.
+              Captures complex emotional blends (e.g. hurt & disappointment beneath frustration).
             </p>
           </div>
           <div className="rounded-lg border border-border/70 bg-background/50 p-3.5">
             <div className="text-base">📊</div>
-            <p className="mt-1 font-medium text-xs text-foreground">VAD Dimensionality</p>
+            <p className="mt-1 font-medium text-xs text-foreground">Estimated VAD Projections</p>
             <p className="mt-0.5 text-[11px] text-muted-foreground leading-snug">
-              Psychometric measures of Valence (Pleasure), Arousal (Energy), and Dominance (Agency).
+              Psychometric mapping of Valence (Pleasure), Arousal (Energy), and Dominance (Agency).
             </p>
           </div>
           <div className="rounded-lg border border-border/70 bg-background/50 p-3.5">
-            <div className="text-base">💡</div>
-            <p className="mt-1 font-medium text-xs text-foreground">Cognitive Empathy</p>
+            <div className="text-base">🌐</div>
+            <p className="mt-1 font-medium text-xs text-foreground">Cross-Lingual & Hinglish</p>
             <p className="mt-0.5 text-[11px] text-muted-foreground leading-snug">
-              Behavioral insights, communication advice, and copyable empathetic response templates.
+              Native Romanized Hinglish phonetic bridge with 100+ language neural translation.
             </p>
           </div>
           <div className="rounded-lg border border-border/70 bg-background/50 p-3.5">
             <div className="text-base">⚡</div>
-            <p className="mt-1 font-medium text-xs text-foreground">Sub-second Latency</p>
+            <p className="mt-1 font-medium text-xs text-foreground">Fast Latency (~25ms CPU)</p>
             <p className="mt-0.5 text-[11px] text-muted-foreground leading-snug">
-              High-throughput batch and single analysis with calibrated probability distributions.
+              Optimized PyTorch CPU DistilRoBERTa pipeline with edge failover to Groq & Gemini.
             </p>
           </div>
         </div>
@@ -179,6 +179,29 @@ export function EmotionCockpit({
             </span>
           )}
         </div>
+
+        {/* Mixed-Emotion Detection & Nuanced Affect Blend */}
+        {reading.isMixedEmotion && reading.secondaryEmotion && (
+          <div className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3.5 text-xs text-foreground">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5 font-semibold text-amber-600 dark:text-amber-400">
+                <span>🎭 Mixed Emotion Blend:</span>
+                <span className="capitalize">
+                  {reading.blendLabel || `${reading.emotion} + ${reading.secondaryEmotion}`}
+                </span>
+              </div>
+              <span className="rounded-full border border-amber-500/30 bg-background/80 px-2 py-0.5 text-[10px] font-semibold tabular-nums text-muted-foreground">
+                Co-occurring: {reading.secondaryEmotion} (
+                {Math.round((reading.secondaryConfidence || 0) * 100)}%)
+              </span>
+            </div>
+            {reading.blendExplanation && (
+              <p className="mt-1.5 text-muted-foreground text-[11px] leading-relaxed">
+                {reading.blendExplanation}
+              </p>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Emotion Spectrum Distribution */}
@@ -195,7 +218,12 @@ export function EmotionCockpit({
       {/* Affective Computing (VAD Dimensions) */}
       {dim && (
         <div className="space-y-3">
-          <p className="eyebrow text-muted-foreground">Affective Dimensions (VAD Framework)</p>
+          <div className="flex items-center justify-between">
+            <p className="eyebrow text-muted-foreground">
+              Estimated Affective Dimensions (VAD Projection)
+            </p>
+            <span className="text-[10px] text-muted-foreground">Mehrabian-Russell Model</span>
+          </div>
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
             {/* Valence */}
             <div className="rounded-lg border border-border/70 bg-secondary/20 p-3">
