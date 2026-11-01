@@ -513,6 +513,44 @@ class EmotionClassifier:
         lowered = text.lower()
         adjusted = dict(probs)
 
+        # 1. Contrast & Concession Handling (e.g., 'itna acha kaam kiya fir bhi dant padi', 'worked hard but failed')
+        contrast_match = re.search(
+            r"\b(but|however|although|though|yet|still|even though|nevertheless|despite|in spite of|lekin|magar|par|kintu|parantu|fir bhi|phir bhi|tab bhi|tabhi|bavajood|bawajood)\b",
+            lowered
+        )
+        if contrast_match:
+            clause_before = lowered[:contrast_match.start()]
+            clause_after = lowered[contrast_match.end():]
+            before_pos = bool(re.search(r"\b(accha|acha|achha|badhiya|good|great|well|hard work|mehnat|effort|love|happy|kaam kiya)\b", clause_before))
+            after_neg = bool(re.search(r"\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost)\b", clause_after))
+            if before_pos and after_neg:
+                if "joy" in adjusted:
+                    adjusted["joy"] *= 0.05
+                if "love" in adjusted:
+                    adjusted["love"] *= 0.05
+                adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.52)
+                adjusted["anger"] = max(adjusted.get("anger", 0) * 2.8, 0.36)
+                if "neutral" in adjusted:
+                    adjusted["neutral"] *= 0.15
+
+        # Scolding / Rebuke / Unappreciated Hinglish idioms
+        if re.search(r"\b(dant|daant)\s*(padi|pad\s*gayi|khayi|padti|padi\s*hai)\b|\b(fatkaar|fatkar)\b", lowered):
+            if "joy" in adjusted:
+                adjusted["joy"] *= 0.05
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 2.5, 0.48)
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 2.5, 0.42)
+            if "neutral" in adjusted:
+                adjusted["neutral"] *= 0.2
+
+        # Betrayal / Heartbreak in Hinglish
+        if re.search(r"\b(koi\s+(kadar|qadar)\s+na?hi|dhokha\s+(mila|diya)|dil\s+toot\s*(gaya|gya)|popat\s+ho\s*(gaya|gya))\b", lowered):
+            if "joy" in adjusted:
+                adjusted["joy"] *= 0.05
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.0, 0.55)
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 2.2, 0.35)
+            if "neutral" in adjusted:
+                adjusted["neutral"] *= 0.2
+
         # Check for phrase-level negations of positive traits (e.g., 'not that great', 'you are not that good', 'not impressive')
         has_negated_positive = bool(re.search(
             r"\b(not|nit|never|hardly|barely|rarely|ain'?t|aint|isn'?t|isnt|aren'?t|arent|wasn'?t|wasnt|weren'?t|werent|don'?t|dont|didn'?t|didnt)\s+(that\s+|so\s+|very\s+|really\s+|too\s+|all\s+that\s+|at\s+all\s+|quite\s+|much\s+)?(great|good|happy|glad|pleased|satisfied|fine|delighted|thrilled|excited|blessed|awesome|wonderful|special|cool|smart|impressive|amazing|fantastic|super|brilliant|fond|keen|accha|achha|badhiya|badiya|shandaar)\b|\b(khush\s+na?hi|na?hi\s+khush|accha\s+na?hi|na?hi\s+accha)\b",

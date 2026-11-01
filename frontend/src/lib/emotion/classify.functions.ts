@@ -204,6 +204,32 @@ const HINGLISH_PHRASES: Array<[RegExp, string]> = [
   [/\bnafrat\s+karta\s*(hu|hoon)\b/gi, "i hate you with disgust"],
   [/\bnafrat\s+karti\s*(hu|hoon)\b/gi, "i hate you with disgust"],
 
+  // Contrast / Disappointment / Unappreciated Phrases
+  [
+    /\b(itna\s+)?(acha|accha|achha|badhiya|mehnat)\s+(kaam\s+)?(kiya|kara)\s*(fir\s+bhi|phir\s+bhi|par|lekin)?\s*(dant|daant)\s*(padi|pad\s*gayi|khayi|padti)\b/gi,
+    "worked so hard and well yet got reprimanded and scolded, feeling hurt, bitter disappointment and anger",
+  ],
+  [
+    /\b(dant|daant)\s*(padi|pad\s*gayi|khayi|padti|padi\s*hai)\b/gi,
+    "got severely scolded and reprimanded, feeling upset and hurt",
+  ],
+  [/\b(fatkaar|fatkar)\s*(padi|lagi)\b/gi, "got severely reprimanded and scolded"],
+  [
+    /\bkoi\s+(kadar|qadar)\s+(nahi|nhi)\s*(hai|h)?\b/gi,
+    "no appreciation for my hard work, feeling unappreciated, hurt and disappointed",
+  ],
+  [/\b(dhokha|dhoka)\s+(mila|diya|hua)\b/gi, "betrayed and cheated, feeling grief and outrage"],
+  [/\bpopat\s+ho\s*(gaya|gya)\b/gi, "humiliated, embarrassed and made a fool of"],
+  [/\bchuna\s+laga\s*(diya|gya|gaya)\b/gi, "cheated and defrauded, feeling angry and foolish"],
+  [/\bphati\s+padi\s*(hai|h)\b/gi, "extremely terrified and anxious with dread"],
+  [/\bfat\s+rahi\s*(hai|h)\b/gi, "panicking with intense fear and dread"],
+  [/\bhawa\s+tight\s*(ho\s*gayi|hai|h)\b/gi, "panicking with fear and extreme pressure"],
+  [/\bchidh\s+mach\s*(rahi|rhi)\b/gi, "feeling intensely irritated and aggravated"],
+  [/\bkhoon\s+khaul\s*(raha|rha)\b/gi, "blood boiling in extreme rage"],
+  [/\bbawaal\s*(macha\s*diya)?\b/gi, "sensational triumph and celebration"],
+  [/\b(faad|phaad)\s+diya\b/gi, "triumphant victory and outstanding success"],
+  [/\baag\s+laga\s*di\b/gi, "phenomenal excitement and brilliant triumph"],
+
   // Sadness / Grief Phrases
   [/\bdil\s+toot\s*(gaya|gya)?\b/gi, "heartbroken with sadness"],
   [/\bbura\s+(lag\s*(raha|rha)|laga)\b/gi, "feeling very hurt and sad"],
@@ -318,6 +344,14 @@ const HINGLISH_SINGLE_WORDS: Record<string, string> = {
   akele: "lonely",
   tanha: "lonely",
   tanhai: "loneliness",
+  dant: "scolding",
+  daant: "scolding",
+  fatkaar: "reprimand",
+  qadar: "appreciation",
+  kadar: "appreciation",
+  dhokha: "betrayal",
+  dhoka: "betrayal",
+  mehnat: "hard work",
   afsos: "regret",
   pachtawa: "regret",
   bura: "bad",
@@ -629,11 +663,41 @@ export async function classifyLocalText(
     (POSITIVE_SARCASM_FRAME.test(combined) && NEGATIVE_SITUATIONAL_CONTEXT.test(combined));
   const isLitotes = LITOTES_REGEX.test(combined);
 
+  // Contrast & Concession Handling (e.g. "worked hard BUT failed", "itna acha kaam kiya FIR BHI dant padi")
+  const contrastMatch = combined.match(
+    /\b(but|however|although|though|yet|still|even though|nevertheless|despite|in spite of|lekin|magar|par|kintu|parantu|fir bhi|phir bhi|tab bhi|tabhi|bavajood|bawajood)\b/i,
+  );
+  let isContrastShift = false;
+  if (contrastMatch && contrastMatch.index !== undefined) {
+    const clauseBefore = combined.slice(0, contrastMatch.index);
+    const clauseAfter = combined.slice(contrastMatch.index + contrastMatch[0].length);
+
+    const beforePos =
+      HAPPY_REGEX.test(clauseBefore) ||
+      /\b(acha|accha|achha|badhiya|good|great|well|hard work|mehnat|effort|love|happy|kaam kiya)\b/i.test(
+        clauseBefore,
+      );
+    const afterNeg =
+      ANGRY_REGEX.test(clauseAfter) ||
+      SAD_REGEX.test(clauseAfter) ||
+      /\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost)\b/i.test(
+        clauseAfter,
+      );
+
+    if (beforePos && afterNeg) {
+      isContrastShift = true;
+      sadScore = Math.max(sadScore, 3.2);
+      angryScore = Math.max(angryScore, 2.4);
+      happyScore = 0; // Suppress false happy from pre-contrast clause
+    }
+  }
+
   if (
     !hasDislike &&
     !hasNotHappy &&
     !isSarcastic &&
     !isLitotes &&
+    !isContrastShift &&
     (HAPPY_REGEX.test(combined) || DEVANAGARI_HAPPY.test(combined))
   ) {
     happyScore += 2.2;

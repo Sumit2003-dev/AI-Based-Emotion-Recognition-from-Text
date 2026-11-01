@@ -173,4 +173,19 @@ describe("classifyLocalText", () => {
     expect(result.dominantEmotion).toBe("happy");
     expect(result.detectedLanguage).toBe("hi");
   });
+
+  it("accurately handles contrastive conjunctions and Hinglish disappointment ('dant padi')", async () => {
+    const res = await classifyLocalText("Are yaar, itna acha kaam kiya fir bhi dant padi");
+    expect(res.dominantEmotion).not.toBe("happy");
+    expect(["sad", "angry"]).toContain(res.dominantEmotion);
+    expect(res.scores.happy).toBeLessThan(0.1);
+    expect(res.scores.sad).toBeGreaterThan(0.3);
+  });
+
+  it("accurately handles English contrastive conjunctions ('worked hard but failed')", async () => {
+    const res = await classifyLocalText("I worked really hard, but still failed the final exam");
+    expect(res.dominantEmotion).not.toBe("happy");
+    expect(res.dominantEmotion).toBe("sad");
+    expect(res.scores.happy).toBeLessThan(0.1);
+  });
 });
