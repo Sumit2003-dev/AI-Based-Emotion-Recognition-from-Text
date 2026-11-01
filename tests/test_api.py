@@ -93,6 +93,19 @@ def test_negation_handling():
     assert res_dislike["dominant_emotion"] not in ("joy", "love"), "Dislike negation 'i dont like you' should not predict joy or love"
 
 
+def test_sarcasm_and_irony_handling():
+    # Sarcastic text with positive words + negative situation should predict anger/frustration, never joy
+    sarcastic_text = "Oh fantastic, my flight was delayed for 5 hours, what a joy"
+    res = classifier.predict(sarcastic_text)
+    assert res["dominant_emotion"] in ("anger", "disgust"), f"Expected anger/disgust for sarcasm, got {res['dominant_emotion']}"
+    assert res["dominant_emotion"] != "joy", "Sarcasm should not predict joy"
+    assert res["sentiment"] == "Negative"
+
+    # Litotes 'not bad' should not predict negative/disgust
+    res_litotes = classifier.predict("The service was not bad at all.")
+    assert res_litotes["dominant_emotion"] in ("neutral", "joy"), f"Expected neutral/joy for 'not bad', got {res_litotes['dominant_emotion']}"
+
+
 def test_empty_string_handling():
     res = classifier.predict("")
     assert res["dominant_emotion"] == "neutral"
@@ -150,6 +163,8 @@ if __name__ == "__main__":
     print("test_emotion_recognition_benchmarks PASSED")
     test_negation_handling()
     print("test_negation_handling PASSED")
+    test_sarcasm_and_irony_handling()
+    print("test_sarcasm_and_irony_handling PASSED")
     test_empty_string_handling()
     print("test_empty_string_handling PASSED")
     test_batch_prediction()

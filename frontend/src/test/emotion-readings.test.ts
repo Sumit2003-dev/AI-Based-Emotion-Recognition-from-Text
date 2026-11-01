@@ -112,6 +112,22 @@ describe("classifyLocalText", () => {
     expect(result.scores.happy).toBeLessThan(0.1);
   });
 
+  it("accurately classifies sarcastic phrase with positive words as angry", async () => {
+    const result = await classifyLocalText(
+      "Oh fantastic, my flight was delayed for 5 hours, what a joy",
+    );
+    expect(result.dominantEmotion).toBe("angry");
+    expect(result.scores.happy).toBeLessThan(0.1);
+    expect(result.scores.angry).toBeGreaterThan(0.5);
+  });
+
+  it("accurately classifies litotes 'not bad' without mapping to negative anger or sadness", async () => {
+    const result = await classifyLocalText("The food was not bad at all");
+    expect(["neutral", "happy"]).toContain(result.dominantEmotion);
+    expect(result.scores.sad).toBeLessThan(0.1);
+    expect(result.scores.angry).toBeLessThan(0.1);
+  });
+
   it("accurately classifies Hindi joy sentence", async () => {
     const result = await classifyLocalText("आज मैं बहुत खुश हूँ");
     expect(result.dominantEmotion).toBe("happy");

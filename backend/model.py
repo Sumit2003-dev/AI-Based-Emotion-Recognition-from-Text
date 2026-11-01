@@ -482,6 +482,41 @@ class EmotionClassifier:
             adjusted["anger"] = max(adjusted.get("anger", 0) * 2.5, 0.50)
             adjusted["disgust"] = max(adjusted.get("disgust", 0) * 2.0, 0.35)
 
+        # Sarcasm & Irony Detection (e.g. "Oh fantastic, my flight was delayed for 5 hours, what a joy")
+        sarcastic_clues = bool(re.search(
+            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|super|awesome|joy)|what a joy|just what i (needed|wanted)|thanks for (nothing|ruining)|love it when (my|the|it)|couldn'?t be better\b.*(broken|ruined|delayed|lost|crashed|failed)|pure joy\b.*(waiting|stuck|traffic|delay)|kya baat h\b.*(kharab|gussa|der|delay))\b",
+            lowered
+        ))
+        has_positive_framing = bool(re.search(
+            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|joy)|fantastic|wonderful|what a joy|brilliant|perfect|yay|so glad|love it)\b",
+            lowered
+        ))
+        has_negative_situation = bool(re.search(
+            r"\b(delay\w*|cancel\w*|broken|broke\w*|ruin\w*|fail\w*|stolen|crash\w*|headache|traffic|nightmare|disaster|stuck|waste of time|never again|worst|mess|lost|painful|sick|horrible|terrible)\b",
+            lowered
+        ))
+        is_sarcastic = sarcastic_clues or (has_positive_framing and has_negative_situation)
+        if is_sarcastic:
+            if "joy" in adjusted:
+                adjusted["joy"] *= 0.05
+            if "love" in adjusted:
+                adjusted["love"] *= 0.05
+            if "surprise" in adjusted:
+                adjusted["surprise"] = min(adjusted["surprise"], 0.15)
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 3.5, 0.65)
+            adjusted["disgust"] = max(adjusted.get("disgust", 0) * 2.0, 0.35)
+
+        # Litotes / Understatements: 'not bad', 'not that bad', 'not half bad', 'not terrible'
+        if re.search(r"\b(not\s+(that\s+|too\s+|half\s+)?(bad|terrible|awful|horrible|worst)|bura\s+na?hi)\b", lowered):
+            if "disgust" in adjusted:
+                adjusted["disgust"] *= 0.05
+            if "sadness" in adjusted:
+                adjusted["sadness"] *= 0.05
+            if "anger" in adjusted:
+                adjusted["anger"] *= 0.05
+            adjusted["neutral"] = max(adjusted.get("neutral", 0) * 2.0, 0.50)
+            adjusted["joy"] = max(adjusted.get("joy", 0) * 1.5, 0.35)
+
         # Quick emotional slang boosts
         if re.search(r"\b(omg|wtf|holy cow|no way|unbelievable)\b", lowered):
             adjusted["surprise"] = max(adjusted.get("surprise", 0) * 1.8, 0.35)
@@ -564,13 +599,23 @@ class EmotionClassifier:
             for w in words:
                 all_cues[w] = emo
 
+        is_sarcastic_text = dominant in ("anger", "disgust") and bool(re.search(
+            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|super|awesome|joy)|what a joy|just what i (needed|wanted)|thanks for (nothing|ruining)|love it when (my|the|it)|fantastic|wonderful)\b",
+            text.lower()
+        ))
+        sarcastic_words = {"fantastic", "joy", "great", "wonderful", "perfect", "lovely", "awesome", "super", "brilliant"}
+
         for token in tokens_raw:
             cleaned = token.lower().strip()
             is_cue = False
             associated_emo = dominant
             weight = 0.0
 
-            if cleaned in cues_for_dominant:
+            if is_sarcastic_text and cleaned in sarcastic_words:
+                is_cue = True
+                associated_emo = dominant
+                weight = 0.85
+            elif cleaned in cues_for_dominant:
                 is_cue = True
                 associated_emo = dominant
                 weight = 0.85
