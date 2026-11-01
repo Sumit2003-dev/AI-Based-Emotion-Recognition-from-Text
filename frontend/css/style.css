@@ -1,0 +1,39 @@
+/* Legacy & Static Standalone Stylesheet for AI-Based Emotion Recognition */
+:root {
+  --font-sans: "Work Sans", system-ui, -apple-system, sans-serif;
+  --font-display: "Instrument Serif", Georgia, serif;
+  --bg-color: #faf8f5;
+  --text-color: #2b2621;
+  --primary-color: #c85a32;
+  --border-color: #e5ded4;
+  --card-bg: #ffffff;
+  --emotion-joy: #f59e0b;
+  --emotion-sadness: #3b82f6;
+  --emotion-anger: #ef4444;
+  --emotion-fear: #8b5cf6;
+  --emotion-surprise: #10b981;
+  --emotion-love: #ec4899;
+  --emotion-disgust: #84cc16;
+  --emotion-neutral: #94a3b8;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}

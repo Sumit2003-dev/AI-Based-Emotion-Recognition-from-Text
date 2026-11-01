@@ -239,62 +239,75 @@ Analyzes an individual sentence or text document for emotional decomposition.
 {
   "text": "I was utterly terrified walking down that pitch black alley alone at midnight.",
   "dominant_emotion": "fear",
-  "dominant_emoji": "😨",
+  "dominant_label": "Fear & Anxiety",
+  "emoji": "😨",
+  "color": "#8B5CF6",
   "confidence": 78.4,
+  "confidence_ratio": 0.784,
   "sentiment": "Negative",
   "sentiment_score": -0.74,
-  "intensity": 82.5,
+  "intensity": {
+    "level": "Intense / High",
+    "score": 82
+  },
   "probabilities": [
-    { "emotion": "fear", "probability": 78.4, "emoji": "😨", "color": "#F59E0B" },
-    { "emotion": "surprise", "probability": 8.1, "emoji": "😲", "color": "#06B6D4" },
-    { "emotion": "sadness", "probability": 5.2, "emoji": "😢", "color": "#3B82F6" },
-    { "emotion": "anger", "probability": 3.1, "emoji": "😡", "color": "#EF4444" },
-    { "emotion": "disgust", "probability": 2.4, "emoji": "🤢", "color": "#10B981" },
-    { "emotion": "neutral", "probability": 1.5, "emoji": "😐", "color": "#94A3B8" },
-    { "emotion": "joy", "probability": 0.8, "emoji": "😊", "color": "#F59E0B" },
-    { "emotion": "love", "probability": 0.5, "emoji": "❤️", "color": "#EC4899" }
+    { "emotion": "fear", "label": "Fear & Anxiety", "probability": 78.4, "ratio": 0.784, "emoji": "😨", "color": "#8B5CF6" },
+    { "emotion": "surprise", "label": "Surprise & Astonishment", "probability": 8.1, "ratio": 0.081, "emoji": "😲", "color": "#10B981" },
+    { "emotion": "sadness", "label": "Sadness & Grief", "probability": 5.2, "ratio": 0.052, "emoji": "😢", "color": "#3B82F6" },
+    { "emotion": "anger", "label": "Anger & Frustration", "probability": 3.1, "ratio": 0.031, "emoji": "😡", "color": "#EF4444" },
+    { "emotion": "disgust", "label": "Disgust & Aversion", "probability": 2.4, "ratio": 0.024, "emoji": "🤢", "color": "#84CC16" },
+    { "emotion": "neutral", "label": "Neutral & Objective", "probability": 1.5, "ratio": 0.015, "emoji": "😐", "color": "#94A3B8" },
+    { "emotion": "joy", "label": "Joy & Elation", "probability": 0.8, "ratio": 0.008, "emoji": "😊", "color": "#F59E0B" },
+    { "emotion": "love", "label": "Love & Affection", "probability": 0.5, "ratio": 0.005, "emoji": "❤️", "color": "#EC4899" }
   ],
   "tokens": [
-    { "token": "terrified", "weight": 3.987, "emotion": "fear" },
-    { "token": "pitch black", "weight": 1.250, "emotion": "fear" },
-    { "token": "alone", "weight": 0.840, "emotion": "sadness" }
+    { "word": "terrified", "is_emotional": true, "emotion": "fear", "color": "#8B5CF6", "weight": 0.85 },
+    { "word": "alone", "is_emotional": true, "emotion": "sadness", "color": "#3B82F6", "weight": 0.65 }
   ],
-  "guidance": "High fear or anxiety detected. Respond with reassurance, clear information, and calm support."
+  "guidance": {
+    "psychology": "Triggers threat-detection, apprehension of future harm, uncertainty, or loss of safety.",
+    "empathy_tip": "Ground them with clear facts, predictability, reassuring presence, and small safe steps.",
+    "suggested_reply": "Take a slow deep breath. You are safe right now, and we will take this step by step together."
+  }
 }
 ```
 
 ---
 
 ### `POST /api/batch`
-Processes an uploaded `.csv` file (up to 300 rows) and returns aggregate sentiment analytics.
+Processes an array of text inputs (up to 500 texts) and returns per-text predictions and summary analytics.
 
-**Request Body (`multipart/form-data`):**
-- `file`: CSV file containing a column named `text`, `sentence`, `message`, `comment`, or `review`.
+**Request Body (`application/json`):**
+```json
+{
+  "texts": [
+    "I am so thrilled and proud of my team!",
+    "This customer support is utter garbage and wasted my time!"
+  ]
+}
+```
 
 **Response (`200 OK`):**
 ```json
 {
-  "total_records": 120,
-  "processed_records": 120,
-  "emotion_distribution": {
-    "joy": 45,
-    "love": 28,
-    "neutral": 20,
-    "surprise": 12,
-    "sadness": 8,
-    "anger": 4,
-    "fear": 2,
-    "disgust": 1
-  },
-  "sentiment_distribution": {
-    "Positive": 73,
-    "Neutral": 20,
-    "Negative": 15
-  },
-  "average_confidence": 76.2,
-  "results": [ ... ]
+  "results": [ ... ],
+  "summary": {
+    "total_analyzed": 2,
+    "top_emotion": "joy",
+    "average_intensity": 74.5,
+    "sentiment_ratio": { "Positive": 50.0, "Negative": 50.0, "Neutral": 0.0 },
+    "distribution": [ ... ]
+  }
 }
 ```
+
+---
+
+### `POST /api/upload-csv`
+Uploads a `.csv` dataset file (up to 300 rows) and returns predictions across all rows.
+
+**Request Body (`multipart/form-data`):**
+- `file`: CSV file containing a column named `text`, `sentence`, `message`, `comment`, or `review`.
 
 ---
 
@@ -329,7 +342,7 @@ Returns system uptime and model status.
 {
   "status": "healthy",
   "model_loaded": true,
-  "total_classes": 8
+  "model_name": "Hybrid Multilingual Neural Transformer (DistilRoBERTa + Calibrated LinearSVC)"
 }
 ```
 

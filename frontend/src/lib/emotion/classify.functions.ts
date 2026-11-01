@@ -485,6 +485,22 @@ const FEAR_REGEX =
 const NEUTRAL_REGEX =
   /\b(meeting|schedule\w*|thursday|monday|tuesday|wednesday|friday|saturday|sunday|confirm|attendance|report|update|document|review|balance sheet|presented|system|status|quarterly|information|office|routine|normal|theek h|thik h|theek hai|thik hai|theek|thik|chalega|sahi h|sab theek|sab badhiya|info|kaam|time|kal|aaj|pahuche|mil gaya|haa|haan|kuch nahi|kuch nhi)\b/i;
 
+const DEVANAGARI_HAPPY =
+  /(?:खुश|खुशी|आनंद|प्यार|प्रेम|बधाई|हंसी|शानदार|सुंदर|प्रसन्न|मज़ा|मजा|उत्साह|जीत|मुस्कान)/u;
+const DEVANAGARI_SAD =
+  /(?:दुख|दुखी|उदास|उदासी|रोना|आंसू|दर्द|शोक|गम|पीड़ा|कष्ट|तकलीफ|अकेला|निराश|टूट)/u;
+const DEVANAGARI_ANGRY =
+  /(?:गुस्सा|क्रोध|क्रोधित|नाराज|बकवास|नफरत|घृणा|पागल|झगड़ा|लड़ाई|बेवकूफ|घटिया)/u;
+const DEVANAGARI_SURPRISE = /(?:हैरान|हैरानी|अचंभा|चौंक|अजीब|अनोखा|विश्वास नहीं)/u;
+const DEVANAGARI_FEAR = /(?:डर|खौफ|भय|दहशत|घबराहट|चिंता|तनाव|परेशान|परेशानी|मुसीबत)/u;
+const DEVANAGARI_NEUTRAL = /(?:ठीक|सामान्य|बैठक|सूचना|समय|काम|रिपोर्ट|दस्तावेज़)/u;
+
+const NEGATIVE_LIKE_LOVE_REGEX =
+  /\b(?:don'?t|dont|do not|didn'?t|didnt|did not|never|can'?t|cannot|hardly|not)\s+(?:like|love|care for|enjoy|stand|appreciate)\b|\b(?:pasand\s+na?h[iī]|na?h[iī]\s+pasand|nafrat)\b|dislike\w*|hate\w*|(?:पसंद नहीं|अच्छा नहीं|प्यार नहीं)/iu;
+
+const NEGATIVE_HAPPY_REGEX =
+  /\b(?:not|never|hardly|barely|rarely|isn'?t|aren'?t|wasn'?t)\s+(?:happy|glad|pleased|satisfied|good|fine|delighted|thrilled|excited|blessed)\b|\b(?:khush\s+na?h[iī]|na?h[iī]\s+khush)\b|(?:खुश नहीं)/iu;
+
 /**
  * Intelligent calibrated emotion classifier with cross-lingual bridge and dynamic distribution.
  * Integrates Google Translate and native Hinglish normalizer to translate any Romanized Hindi,
@@ -562,12 +578,27 @@ export async function classifyLocalText(
   let fearScore = 0;
   let neutralScore = 0;
 
-  if (HAPPY_REGEX.test(combined)) happyScore += 2.2;
-  if (SAD_REGEX.test(combined)) sadScore += 2.2;
-  if (ANGRY_REGEX.test(combined)) angryScore += 2.2;
-  if (SURPRISE_REGEX.test(combined)) surpriseScore += 1.8;
-  if (FEAR_REGEX.test(combined)) fearScore += 2.2;
-  if (NEUTRAL_REGEX.test(combined)) neutralScore += 1.4;
+  const hasDislike = NEGATIVE_LIKE_LOVE_REGEX.test(combined);
+  const hasNotHappy = NEGATIVE_HAPPY_REGEX.test(combined);
+
+  if (
+    !hasDislike &&
+    !hasNotHappy &&
+    (HAPPY_REGEX.test(combined) || DEVANAGARI_HAPPY.test(combined))
+  ) {
+    happyScore += 2.2;
+  }
+  if (hasNotHappy) {
+    sadScore += 2.2;
+  }
+  if (hasDislike) {
+    angryScore += 2.5;
+  }
+  if (SAD_REGEX.test(combined) || DEVANAGARI_SAD.test(combined)) sadScore += 2.2;
+  if (ANGRY_REGEX.test(combined) || DEVANAGARI_ANGRY.test(combined)) angryScore += 2.2;
+  if (SURPRISE_REGEX.test(combined) || DEVANAGARI_SURPRISE.test(combined)) surpriseScore += 1.8;
+  if (FEAR_REGEX.test(combined) || DEVANAGARI_FEAR.test(combined)) fearScore += 2.2;
+  if (NEUTRAL_REGEX.test(combined) || DEVANAGARI_NEUTRAL.test(combined)) neutralScore += 1.4;
 
   // Emojis
   if (/(?:🎉|😊|✨|❤️|💖|🥰|😁|😄|👏|🙌|😃|🤩|💃|🕺)/u.test(text)) happyScore += 1.8;
@@ -647,6 +678,7 @@ export async function classifyLocalText(
 
       if (
         ANGRY_REGEX.test(cleanWord) ||
+        (hasDislike && /^(?:like|love|dont|not|dislike|stand|care)$/i.test(cleanWord)) ||
         (dominantEmotion === "angry" &&
           /gussa|pagal|paagal|hate|angry|mad|bata|kharab|bakwas|bakwaas|bakchodi|chup|dimag|dimaag|deemag|demag|krodh|naraz|chutiya|kamina|saale/i.test(
             cleanWord,
@@ -657,11 +689,14 @@ export async function classifyLocalText(
         color = "#EF4444";
         weight = 0.85;
       } else if (
-        HAPPY_REGEX.test(cleanWord) ||
-        (dominantEmotion === "happy" &&
-          /happy|khush|love|mast|badiya|badhiya|shandaar|hasi|hansi|maja|maza|accha|acha/i.test(
-            cleanWord,
-          ))
+        !hasDislike &&
+        !hasNotHappy &&
+        (HAPPY_REGEX.test(cleanWord) ||
+          DEVANAGARI_HAPPY.test(cleanWord) ||
+          (dominantEmotion === "happy" &&
+            /happy|khush|love|mast|badiya|badhiya|shandaar|hasi|hansi|maja|maza|accha|acha/i.test(
+              cleanWord,
+            )))
       ) {
         isEmotional = true;
         tokenEmotion = "happy";

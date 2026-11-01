@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { classifyEmotions } from "@/lib/emotion/classify.functions";
 import { MAX_TEXT_CHARS } from "@/lib/emotion/emotions";
@@ -49,10 +49,13 @@ export function SingleAnalyzer({
   const [reading, setReading] = useState<EmotionReading | null>(activeReading || null);
 
   // Sync when parent changes activeReading (e.g. clicked from history)
-  if (activeReading && activeReading !== reading && activeReading.text !== text) {
-    setReading(activeReading);
-    setText(activeReading.text);
-  }
+  useEffect(() => {
+    if (activeReading && activeReading !== reading && activeReading.text !== text) {
+      setReading(activeReading);
+      setText(activeReading.text);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeReading]);
 
   async function analyze() {
     const trimmed = text.trim();

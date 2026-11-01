@@ -235,7 +235,7 @@ else:
         return {
             "name": "AI-Based Emotion Recognition API",
             "status": "online",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "documentation": "/docs",
             "health_check": "/api/health",
             "frontend_dev_url": "http://localhost:3000",

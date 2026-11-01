@@ -99,6 +99,19 @@ describe("classifyLocalText", () => {
     expect(result.isMultilingual).toBe(true);
   });
 
+  it("accurately classifies negation 'i dont like you' as angry and not happy", async () => {
+    const result = await classifyLocalText("i dont like you");
+    expect(result.dominantEmotion).toBe("angry");
+    expect(result.scores.happy).toBeLessThan(0.1);
+    expect(result.scores.angry).toBeGreaterThan(0.5);
+  });
+
+  it("accurately classifies 'i am not happy' as sad and not happy", async () => {
+    const result = await classifyLocalText("i am not happy");
+    expect(result.dominantEmotion).toBe("sad");
+    expect(result.scores.happy).toBeLessThan(0.1);
+  });
+
   it("accurately classifies Hindi joy sentence", async () => {
     const result = await classifyLocalText("आज मैं बहुत खुश हूँ");
     expect(result.dominantEmotion).toBe("happy");

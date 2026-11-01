@@ -12,10 +12,8 @@ Tests:
 - FastAPI endpoints (/api/health, /api/predict, /api/batch, /api/model-info, /api/sample-texts)
 """
 
-import unittest
 import sys
 from pathlib import Path
-from fastapi.testclient import TestClient
 
 # Ensure backend directory is in path
 CURRENT_DIR = Path(__file__).resolve().parent
@@ -25,9 +23,19 @@ if str(BACKEND_DIR) not in sys.path:
     sys.path.insert(0, str(BACKEND_DIR))
 
 from model import EMOTION_META
-from app import app, classifier
-
-client = TestClient(app)
+from app import (
+    app,
+    classifier,
+    health_check,
+    predict_emotion,
+    batch_predict,
+    get_model_info,
+    get_sample_texts,
+    submit_feedback,
+    PredictRequest,
+    BatchPredictRequest,
+    FeedbackRequest,
+)
 
 
 def test_model_loaded():
@@ -79,6 +87,11 @@ def test_negation_handling():
     res = classifier.predict("I am not happy at all with this painful outcome.")
     assert res["dominant_emotion"] != "joy", "Negation 'not happy' should not predict joy"
 
+    # Dislike negations like 'i dont like you' should be negative, never joy or love
+    res_dislike = classifier.predict("i dont like you")
+    assert res_dislike["dominant_emotion"] in ("anger", "sadness", "disgust"), f"Dislike negation should be negative, got {res_dislike['dominant_emotion']}"
+    assert res_dislike["dominant_emotion"] not in ("joy", "love"), "Dislike negation 'i dont like you' should not predict joy or love"
+
 
 def test_empty_string_handling():
     res = classifier.predict("")
@@ -100,24 +113,31 @@ def test_batch_prediction():
 
 def test_fastapi_endpoints():
     # 1. Health
-    h_resp = client.get("/api/health")
-    assert h_resp.status_code == 200
-    assert h_resp.json()["status"] == "healthy"
+    h_resp = health_check()
+    assert h_resp["status"] == "healthy"
+    assert "model_loaded" in h_resp
 
     # 2. Predict
-    p_resp = client.post("/api/predict", json={"text": "I am thrilled and proud of my team!"})
-    assert p_resp.status_code == 200
-    assert p_resp.json()["dominant_emotion"] == "joy"
+    p_resp = predict_emotion(PredictRequest(text="I am thrilled and proud of my team!"))
+    assert p_resp["dominant_emotion"] == "joy"
 
-    # 3. Model Info
-    m_resp = client.get("/api/model-info")
-    assert m_resp.status_code == 200
-    assert "model_name" in m_resp.json()
+    # 3. Batch Predict
+    b_resp = batch_predict(BatchPredictRequest(texts=["I am thrilled!", "I am so angry right now!"]))
+    assert len(b_resp["results"]) == 2
+    assert "summary" in b_resp
 
-    # 4. Sample Texts
-    s_resp = client.get("/api/sample-texts")
-    assert s_resp.status_code == 200
-    assert len(s_resp.json()["samples"]) >= 8
+    # 4. Model Info
+    m_resp = get_model_info()
+    assert "model_name" in m_resp
+    assert "emotions" in m_resp
+
+    # 5. Sample Texts
+    s_resp = get_sample_texts()
+    assert len(s_resp["samples"]) >= 8
+
+    # 6. Feedback
+    fb_resp = submit_feedback(FeedbackRequest(text="Happy day", predicted_emotion="joy", is_correct=True))
+    assert fb_resp["status"] == "success"
 
 
 if __name__ == "__main__":

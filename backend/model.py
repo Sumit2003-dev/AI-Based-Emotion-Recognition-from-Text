@@ -11,6 +11,7 @@ Provides:
 - Actionable AI empathy tips and communication guidelines
 """
 
+import os
 import json
 import math
 import re
@@ -208,14 +209,29 @@ class EmotionClassifier:
 
     def _load_transformer(self):
         """Loads pre-trained DistilRoBERTa model if torch and transformers are available."""
+        if os.environ.get("DISABLE_TRANSFORMER", "0").lower() in ("1", "true", "yes"):
+            print("Notice: Transformer engine disabled via environment variable.")
+            self.transformer_pipeline = None
+            return
+
         try:
             from transformers import pipeline
-            self.transformer_pipeline = pipeline(
-                "text-classification",
-                model="j-hartmann/emotion-english-distilroberta-base",
-                top_k=None,
-                device=-1
-            )
+            # Try offline / cached model first to eliminate network latency and timeout hangs
+            try:
+                self.transformer_pipeline = pipeline(
+                    "text-classification",
+                    model="j-hartmann/emotion-english-distilroberta-base",
+                    top_k=None,
+                    device=-1,
+                    local_files_only=True,
+                )
+            except Exception:
+                self.transformer_pipeline = pipeline(
+                    "text-classification",
+                    model="j-hartmann/emotion-english-distilroberta-base",
+                    top_k=None,
+                    device=-1,
+                )
             print("Neural Transformer Emotion Engine (DistilRoBERTa) loaded successfully.")
         except Exception as e:
             print(f"Notice: Transformer engine not active (falling back to Calibrated LinearSVC): {e}")
@@ -245,10 +261,29 @@ class EmotionClassifier:
         tokens_lower = set(clean.lower().split())
         has_hinglish = bool(tokens_lower.intersection(hinglish_words))
 
+        allow_network = getattr(self, "_online_translate_enabled", True) and not os.environ.get("OFFLINE_MODE")
+        foreign_tokens = {"estoy", "avec", "nicht", "dans", "nous", "vous", "pero", "como", "triste", "heureux", "muy", "tres"}
+        is_foreign = bool(tokens_lower.intersection(foreign_tokens))
+        has_non_ascii = not clean.isascii()
+
+        # Instant path: if plain ASCII and not foreign/hinglish, or network disabled, return immediately without network overhead
+        if not allow_network or (not has_non_ascii and not has_hinglish and not is_foreign):
+            lang_name = "Hinglish (Hindi-English)" if has_hinglish else "English"
+            lang_code = "hinglish" if has_hinglish else "en"
+            result = {
+                "working_text": clean,
+                "detected_language": lang_code,
+                "language_name": lang_name,
+                "is_multilingual": has_hinglish,
+                "translated_text": None,
+            }
+            self._translation_cache[clean] = result
+            return result
+
         try:
             url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=" + urllib.parse.quote(clean)
             req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-            with urllib.request.urlopen(req, timeout=3.5) as resp:
+            with urllib.request.urlopen(req, timeout=1.0) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 translated = "".join([part[0] for part in data[0] if part[0]]).strip()
                 lang_code = data[2] if len(data) > 2 and data[2] else "en"
@@ -272,15 +307,19 @@ class EmotionClassifier:
                 self._translation_cache[clean] = result
                 return result
         except Exception:
+            # Circuit breaker: disable online translate for current session to prevent cascading latency
+            self._online_translate_enabled = False
             lang_name = "Hinglish (Hindi-English)" if has_hinglish else "English"
             lang_code = "hinglish" if has_hinglish else "en"
-            return {
+            result = {
                 "working_text": clean,
                 "detected_language": lang_code,
                 "language_name": lang_name,
                 "is_multilingual": has_hinglish,
                 "translated_text": None,
             }
+            self._translation_cache[clean] = result
+            return result
 
     def is_ready(self) -> bool:
         return (self.pipeline is not None) or (self.transformer_pipeline is not None)
@@ -426,13 +465,22 @@ class EmotionClassifier:
         adjusted = dict(probs)
 
         # Check for negations like 'not happy', 'never loved', 'cannot smile'
-        negations = ["not happy", "never happy", "not pleased", "not satisfied", "not good", "hardly joyful"]
+        negations = ["not happy", "never happy", "not pleased", "not satisfied", "not good", "hardly joyful", "not glad"]
         if any(neg in lowered for neg in negations):
             # Dampen joy, boost sadness/disappointment
             if "joy" in adjusted:
                 adjusted["joy"] *= 0.15
             if "sadness" in adjusted:
                 adjusted["sadness"] = max(adjusted["sadness"] * 2.5, 0.45)
+
+        # Check for dislike / aversion negations like 'dont like', "don't like", 'do not like', 'dont love'
+        if re.search(r"\b(don'?t|dont|do not|didn'?t|didnt|did not|never|can'?t|cannot)\s+(like|love|adore|care for|enjoy|stand)\b|\b(pasand\s+na?hi|na?hi\s+pasand|nafrat)\b|dislike", lowered):
+            if "joy" in adjusted:
+                adjusted["joy"] *= 0.05
+            if "love" in adjusted:
+                adjusted["love"] *= 0.05
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 2.5, 0.50)
+            adjusted["disgust"] = max(adjusted.get("disgust", 0) * 2.0, 0.35)
 
         # Quick emotional slang boosts
         if re.search(r"\b(omg|wtf|holy cow|no way|unbelievable)\b", lowered):
