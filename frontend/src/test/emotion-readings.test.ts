@@ -224,4 +224,38 @@ describe("classifyLocalText", () => {
     const r7 = await classifyLocalText("Hiding exhaustion");
     expect(r7.dominantEmotion).toBe("sad");
   });
+
+  it("passes all 8 sentences of the official regression test checklist", async () => {
+    // Test 1: Are yaar, itna acha kaam kiya fir bhi dant padi. -> Sadness / Anger
+    const t1 = await classifyLocalText("Are yaar, itna acha kaam kiya fir bhi dant padi.");
+    expect(["sad", "angry"]).toContain(t1.dominantEmotion);
+
+    // Test 2: Yaar, aaj finally meri mehnat rang laayi! -> Happiness
+    const t2 = await classifyLocalText("Yaar, aaj finally meri mehnat rang laayi!");
+    expect(t2.dominantEmotion).toBe("happy");
+
+    // Test 3: Mujhe kisi se koi umeed nahi rahi ab. -> Sadness
+    const t3 = await classifyLocalText("Mujhe kisi se koi umeed nahi rahi ab.");
+    expect(t3.dominantEmotion).toBe("sad");
+
+    // Test 4: Oh wow, another deadline! Exactly what I needed. -> Anger (sarcasm)
+    const t4 = await classifyLocalText("Oh wow, another deadline! Exactly what I needed.");
+    expect(t4.dominantEmotion).toBe("angry");
+
+    // Test 5: Phone table par rakha hai aur main khush hoon. -> Happiness (locative par does not trigger contrast)
+    const t5 = await classifyLocalText("Phone table par rakha hai aur main khush hoon.");
+    expect(t5.dominantEmotion).toBe("happy");
+
+    // Test 6: Maine bahut mehnat ki, lekin mujhe promotion mil gaya! -> Happiness (positive contrast outcome)
+    const t6 = await classifyLocalText("Maine bahut mehnat ki, lekin mujhe promotion mil gaya!");
+    expect(t6.dominantEmotion).toBe("happy");
+
+    // Test 7: Sabke saamne hasta hoon, par andar se toot chuka hoon. -> Sadness (concealed heartbreak)
+    const t7 = await classifyLocalText("Sabke saamne hasta hoon, par andar se toot chuka hoon.");
+    expect(t7.dominantEmotion).toBe("sad");
+
+    // Test 8: Mujhe daant nahi padi, main bas mazaak kar raha tha. -> Neutral / Happy
+    const t8 = await classifyLocalText("Mujhe daant nahi padi, main bas mazaak kar raha tha.");
+    expect(["neutral", "happy"]).toContain(t8.dominantEmotion);
+  });
 });

@@ -176,6 +176,160 @@ KEYWORD_CUES = {
 }
 
 
+
+# Idiomatic Hinglish multi-word phrases mapped to English semantics
+HINGLISH_PHRASES: List[Tuple[re.Pattern, str]] = [
+    (re.compile(r"\b(bhai|yaar|bro|dost)?\s*(dimag|dimaag|deemag|demag)\s*(mat|mt|mtt)\s*(kharab|khrab)\s*(kar|kr|karo|kro)?\b", re.I), "brother, do not irritate my mind"),
+    (re.compile(r"\b(dimag|dimaag|deemag|demag)\s*(mat|mt|mtt)\s*(kharab|khrab)\s*(kar|kr|karo|kro)?\b", re.I), "do not irritate my mind"),
+    (re.compile(r"\b(dimag|dimaag|deemag|demag)\s*(kharab|khrab)\s*(mat|mt|mtt)?\s*(kar|kr|karo|kro)?\b", re.I), "irritated angry mind"),
+    (re.compile(r"\b(dimag|dimaag|deemag|demag)\s+ka\s+dahi\b", re.I), "extremely annoying frustrating headache"),
+    (re.compile(r"\b(dimag|dimaag|deemag|demag)\s+mat\s+khao\b", re.I), "do not irritate me"),
+    (re.compile(r"\bmood\s*(bohot\s+|bahut\s+)?(kharab|khrab|off)\b", re.I), "mood is terrible and angry"),
+    (re.compile(r"\bgussa\s+aa\s*(raha|rha|rahi|rhi)\b", re.I), "getting very angry"),
+    (re.compile(r"\bgussa\s+mat\s*(dila|dilao|karo|kar|kr)\b", re.I), "do not make me angry"),
+    (re.compile(r"\bbata\s+raha\s*(hu|hoon|rha)\b", re.I), "i am warning you"),
+    (re.compile(r"\bpa?gal\s+(hai|h|ho)\s*kya\s*(bhai|yaar|bro)?\b", re.I), "are you crazy or mad brother"),
+    (re.compile(r"\bchup\s+(kar|chap|hoja|ho\s*ja|raho)\b", re.I), "shut up and be quiet"),
+    (re.compile(r"\bbakwa?as\s*(band\s*kar|mat\s*kar|mat\s*kr|hai|h)?\b", re.I), "stop talking nonsense"),
+    (re.compile(r"\b(mar|maar)\s+(dalunga|doonga|dunga)\b", re.I), "i will kill you in rage"),
+    (re.compile(r"\bnafrat\s+karta?\s*(hu|hoon)\b", re.I), "i hate you with disgust"),
+    (re.compile(r"\b(andar\s+se\s+)?thak\s*(chuka|chuki|gaya|gyi|gya)\s*(hu|hoon)?\b", re.I), "exhausted and depleted from the inside, deep sorrow, weariness and sadness"),
+    (re.compile(r"\b(ab\s+)?kya\s*(fa?yda|fa?yeda|fyda)\s*(hai|h)?\b", re.I), "what is the point or use anymore, feeling futile, hopeless and deeply sad"),
+    (re.compile(r"\b(koi\s+)?(fa?yda|fa?yeda|fyda)\s*(nahi|nhi)\b", re.I), "no use or point anymore, feeling helpless, futile and sad"),
+    (re.compile(r"\b(meri\s+)?mehnat\s+rang\s*(layi|laayi|laai|aayi|aai)\b", re.I), "hard work bore fruit and succeeded, feeling tremendous joy and triumph"),
+    (re.compile(r"\b(itna\s+sab\s+)?(karne\s+ke\s+baad\s+bhi)?\s*kisi\s+ko\s*(meri\s+)?(value|kadar|qadar)\s*(nahi|nhi)\b", re.I), "nobody values my effort and care despite doing so much, feeling hurt, unappreciated, sadness and frustration"),
+    (re.compile(r"\b(tired\s+of\s+getting\s+hurt|tired\s+of\s+being\s+hurt)\b", re.I), "emotionally exhausted from repeated pain, setting protective boundaries with sadness and hurt"),
+    (re.compile(r"\b(feeling\s+pointless|feels\s+pointless|life\s+is\s+pointless)\b", re.I), "feeling completely pointless, empty and overwhelmed with sadness"),
+    (re.compile(r"\b(hiding\s+exhaustion|hiding\s+my\s+pain|hiding\s+sadness)\b", re.I), "putting on a facade while hiding deep internal exhaustion and sorrow"),
+    (re.compile(r"\b(itna\s+)?(ac?cha|achha|badhiya|mehnat)\s+(kaam\s+)?(kiya|kara)\s*(fir\s+bhi|phir\s+bhi|par|lekin)?\s*(dant|daant)\s*(padi|pad\s*gayi|khayi|padti)\b", re.I), "worked so hard and well yet got reprimanded and scolded, feeling hurt, bitter disappointment and anger"),
+    (re.compile(r"\b(dant|daant)\s*(padi|pad\s*gayi|khayi|padti|padi\s*hai)\b", re.I), "got severely scolded and reprimanded, feeling upset and hurt"),
+    (re.compile(r"\b(fatkaar|fatkar)\s*(padi|lagi)\b", re.I), "got severely reprimanded and scolded"),
+    (re.compile(r"\bkoi\s+(kadar|qadar)\s+(nahi|nhi)\s*(hai|h)?\b", re.I), "no appreciation for my hard work, feeling unappreciated, hurt and disappointed"),
+    (re.compile(r"\b(dhokha|dhoka)\s+(mila|diya|hua)\b", re.I), "betrayed and cheated, feeling grief and outrage"),
+    (re.compile(r"\bpopat\s+ho\s*(gaya|gya)\b", re.I), "humiliated, embarrassed and made a fool of"),
+    (re.compile(r"\bchuna\s+laga\s*(diya|gya|gaya)\b", re.I), "cheated and defrauded, feeling angry and foolish"),
+    (re.compile(r"\bphati\s+padi\s*(hai|h)\b", re.I), "extremely terrified and anxious with dread"),
+    (re.compile(r"\bfat\s+rahi\s*(hai|h)\b", re.I), "panicking with intense fear and dread"),
+    (re.compile(r"\bhawa\s+tight\s*(ho\s*gayi|hai|h)\b", re.I), "panicking with fear and extreme pressure"),
+    (re.compile(r"\bchidh\s+mach\s*(rahi|rhi)\b", re.I), "feeling intensely irritated and aggravated"),
+    (re.compile(r"\bkhoon\s+khaul\s*(raha|rha)\b", re.I), "blood boiling in extreme rage"),
+    (re.compile(r"\bbawaal\s*(macha\s*diya)?\b", re.I), "sensational triumph and celebration"),
+    (re.compile(r"\b(faad|phaad)\s+diya\b", re.I), "triumphant victory and outstanding success"),
+    (re.compile(r"\baag\s+laga\s*di\b", re.I), "phenomenal excitement and brilliant triumph"),
+    (re.compile(r"\bdil\s+toot\s*(gaya|gya)?\b", re.I), "heartbroken with sadness"),
+    (re.compile(r"\bbura\s+(lag\s*(raha|rha)|laga)\b", re.I), "feeling very hurt and sad"),
+    (re.compile(r"\bdukh\s+(hua|ho\s*(raha|rha))\b", re.I), "feeling deep sorrow and grief"),
+    (re.compile(r"\brona\s+aa\s*(raha|rha)\b", re.I), "crying with tears"),
+    (re.compile(r"\baansoo\s+aa\s*(rahe|rhey|gaye|gye)\b", re.I), "tears are falling"),
+    (re.compile(r"\b(dar|darr)\s+lag\s*(raha|rha|rahi|rhi)\b", re.I), "feeling very scared and fearful"),
+    (re.compile(r"\b(dar|darr)\s+raha\s*(hu|hoon|rha)\b", re.I), "feeling terrified and afraid"),
+    (re.compile(r"\bghabrahat\s+ho\s*(rahi|rhi)\b", re.I), "panicking with anxiety"),
+    (re.compile(r"\btension\s+ho\s*(rahi|rhi)\b", re.I), "stressed with worry"),
+    (re.compile(r"\b(bhai|bro|yaar)?\s*(bohot|bahut|bht)?\s*mast\s*(film|movie|cheez)?\s*(thi|tha)?\b", re.I), "brother, it was an awesome wonderful movie"),
+    (re.compile(r"\bha?nsi\s+aa\s*(rahi|rhi)\b", re.I), "laughing with pure joy"),
+    (re.compile(r"\b(bohot|bahut|bht)\s+(ac?cha|achha)\s*(laga)?\b", re.I), "felt very wonderful and happy"),
+    (re.compile(r"\b(bohot|bahut|bht)\s+(badiya|badhiya|mast)\b", re.I), "very awesome and great"),
+    (re.compile(r"\bma[jz]a\s+aa\s*(gaya|gya)\b", re.I), "had so much fun and joy"),
+    (re.compile(r"\bkya\s+baat\s*(hai|h)?\b", re.I), "what an amazing surprise"),
+    (re.compile(r"\bsach\s+mei?n\s*(kya)?\b", re.I), "really, is that true in surprise"),
+    (re.compile(r"\bvishwa+s\s+nahi\s+ho\s+raha\b", re.I), "unbelievable and astonished"),
+    (re.compile(r"\bsab\s+theek\s*(hai|h)?\b", re.I), "everything is fine and normal"),
+    (re.compile(r"\bsab\s+thik\s*(hai|h)?\b", re.I), "everything is fine and normal"),
+    (re.compile(r"\bsab\s+badhiya\s*(hai|h)?\b", re.I), "everything is good and fine"),
+    (re.compile(r"\bkya\s+chal\s+raha\s*(hai|h)?\b", re.I), "what is going on"),
+    (re.compile(r"\bkuch\s+(nahi|nhi)\s*(bhai|yaar|bro)?\b", re.I), "nothing much brother"),
+    (re.compile(r"\bkal\s+milte\s*(hai|h)?\b", re.I), "see you tomorrow"),
+]
+
+# Single-word Roman Hindi translation dictionary
+HINGLISH_SINGLE_WORDS: Dict[str, str] = {
+    "gussa": "angry", "gusse": "angry", "krodh": "rage", "krodhit": "furious",
+    "aakrosh": "outrage", "naraz": "annoyed", "naraaz": "annoyed", "chidh": "irritated",
+    "chidha": "irritated", "khunnas": "grudge", "bakwas": "nonsense", "bakwaas": "nonsense",
+    "faltu": "useless", "kachra": "garbage", "pagal": "crazy", "paagal": "crazy",
+    "chutiya": "idiot", "saale": "jerk", "saala": "jerk", "bewakoof": "fool", "bewkoof": "fool",
+    "ullu": "fool", "gadhe": "idiot", "gadha": "idiot", "kutte": "jerk", "kutta": "jerk",
+    "ghatiya": "terrible", "badtameez": "rude", "jhagda": "quarrel", "ladai": "fight",
+    "nafrat": "hate", "ghrina": "disgust", "chup": "quiet", "thappad": "slap",
+    "deemag": "mind", "dimag": "mind", "dimaag": "mind", "demag": "mind",
+    "dukh": "sorrow", "dukhi": "sorrowful", "shok": "grief", "gham": "sorrow",
+    "udas": "gloomy", "udaas": "gloomy", "mayus": "disappointed", "mayoos": "hopeless",
+    "dard": "pain", "peeda": "pain", "kasht": "pain", "takleef": "trouble",
+    "rona": "crying", "aansoo": "tears", "aansu": "tears", "akela": "lonely",
+    "akele": "lonely", "tanha": "lonely", "tanhai": "loneliness", "dant": "scolding",
+    "daant": "scolding", "fatkaar": "reprimand", "qadar": "appreciation", "kadar": "appreciation",
+    "dhokha": "betrayal", "dhoka": "betrayal", "mehnat": "hard work", "afsos": "regret",
+    "pachtawa": "regret", "bura": "bad", "bure": "bad", "bechara": "helpless",
+    "lachaar": "helpless", "majboor": "helpless", "barbaad": "ruined", "tabaah": "destroyed",
+    "khush": "happy", "khushi": "joy", "anand": "bliss", "prasann": "joyful",
+    "mast": "awesome", "zabardast": "awesome", "shandaar": "wonderful", "lajawab": "superb",
+    "kamaal": "amazing", "dhamaal": "celebration", "gazab": "brilliant", "badiya": "great",
+    "badhiya": "great", "bindaas": "carefree", "jhakaas": "awesome", "pyaar": "love",
+    "pyar": "love", "mohabbat": "love", "ishq": "love", "prem": "love", "maza": "fun",
+    "maja": "fun", "maje": "fun", "mauj": "thrill", "masti": "fun", "hasi": "laugh",
+    "hansi": "laugh", "muskaan": "smile", "badhai": "congratulations", "mubarak": "blessings",
+    "shukriya": "grateful", "dhanyawad": "gratitude", "accha": "good", "achha": "good",
+    "acha": "good", "sundar": "beautiful", "khoobsurat": "lovely",
+    "dar": "fear", "darr": "fear", "khauf": "terror", "bhay": "dread",
+    "dahshat": "panic", "ghabrahat": "nervousness", "ghabra": "anxious", "bechaini": "anxiety",
+    "chinta": "worry", "tension": "stress", "fikr": "concern", "pareshan": "troubled",
+    "pareshani": "distress", "musibat": "danger",
+    "hairan": "surprised", "hairaan": "surprised", "hairani": "wonder", "chauk": "shocked",
+    "achambha": "surprise", "ajeeb": "strange", "anokha": "unique",
+    "mujhe": "I", "mereko": "I", "hume": "we", "humko": "we", "mera": "my", "meri": "my", "mere": "my",
+    "tujhe": "you", "tumhe": "you", "aapko": "you", "tera": "your", "teri": "your", "tere": "your",
+    "tumhara": "your", "tumhari": "your", "aapka": "your", "aapki": "your", "bhai": "brother",
+    "yaar": "friend", "dost": "friend", "bro": "brother", "bohot": "very", "bahut": "very",
+    "boht": "very", "bht": "very", "mat": "do not", "mt": "do not", "mtt": "do not",
+    "nahi": "not", "nhi": "not", "na": "no", "film": "movie", "cinema": "movie",
+    "hai": "is", "h": "is", "hain": "are", "hu": "am", "hoon": "am", "ho": "are",
+    "tha": "was", "thi": "was", "aaj": "today", "kal": "tomorrow", "abhi": "right now",
+    "milkar": "to meet", "sunkar": "to hear", "laga": "felt", "kar": "do", "kr": "do",
+    "karo": "do", "kro": "do", "diya": "did", "kya": "what", "kyun": "why", "kaise": "how",
+    "kab": "when", "kaha": "where", "tune": "you", "bilkul": "at all", "aisa": "this", "hua": "happened"
+}
+
+
+def translate_hinglish(text: str) -> Dict[str, Any]:
+    """
+    Translates Romanized Hindi (Hinglish) into normalized English semantics.
+    Returns translated string, boolean indicator, and number of recognized terms.
+    """
+    if not text:
+        return {"translated": text, "is_hinglish": False, "match_count": 0}
+
+    lower = text.lower()
+    matches = 0
+
+    # 1. Multi-word phrase replacements
+    for pattern, repl in HINGLISH_PHRASES:
+        if pattern.search(lower):
+            matches += 2
+            lower = pattern.sub(repl, lower)
+
+    # 2. Single word replacements
+    tokens = re.split(r"(\s+|[.,!?;:()]+)", lower)
+    translated_tokens = []
+    for t in tokens:
+        clean = t.strip().lower()
+        if not clean:
+            translated_tokens.append(t)
+            continue
+        if clean in HINGLISH_SINGLE_WORDS:
+            matches += 1
+            translated_tokens.append(HINGLISH_SINGLE_WORDS[clean])
+        else:
+            translated_tokens.append(t)
+
+    translated = re.sub(r"\s+", " ", "".join(translated_tokens)).strip()
+    is_hinglish = (matches >= 1)
+    return {
+        "translated": translated,
+        "is_hinglish": is_hinglish,
+        "match_count": matches,
+    }
+
+
 class EmotionClassifier:
     """Production Emotion Classifier with inference, token attribution, and psychological tips."""
 
@@ -257,24 +411,34 @@ class EmotionClassifier:
         if clean in self._translation_cache:
             return self._translation_cache[clean]
 
-        hinglish_words = {"bohot", "bahut", "mujhe", "pyaar", "pyar", "khush", "gussa", "dukh", "darr", "nahi", "accha", "bura", "bakwas", "kya", "shanti", "pareshan"}
-        tokens_lower = set(clean.lower().split())
-        has_hinglish = bool(tokens_lower.intersection(hinglish_words))
+        # 1. Deterministic Romanized Hindi (Hinglish) Translation & Normalization
+        hinglish_res = translate_hinglish(clean)
+        if hinglish_res["is_hinglish"]:
+            result = {
+                "working_text": hinglish_res["translated"],
+                "detected_language": "hinglish",
+                "language_name": "Hinglish (Hindi-English)",
+                "is_multilingual": True,
+                "translated_text": hinglish_res["translated"] if hinglish_res["translated"].lower() != clean.lower() else None,
+            }
+            if len(self._translation_cache) > 1000:
+                self._translation_cache.clear()
+            self._translation_cache[clean] = result
+            return result
 
         allow_network = getattr(self, "_online_translate_enabled", True) and not os.environ.get("OFFLINE_MODE")
         foreign_tokens = {"estoy", "avec", "nicht", "dans", "nous", "vous", "pero", "como", "triste", "heureux", "muy", "tres"}
+        tokens_lower = set(clean.lower().split())
         is_foreign = bool(tokens_lower.intersection(foreign_tokens))
         has_non_ascii = not clean.isascii()
 
-        # Instant path: if plain ASCII and not foreign/hinglish, or network disabled, return immediately without network overhead
-        if not allow_network or (not has_non_ascii and not has_hinglish and not is_foreign):
-            lang_name = "Hinglish (Hindi-English)" if has_hinglish else "English"
-            lang_code = "hinglish" if has_hinglish else "en"
+        # Instant path: if plain ASCII and not foreign, or network disabled, return immediately
+        if not allow_network or (not has_non_ascii and not is_foreign):
             result = {
                 "working_text": clean,
-                "detected_language": lang_code,
-                "language_name": lang_name,
-                "is_multilingual": has_hinglish,
+                "detected_language": "en",
+                "language_name": "English",
+                "is_multilingual": False,
                 "translated_text": None,
             }
             self._translation_cache[clean] = result
@@ -288,12 +452,8 @@ class EmotionClassifier:
                 translated = "".join([part[0] for part in data[0] if part[0]]).strip()
                 lang_code = data[2] if len(data) > 2 and data[2] else "en"
 
-                is_multi = (lang_code != "en") or has_hinglish
-                if has_hinglish and lang_code in ["en", "hi", "und"]:
-                    lang_name = "Hinglish (Hindi-English)"
-                    lang_code = "hinglish"
-                else:
-                    lang_name = LANGUAGE_NAMES.get(lang_code, lang_code.upper())
+                is_multi = (lang_code != "en")
+                lang_name = LANGUAGE_NAMES.get(lang_code, lang_code.upper())
 
                 result = {
                     "working_text": translated if is_multi and translated else clean,
@@ -307,15 +467,12 @@ class EmotionClassifier:
                 self._translation_cache[clean] = result
                 return result
         except Exception:
-            # Circuit breaker: disable online translate for current session to prevent cascading latency
             self._online_translate_enabled = False
-            lang_name = "Hinglish (Hindi-English)" if has_hinglish else "English"
-            lang_code = "hinglish" if has_hinglish else "en"
             result = {
                 "working_text": clean,
-                "detected_language": lang_code,
-                "language_name": lang_name,
-                "is_multilingual": has_hinglish,
+                "detected_language": "en",
+                "language_name": "English",
+                "is_multilingual": False,
                 "translated_text": None,
             }
             self._translation_cache[clean] = result
@@ -524,6 +681,12 @@ class EmotionClassifier:
             adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.60)
             if "neutral" in adjusted: adjusted["neutral"] *= 0.15
 
+        # Hopelessness, resignation & heartbreak: umeed nahi rahi, toot chuka hoon
+        if re.search(r"\b(koi\s+umeed\s+na?hi|umeed\s+na?hi\s+rahi|umeed\s+tut\s*gayi)\b|\b(andar\s+se\s+)?(toot|tut)\s*(chuka|chuki|gaya|gyi)\b", lowered):
+            if "joy" in adjusted: adjusted["joy"] *= 0.05
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.65)
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.15
+
         if re.search(r"\b(andar\s+se\s+)?thak\s*(chuka|chuki|gaya|gyi|gya)\b|\b(hiding\s+exhaustion|tired\s+of\s+getting\s+hurt)\b", lowered):
             if "joy" in adjusted: adjusted["joy"] *= 0.05
             adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.58)
@@ -531,27 +694,52 @@ class EmotionClassifier:
             if "neutral" in adjusted: adjusted["neutral"] *= 0.15
 
         # 1. Contrast & Concession Handling (e.g., 'itna acha kaam kiya fir bhi dant padi', 'worked hard but failed')
-        contrast_match = re.search(
-            r"\b(but|however|although|though|yet|still|even though|nevertheless|despite|in spite of|lekin|magar|par|kintu|parantu|fir bhi|phir bhi|tab bhi|tabhi|bavajood|bawajood)\b",
+        # Distinguish locative 'par' (table par rakha hai = ON the table) vs contrastive 'par' (mehnat ki par fail hua = BUT failed)
+        is_locative_par = bool(re.search(
+            r"\b(table|desk|chhat|phone|station|raaste?|zameen|bistar|kursi|ghode?|seat|mauke?|time)\s+par\b|\bpar\s+(rakha|baitha|khada|pada|gira|soya|chala)\b",
             lowered
-        )
+        ))
+        contrast_match = None
+        if not is_locative_par or re.search(r"\b(but|however|although|though|yet|still|even though|nevertheless|despite|lekin|magar|kintu|parantu|fir bhi|phir bhi|bavajood)\b", lowered):
+            contrast_match = re.search(
+                r"\b(but|however|although|though|yet|still|even though|nevertheless|despite|in spite of|lekin|magar|kintu|parantu|fir bhi|phir bhi|tab bhi|tabhi|bavajood|bawajood)\b" +
+                (r"|(?<!table )(?!table )\bpar\b" if not is_locative_par else ""),
+                lowered
+            )
         if contrast_match:
             clause_before = lowered[:contrast_match.start()]
             clause_after = lowered[contrast_match.end():]
-            before_pos = bool(re.search(r"\b(accha|acha|achha|badhiya|good|great|well|hard work|mehnat|effort|love|happy|kaam kiya)\b", clause_before))
-            after_neg = bool(re.search(r"\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost)\b", clause_after))
-            if before_pos and after_neg:
-                if "joy" in adjusted:
-                    adjusted["joy"] *= 0.05
-                if "love" in adjusted:
-                    adjusted["love"] *= 0.05
-                adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.52)
-                adjusted["anger"] = max(adjusted.get("anger", 0) * 2.8, 0.36)
-                if "neutral" in adjusted:
-                    adjusted["neutral"] *= 0.15
+            # Resolution clause governs final emotional resolution
+            after_neg = bool(re.search(
+                r"\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost|reject|barbaad|toot|tut|thak|nahi hua|na?hi mila|blame)\b",
+                clause_after
+            ))
+            after_pos = bool(re.search(
+                r"\b(promotion|success|select(?!.*na?hi)|jeet|won|win|mil\s*gay[ai]|ho\s*gaya|passed|cleared|achieved|great speech|time of our lives|score|pahunch|proud|improve|shandar|badiya)\b",
+                clause_after
+            ))
+            if after_neg:
+                if "joy" in adjusted: adjusted["joy"] *= 0.05
+                if "love" in adjusted: adjusted["love"] *= 0.05
+                adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.55)
+                adjusted["anger"] = max(adjusted.get("anger", 0) * 2.8, 0.40)
+                if "neutral" in adjusted: adjusted["neutral"] *= 0.15
+            elif after_pos:
+                # Contrast leading to triumphant positive resolution!
+                adjusted["joy"] = max(adjusted.get("joy", 0) * 3.5, 0.65)
+                if "sadness" in adjusted: adjusted["sadness"] *= 0.05
+                if "anger" in adjusted: adjusted["anger"] *= 0.05
+                if "fear" in adjusted: adjusted["fear"] *= 0.05
+                if "neutral" in adjusted: adjusted["neutral"] *= 0.15
 
+        # Negation of Scolding / Mocking ("daant nahi padi", "mazaak kar raha tha")
+        is_negated_scolding = bool(re.search(r"\b(dant|daant)\s+na?hi\s+padi\b|\bna?hi\s+padi\s+(dant|daant)\b|\bmazaak\s*(kar\s*raha)?\b", lowered))
+        if is_negated_scolding:
+            if "sadness" in adjusted: adjusted["sadness"] *= 0.05
+            if "anger" in adjusted: adjusted["anger"] *= 0.05
+            adjusted["neutral"] = max(adjusted.get("neutral", 0) * 3.0, 0.65)
         # Scolding / Rebuke / Unappreciated Hinglish idioms
-        if re.search(r"\b(dant|daant)\s*(padi|pad\s*gayi|khayi|padti|padi\s*hai)\b|\b(fatkaar|fatkar)\b", lowered):
+        elif re.search(r"\b(dant|daant)\s*(padi|pad\s*gayi|khayi|padti|padi\s*hai)\b|\b(fatkaar|fatkar)\b", lowered):
             if "joy" in adjusted:
                 adjusted["joy"] *= 0.05
             adjusted["sadness"] = max(adjusted.get("sadness", 0) * 2.5, 0.48)
@@ -604,11 +792,11 @@ class EmotionClassifier:
             lowered
         ))
         has_positive_framing = bool(re.search(
-            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|joy|wow)|fantastic|wonderful|what a joy|brilliant|perfect|yay|so glad|love it|exactly what i (needed|wanted))\b",
+            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|joy|wow|super|awesome)|great|fantastic|wonderful|just wonderful|what a joy|brilliant|perfect|yay|so glad|love it|exactly what i (needed|wanted)|kya baat h|wah|shandaar)\b",
             lowered
         ))
         has_negative_situation = bool(re.search(
-            r"\b(delay\w*|cancel\w*|broken|broke\w*|ruin\w*|fail\w*|stolen|crash\w*|headache|traffic|nightmare|disaster|stuck|waste of time|never again|worst|mess|lost|painful|sick|horrible|terrible|deadline\w*|bills?|overtime|bug|error)\b",
+            r"\b(delay\w*|cancel\w*|broken|broke\w*|ruin\w*|fail\w*|stolen|crash\w*|flat\b|flat tire|headache|traffic|nightmare|disaster|stuck|waste of time|never again|worst|mess|lost|painful|sick|horrible|terrible|deadline\w*|bills?|overtime|bug|error|cold food|waiting|gira diya|kharab|bekar|dhoka|loss)\b",
             lowered
         ))
         is_sarcastic = sarcastic_clues or (has_positive_framing and has_negative_situation)

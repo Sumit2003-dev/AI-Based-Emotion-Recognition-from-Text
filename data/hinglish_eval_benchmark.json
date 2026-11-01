@@ -1,0 +1,1402 @@
+[
+  {
+    "id": "cnt_01",
+    "text": "Are yaar, itna acha kaam kiya fir bhi dant padi.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_02",
+    "text": "Maine bahut mehnat ki, lekin mujhe promotion mil gaya!",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_03",
+    "text": "Sabke saamne hasta hoon, par andar se toot chuka hoon.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_04",
+    "text": "Sabke saamne smile karta hoon, par andar se thak chuka hoon.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_05",
+    "text": "I worked really hard, but still failed the final exam.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_06",
+    "text": "The movie had a great cast, but the story was completely boring.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_07",
+    "text": "Daant padi, but feedback se improve kiya aur jeet gaya.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_08",
+    "text": "Maine mehnat ki, fir bhi select nahi hua.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_09",
+    "text": "I was nervous at first, but finally gave a great speech!",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_10",
+    "text": "It was pouring rain outside, yet we had the time of our lives.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_11",
+    "text": "Bohot umeed thi us project se, par clients ne reject kar diya.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_12",
+    "text": "Difficult exam tha, lekin score 98% aa gaya!",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_13",
+    "text": "Koshish bohot ki sab theek karne ki, magar sab barbaad ho gaya.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_14",
+    "text": "Rasta mushkil tha, par manzil tak pahunch gaye.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_15",
+    "text": "Galti meri nahi thi, tab bhi mujhe blame kiya gaya.",
+    "expected": "anger",
+    "co_occurring": "sadness",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_16",
+    "text": "He apologised, but the damage is already done.",
+    "expected": "anger",
+    "co_occurring": "sadness",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_17",
+    "text": "Salary kam hai, par team bohot supportive hai aur maza aata hai.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_18",
+    "text": "Flight delay ho gayi thi, lekin reunion party attend kar li!",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_19",
+    "text": "Kitna bhi samjhao, koi meri baat nahi sunta.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_20",
+    "text": "I tried so hard, but it did not make any difference.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_21",
+    "text": "Chot lagi thi, par trophy jeet li!",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_22",
+    "text": "Pehle bohot darr lag raha tha, lekin interview crack kar liya.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_23",
+    "text": "Subah mood kharab tha, par shaam ko dosto ne din bana diya.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_24",
+    "text": "He seemed nice, but ended up stealing from me.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_25",
+    "text": "Thakan bohot thi, lekin project deliver karke sukoon mila.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_26",
+    "text": "Puri raat jaga, fir bhi paper achha nahi gaya.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_27",
+    "text": "Paise doob gaye the, par achanak refund mil gaya!",
+    "expected": "joy",
+    "co_occurring": "surprise",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_28",
+    "text": "We lost the match, but we fought with everything we had.",
+    "expected": "joy",
+    "co_occurring": "sadness",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_29",
+    "text": "Dil dukha tha bohot, par ab move on kar liya.",
+    "expected": "joy",
+    "co_occurring": "sadness",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_30",
+    "text": "Itna prepare kiya interview ke liye, par call hi nahi aayi.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_31",
+    "text": "Tough time tha, par family ne sambhal liya.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_32",
+    "text": "Sab kuch theek chal raha tha, fir achaanak accident ho gaya.",
+    "expected": "sadness",
+    "co_occurring": "fear",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_33",
+    "text": "Traffic me fase the, lekin train miss nahi hui!",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_34",
+    "text": "Mehnat meri thi, par credit boss le gaya.",
+    "expected": "anger",
+    "co_occurring": "sadness",
+    "category": "contrast"
+  },
+  {
+    "id": "cnt_35",
+    "text": "Dawa karvi thi, lekin bukhar utar gaya bilkul.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "contrast"
+  },
+  {
+    "id": "src_01",
+    "text": "Oh wow, another deadline! Exactly what I needed.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_02",
+    "text": "Oh fantastic, my flight was delayed for 5 hours, what a joy.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_03",
+    "text": "Great, my tire is flat in the middle of nowhere. Just wonderful.",
+    "expected": "anger",
+    "co_occurring": "sadness",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_04",
+    "text": "Wah kya baat hai, poora soup meri shirt par gira diya!",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_05",
+    "text": "Brilliant service, waiting 40 minutes for cold food.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_06",
+    "text": "Love it when production crashes on a Friday evening.",
+    "expected": "anger",
+    "co_occurring": "fear",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_07",
+    "text": "Thanks for ruining my birthday party, you guys are true friends.",
+    "expected": "anger",
+    "co_occurring": "sadness",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_08",
+    "text": "Oh lovely, another surprise meeting during lunch hour.",
+    "expected": "anger",
+    "co_occurring": null,
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_09",
+    "text": "Superb, Wi-Fi died right during the final interview submission.",
+    "expected": "anger",
+    "co_occurring": "fear",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_10",
+    "text": "Kya shandaar kismat hai meri, barish aate hi chaata toot gaya.",
+    "expected": "anger",
+    "co_occurring": "sadness",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_11",
+    "text": "Perfect, spilled hot coffee directly on my laptop keyboard.",
+    "expected": "anger",
+    "co_occurring": "sadness",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_12",
+    "text": "Just what I wanted, spending my weekend fixing someone else's bugs.",
+    "expected": "anger",
+    "co_occurring": null,
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_13",
+    "text": "Oh joy, the power cut right when the document was saving.",
+    "expected": "anger",
+    "co_occurring": "sadness",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_14",
+    "text": "Wah bhai wah, poori saving crypto scam me udwa di tune.",
+    "expected": "anger",
+    "co_occurring": "sadness",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_15",
+    "text": "Nothing better than getting stuck in traffic for 3 straight hours.",
+    "expected": "anger",
+    "co_occurring": null,
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_16",
+    "text": "Awesome, the ATM swallowed my card right before my vacation.",
+    "expected": "anger",
+    "co_occurring": "fear",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_17",
+    "text": "Bohot badhiya, result aane se pehle hi relatives ke calls shuru.",
+    "expected": "anger",
+    "co_occurring": null,
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_18",
+    "text": "Could my Monday get any more delightful? Now the car won't start.",
+    "expected": "anger",
+    "co_occurring": null,
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_19",
+    "text": "Thanks for not replying for three weeks, really appreciate your urgency.",
+    "expected": "anger",
+    "co_occurring": null,
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_20",
+    "text": "Maza aa gaya, 2 ghante wait karwa ke bola doctor chhutti par hai.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_21",
+    "text": "What a masterclass in management, laid off the entire dev team.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_22",
+    "text": "Kamaal ki timing hai, vacation ke pehle din hi viral fever ho gaya.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_23",
+    "text": "Oh sweet, another mandatory team bonding survey.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_24",
+    "text": "Such a peaceful morning, neighbor started drilling at 6 AM.",
+    "expected": "anger",
+    "co_occurring": null,
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_25",
+    "text": "Pure bliss, dentist appointment right after dental pain all night.",
+    "expected": "anger",
+    "co_occurring": "fear",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_26",
+    "text": "Great job team, shipped the build without running any tests.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_27",
+    "text": "Wah re delivery boy, parcel gate ke upar se fek diya aur glass toot gaya.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_28",
+    "text": "Delighted to find out my train was cancelled with zero notice.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_29",
+    "text": "Exactly how I dreamed of spending Diwali, alone in office doing audits.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_30",
+    "text": "Kamaal ka dost hai tu, mere hi secrets sabko bata diye.",
+    "expected": "anger",
+    "co_occurring": "sadness",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_31",
+    "text": "Oh fantastic, my luggage arrived in another continent.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_32",
+    "text": "Wonderful advice from customer support: please reboot your modem again.",
+    "expected": "anger",
+    "co_occurring": null,
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_33",
+    "text": "Loved paying a huge surge fare just to get cancelled by 4 drivers.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_34",
+    "text": "Kya kehne aapke, deadline nikalne ke baad kaam shuru kiya.",
+    "expected": "anger",
+    "co_occurring": null,
+    "category": "sarcasm"
+  },
+  {
+    "id": "src_35",
+    "text": "Splendid! The roof started leaking directly above my bed.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "sarcasm"
+  },
+  {
+    "id": "neg_01",
+    "text": "Mujhe daant nahi padi, main bas mazaak kar raha tha.",
+    "expected": "neutral",
+    "co_occurring": "joy",
+    "category": "negation"
+  },
+  {
+    "id": "neg_02",
+    "text": "huh you are not that great",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "negation"
+  },
+  {
+    "id": "neg_03",
+    "text": "you are not that good",
+    "expected": "anger",
+    "co_occurring": "sadness",
+    "category": "negation"
+  },
+  {
+    "id": "neg_04",
+    "text": "I am not happy with this decision at all.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "negation"
+  },
+  {
+    "id": "neg_05",
+    "text": "I do not like the way you spoke to me.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "negation"
+  },
+  {
+    "id": "neg_06",
+    "text": "The presentation was not bad at all.",
+    "expected": "neutral",
+    "co_occurring": "joy",
+    "category": "negation"
+  },
+  {
+    "id": "neg_07",
+    "text": "Food was not terrible, honestly quite edible.",
+    "expected": "neutral",
+    "co_occurring": "joy",
+    "category": "negation"
+  },
+  {
+    "id": "neg_08",
+    "text": "Mujhe darr nahi lagta kisi se.",
+    "expected": "neutral",
+    "co_occurring": "anger",
+    "category": "negation"
+  },
+  {
+    "id": "neg_09",
+    "text": "I don't hate you; I'm just tired of getting hurt.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "negation"
+  },
+  {
+    "id": "neg_10",
+    "text": "Not impressive for a flagship product.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "negation"
+  },
+  {
+    "id": "neg_11",
+    "text": "Main naraz nahi hoon, bas thoda shant rehna chahta hoon.",
+    "expected": "neutral",
+    "co_occurring": "sadness",
+    "category": "negation"
+  },
+  {
+    "id": "neg_12",
+    "text": "It was not a failure; we learned valuable lessons.",
+    "expected": "neutral",
+    "co_occurring": "joy",
+    "category": "negation"
+  },
+  {
+    "id": "neg_13",
+    "text": "I cannot stand his arrogant behavior anymore.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "negation"
+  },
+  {
+    "id": "neg_14",
+    "text": "Yeh bilkul bhi funny nahi tha, bohot disrespectful tha.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "negation"
+  },
+  {
+    "id": "neg_15",
+    "text": "I don't regret walking away from that toxic environment.",
+    "expected": "joy",
+    "co_occurring": "neutral",
+    "category": "negation"
+  },
+  {
+    "id": "neg_16",
+    "text": "Not feeling like celebrating today.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "negation"
+  },
+  {
+    "id": "neg_17",
+    "text": "Mujhe uski koi baat acchi nahi lagti.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "negation"
+  },
+  {
+    "id": "neg_18",
+    "text": "Never felt so unwelcome in my entire life.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "negation"
+  },
+  {
+    "id": "neg_19",
+    "text": "It wasn't too expensive considering the prime location.",
+    "expected": "neutral",
+    "co_occurring": "joy",
+    "category": "negation"
+  },
+  {
+    "id": "neg_20",
+    "text": "Bhai maine cheat nahi kiya, apne dum par jeeta hoon.",
+    "expected": "neutral",
+    "co_occurring": "joy",
+    "category": "negation"
+  },
+  {
+    "id": "neg_21",
+    "text": "I am not afraid of taking risks anymore.",
+    "expected": "joy",
+    "co_occurring": "neutral",
+    "category": "negation"
+  },
+  {
+    "id": "neg_22",
+    "text": "Not at all satisfied with this poor delivery.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "negation"
+  },
+  {
+    "id": "neg_23",
+    "text": "Khush nahi hu main iss fake apology se.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "negation"
+  },
+  {
+    "id": "neg_24",
+    "text": "I don't think this is going anywhere, feeling helpless.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "negation"
+  },
+  {
+    "id": "neg_25",
+    "text": "Not half bad for your first attempt at painting!",
+    "expected": "joy",
+    "co_occurring": "neutral",
+    "category": "negation"
+  },
+  {
+    "id": "neg_26",
+    "text": "Nahi chahiye tumhara fake sympathy.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "negation"
+  },
+  {
+    "id": "neg_27",
+    "text": "I don't feel angry anymore, just completely drained.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "negation"
+  },
+  {
+    "id": "neg_28",
+    "text": "Yeh movie buri nahi thi, timepass tha.",
+    "expected": "neutral",
+    "co_occurring": "joy",
+    "category": "negation"
+  },
+  {
+    "id": "neg_29",
+    "text": "Never expected such kindness from a total stranger.",
+    "expected": "joy",
+    "co_occurring": "surprise",
+    "category": "negation"
+  },
+  {
+    "id": "neg_30",
+    "text": "Mujhe gussa nahi aa raha, bas dukh ho raha hai.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "negation"
+  },
+  {
+    "id": "loc_01",
+    "text": "Phone table par rakha hai aur main khush hoon.",
+    "expected": "joy",
+    "co_occurring": "neutral",
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_02",
+    "text": "Kitab desk par padi hai, check kar lijiye.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_03",
+    "text": "Chhat par bohot acchi dhoop aa rahi hai, maza aa raha hai.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_04",
+    "text": "Train time par aayi aur main time se pahunch gaya.",
+    "expected": "joy",
+    "co_occurring": "neutral",
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_05",
+    "text": "Station par dost mil gaya achanak!",
+    "expected": "joy",
+    "co_occurring": "surprise",
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_06",
+    "text": "File table par rakh di hai review ke liye.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_07",
+    "text": "Raaste par bohot shanti hai aaj subah.",
+    "expected": "neutral",
+    "co_occurring": "joy",
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_08",
+    "text": "Ghar par sab safe aur khush hain.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_09",
+    "text": "Office par meetings schedule kar di hain.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_10",
+    "text": "Bistar par lette hi sukoon mil gaya.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_11",
+    "text": "Kursi par baithkar chai peene ka maza hi alag hai.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_12",
+    "text": "Stage par jaate hi darr gayab ho gaya.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_13",
+    "text": "Laptop desk par rakha hai password type karo.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_14",
+    "text": "Airport par boarding shuru ho gayi hai.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_15",
+    "text": "Zameen par baithkar khana khaya bohot accha laga.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_16",
+    "text": "Chhat par patang udane me bohot maza aaya!",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_17",
+    "text": "Notice board par circular lag chuka hai.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_18",
+    "text": "Balcony par khade hoke thandi hawa me sukoon mila.",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_19",
+    "text": "Counter par payment done ho gaya hai.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "locative_par"
+  },
+  {
+    "id": "loc_20",
+    "text": "Dukan par sab items available the discount ke sath.",
+    "expected": "joy",
+    "co_occurring": "neutral",
+    "category": "locative_par"
+  },
+  {
+    "id": "mix_01",
+    "text": "I'm happy for my friend, but jealous of their success.",
+    "expected": "joy",
+    "co_occurring": "sadness",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_02",
+    "text": "Finally achieved my dream, but I lost someone important along the way.",
+    "expected": "sadness",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_03",
+    "text": "Mujhe gussa bhi aa raha hai aur rona bhi.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_04",
+    "text": "I miss those days, but I'm grateful for where I am now.",
+    "expected": "joy",
+    "co_occurring": "sadness",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_05",
+    "text": "Excited for the new college life, but terrified of leaving home.",
+    "expected": "fear",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_06",
+    "text": "Bohot gussa aa raha hai aur darr bhi lag raha hai exam ke baad.",
+    "expected": "anger",
+    "co_occurring": "fear",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_07",
+    "text": "Relieved the surgery went well, but heartbroken seeing him in ICU.",
+    "expected": "sadness",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_08",
+    "text": "Khushi bhi hai ki job lag gayi, par dukh hai dosto se door jaane ka.",
+    "expected": "joy",
+    "co_occurring": "sadness",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_09",
+    "text": "Proud of my younger brother, but insecure about my own career.",
+    "expected": "joy",
+    "co_occurring": "sadness",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_10",
+    "text": "Shocked and thrilled at the exact same moment!",
+    "expected": "surprise",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_11",
+    "text": "I love him deeply, but his anger issues scare me.",
+    "expected": "love",
+    "co_occurring": "fear",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_12",
+    "text": "Jeet gaye match, par main player injured ho gaya.",
+    "expected": "sadness",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_13",
+    "text": "Furious at the injustice, yet too devastated to fight back.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_14",
+    "text": "Bittersweet farewell: tears in eyes with smiles on faces.",
+    "expected": "sadness",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_15",
+    "text": "Tension bhi ho rahi hai aur excitement bhi wedding prep me.",
+    "expected": "joy",
+    "co_occurring": "fear",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_16",
+    "text": "Grateful for survival, but mourning the lost memories.",
+    "expected": "sadness",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_17",
+    "text": "Achanak se shock laga aur fir rona nikal gaya.",
+    "expected": "sadness",
+    "co_occurring": "surprise",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_18",
+    "text": "Ecstatic about my promotion, but stressed about the workload.",
+    "expected": "joy",
+    "co_occurring": "fear",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_19",
+    "text": "Nostalgic listening to our old song, feeling sweet ache.",
+    "expected": "sadness",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_20",
+    "text": "Anger at myself for not speaking up sooner when bullied.",
+    "expected": "anger",
+    "co_occurring": "sadness",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_21",
+    "text": "We won the championship trophy, but our coach collapsed.",
+    "expected": "sadness",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_22",
+    "text": "Happy retirement to dad, but feeling emotional seeing him age.",
+    "expected": "sadness",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_23",
+    "text": "Overjoyed by the gift, but embarrassed by the lavish price.",
+    "expected": "joy",
+    "co_occurring": "surprise",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_24",
+    "text": "Felt relief after breakup, but severe loneliness setting in.",
+    "expected": "sadness",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_25",
+    "text": "Scared of failing, but motivated to give everything I have.",
+    "expected": "joy",
+    "co_occurring": "fear",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_26",
+    "text": "Love my new puppy, but exhausted by continuous crying all night.",
+    "expected": "love",
+    "co_occurring": "sadness",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_27",
+    "text": "Hurt by her words, but understanding where her panic came from.",
+    "expected": "sadness",
+    "co_occurring": "love",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_28",
+    "text": "Excited for flight take off, but trembling with fear.",
+    "expected": "fear",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_29",
+    "text": "Happy memories of childhood making me tear up today.",
+    "expected": "sadness",
+    "co_occurring": "joy",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "mix_30",
+    "text": "Angry at betrayal, but heartbroken over lost friendship.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "mixed_emotions"
+  },
+  {
+    "id": "pur_01",
+    "text": "Yaar, aaj finally meri mehnat rang laayi!",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_02",
+    "text": "Mujhe kisi se koi umeed nahi rahi ab.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_03",
+    "text": "Andar se thak chuka hoon bilkul.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_04",
+    "text": "Ab kya fayda bolne ka, sab khatam ho gaya.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_05",
+    "text": "Feeling completely pointless and empty today.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_06",
+    "text": "Hiding exhaustion behind a tired fake smile.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_07",
+    "text": "Bhai bohot mast film thi maza aa gaya!",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_08",
+    "text": "Bhai deemag mat kharab kr bata raha hu.",
+    "expected": "anger",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_09",
+    "text": "Bohot darr lag raha hai exam hall ke bahar.",
+    "expected": "fear",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_10",
+    "text": "Bohot dukh hua yeh heartbreaking news sunkar.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_11",
+    "text": "Aree waah, itna shandaar surprise party plan kiya!",
+    "expected": "joy",
+    "co_occurring": "surprise",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_12",
+    "text": "Bakwas band kar apni warna thappad padega.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_13",
+    "text": "Achanak se earthquake ke jhatke lage, sab cheekhne lage!",
+    "expected": "fear",
+    "co_occurring": "surprise",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_14",
+    "text": "I love you with all my heart and soul forever.",
+    "expected": "love",
+    "co_occurring": "joy",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_15",
+    "text": "This food smells completely rotten and disgusting.",
+    "expected": "disgust",
+    "co_occurring": "anger",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_16",
+    "text": "Meeting has been rescheduled to Thursday 3 PM.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_17",
+    "text": "The quarterly financial report has been uploaded to portal.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_18",
+    "text": "We won the golden medal! We are world champions!",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_19",
+    "text": "My grandmother passed away peacefully in her sleep today.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_20",
+    "text": "Get out of my room right now and never come back!",
+    "expected": "anger",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_21",
+    "text": "Someone is stalking me outside my apartment in dark.",
+    "expected": "fear",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_22",
+    "text": "OMG I cannot believe my lottery ticket hit the jackpot!",
+    "expected": "surprise",
+    "co_occurring": "joy",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_23",
+    "text": "You are the sweetest, kindest person I have ever known.",
+    "expected": "love",
+    "co_occurring": "joy",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_24",
+    "text": "This public washroom is unspeakably filthy and repulsive.",
+    "expected": "disgust",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_25",
+    "text": "Please submit your homework sheets by tomorrow morning.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_26",
+    "text": "Sab theek hai bhai, normal dinner kiya aur so gaye.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_27",
+    "text": "Congratulations on the birth of your beautiful baby girl! 🎉",
+    "expected": "joy",
+    "co_occurring": "love",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_28",
+    "text": "Tears won't stop falling, I feel so lonely and defeated.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_29",
+    "text": "Who authorized this unauthorized bank transfer from my account?!",
+    "expected": "anger",
+    "co_occurring": "fear",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_30",
+    "text": "The doctor says there is a malignant tumor on the scan.",
+    "expected": "fear",
+    "co_occurring": "sadness",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_31",
+    "text": "I was utterly stunned when the entire crowd began singing my song.",
+    "expected": "surprise",
+    "co_occurring": "joy",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_32",
+    "text": "Thank you for holding my hand when I was breaking down.",
+    "expected": "love",
+    "co_occurring": "joy",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_33",
+    "text": "The meat had maggots crawling on it, absolutely sickened.",
+    "expected": "disgust",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_34",
+    "text": "Flight boarding starts in twenty minutes at gate thirty-two.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_35",
+    "text": "Aag laga di bhai stage par kya gaana gaya!",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_36",
+    "text": "Dil toot gaya sunkar ki unka divorce ho gaya.",
+    "expected": "sadness",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_37",
+    "text": "Tera dimaag kharab hai kya bina puche paise le liye!",
+    "expected": "anger",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_38",
+    "text": "Bhai phati padi hai result aane wala hai 10 baje.",
+    "expected": "fear",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_39",
+    "text": "Haww! Sach mein uski shaadi ho gayi bina bataye?",
+    "expected": "surprise",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_40",
+    "text": "Bohot pyaar karta hu tujhse hamesha sath nibhaunga.",
+    "expected": "love",
+    "co_occurring": "joy",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_41",
+    "text": "Chhee kitna ganda smell aa raha hai drain se.",
+    "expected": "disgust",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_42",
+    "text": "Kal shaam ko 6 baje tea stall par milenge.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_43",
+    "text": "Bawaal macha diya team ne kya match jeeta hai!",
+    "expected": "joy",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_44",
+    "text": "Koi kadar nahi karta yaha mere feelings ki, sab matlabi hain.",
+    "expected": "sadness",
+    "co_occurring": "anger",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_45",
+    "text": "Khoon khaul raha hai mera is corruption ko dekh kar.",
+    "expected": "anger",
+    "co_occurring": "disgust",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_46",
+    "text": "Ghabrahat me saans phool rahi hai meri.",
+    "expected": "fear",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_47",
+    "text": "Achanak se unka proposal aaya, bilkul speechless ho gayi!",
+    "expected": "surprise",
+    "co_occurring": "joy",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_48",
+    "text": "Mera pyara baccha kitna masoom lag raha hai soye hue.",
+    "expected": "love",
+    "co_occurring": "joy",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_49",
+    "text": "Gutter ka pani sadak par beh raha hai, ulti aa rahi hai.",
+    "expected": "disgust",
+    "co_occurring": "anger",
+    "category": "pure_emotions"
+  },
+  {
+    "id": "pur_50",
+    "text": "Haan theek hai, documentation padh liya hai maine.",
+    "expected": "neutral",
+    "co_occurring": null,
+    "category": "pure_emotions"
+  }
+]

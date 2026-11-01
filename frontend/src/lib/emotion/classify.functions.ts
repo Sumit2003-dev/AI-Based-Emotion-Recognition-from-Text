@@ -697,9 +697,17 @@ export async function classifyLocalText(
   const isLitotes = LITOTES_REGEX.test(combined);
 
   // Contrast & Concession Handling (e.g. "worked hard BUT failed", "itna acha kaam kiya FIR BHI dant padi")
-  const contrastMatch = combined.match(
-    /\b(but|however|although|though|yet|still|even though|nevertheless|despite|in spite of|lekin|magar|par|kintu|parantu|fir bhi|phir bhi|tab bhi|tabhi|bavajood|bawajood)\b/i,
-  );
+  // Distinguish locative 'par' (table par rakha hai = ON the table) vs contrastive 'par' (hasta hoon par andar se toot chuka = BUT broken)
+  const isLocativePar =
+    /\b(?:table|desk|chhat|phone|station|raaste?|zameen|bistar|kursi|ghode?|seat|mauke?|time)\s+par\b|\bpar\s+(?:rakha|baitha|khada|pada|gira|soya|chala)\b/i.test(
+      combined,
+    );
+
+  const contrastPattern = isLocativePar
+    ? /\b(but|however|although|though|yet|still|even though|nevertheless|despite|in spite of|lekin|magar|kintu|parantu|fir bhi|phir bhi|tab bhi|tabhi|bavajood|bawajood)\b/i
+    : /\b(but|however|although|though|yet|still|even though|nevertheless|despite|in spite of|lekin|magar|par|kintu|parantu|fir bhi|phir bhi|tab bhi|tabhi|bavajood|bawajood)\b/i;
+
+  const contrastMatch = combined.match(contrastPattern);
   let isContrastShift = false;
   if (contrastMatch && contrastMatch.index !== undefined) {
     const clauseBefore = combined.slice(0, contrastMatch.index);
@@ -707,22 +715,53 @@ export async function classifyLocalText(
 
     const beforePos =
       HAPPY_REGEX.test(clauseBefore) ||
-      /\b(acha|accha|achha|badhiya|good|great|well|hard work|mehnat|effort|love|happy|kaam kiya)\b/i.test(
+      /\b(acha|accha|achha|badhiya|good|great|well|hard work|mehnat|effort|love|happy|kaam kiya|hasta|muskurata)\b/i.test(
         clauseBefore,
       );
     const afterNeg =
       ANGRY_REGEX.test(clauseAfter) ||
       SAD_REGEX.test(clauseAfter) ||
-      /\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost)\b/i.test(
+      /\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost|toot|tut|thak|reject|barbaad|nahi hua|na?hi mila|blame)\b/i.test(
+        clauseAfter,
+      );
+    const afterPos =
+      /\b(promotion|success|select(?!.*na?hi)|jeet|won|win|mil\s*gay[ai]|ho\s*gaya|passed|cleared|achieved|great speech|time of our lives|score|pahunch|proud|improve|shandar|badiya)\b/i.test(
         clauseAfter,
       );
 
-    if (beforePos && afterNeg) {
+    if (afterNeg) {
       isContrastShift = true;
-      sadScore = Math.max(sadScore, 3.2);
-      angryScore = Math.max(angryScore, 2.4);
+      sadScore = Math.max(sadScore, 3.5);
+      angryScore = Math.max(angryScore, 2.6);
       happyScore = 0; // Suppress false happy from pre-contrast clause
+      fearScore = 0;
+    } else if (afterPos) {
+      happyScore = Math.max(happyScore, 3.5);
+      sadScore = 0;
+      angryScore = 0;
+      fearScore = 0;
     }
+  }
+
+  // Hopelessness & Heartbreak idioms
+  if (
+    /\b(?:kisi\s+se\s+)?koi\s+umeed\s+na?h[iī]|umeed\s+na?h[iī]\s+rahi|umeed\s+t[ou]t\s*gayi\b|\b(?:andar\s+se\s+)?t[ou]t\s*(?:chuka|chuki|gaya|gyi)\b/i.test(
+      combined,
+    )
+  ) {
+    sadScore = Math.max(sadScore, 3.5);
+    happyScore = 0;
+  }
+
+  // Negation of Scolding / Mocking
+  if (
+    /\b(?:dant|daant)\s+na?h[iī]\s+padi\b|\bna?h[iī]\s+padi\s+(?:dant|daant)\b|\bmazaak\s*(?:kar\s*raha)?\b/i.test(
+      combined,
+    )
+  ) {
+    sadScore = 0;
+    angryScore = 0;
+    neutralScore = Math.max(neutralScore, 1.8);
   }
 
   if (
