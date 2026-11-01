@@ -946,6 +946,69 @@ async function tryFastApiBackend(texts: string[]): Promise<EmotionReading[] | nu
   }
 }
 
+type LlmProviderConfig = {
+  apiKey: string;
+  baseURL: string;
+  model: string;
+  name: string;
+};
+
+/** Executes generative emotion analysis through any OpenAI-compatible LLM provider */
+async function tryLlmClassification(
+  texts: string[],
+  config: LlmProviderConfig,
+): Promise<EmotionReading[] | null> {
+  if (!config.apiKey || config.apiKey.trim().length === 0) return null;
+
+  const instructions = [
+    "You are an emotion-reading engine. For every text below, decide which of six emotions dominates and score all six emotions.",
+    "The emotions are: happy (joy, delight, satisfaction, amusement), sad (loss, disappointment, grief, loneliness), angry (irritation, outrage, frustration), surprise (astonishment, either pleasant or not), fear (worry, anxiety, dread), neutral (plain, factual, or no clear feeling).",
+    "Score every emotion from 0 to 1 as its relative strength; all six scores must sum to 1. Set `emotion` to the highest-scoring emotion.",
+    "Base your judgment on wording, punctuation, capitalization, emoji and context. The texts are tweets, chat messages, or reviews and may be sarcastic — weight wording more heavily than topic.",
+    `Return exactly ${texts.length} results, one per input, with ` +
+      "`index` matching the input's 1-based number (TEXT 1 → index 1), in input order.",
+  ].join(" ");
+
+  const userContent = texts.map((text, i) => `TEXT ${i + 1}:\n"""\n${text}\n"""`).join("\n\n");
+
+  const provider = createOpenAI({
+    apiKey: config.apiKey,
+    baseURL: config.baseURL,
+  });
+
+  try {
+    const result = streamText({
+      model: provider.languageModel(config.model),
+      instructions,
+      messages: [{ role: "user", content: userContent }],
+      output: Output.object({ schema: responseSchema }),
+    });
+
+    const output = (await result.output) as ParsedOutput;
+    const readings = toReadings(output.results, texts);
+    if (readings.length > 0) {
+      return readings;
+    }
+  } catch (error) {
+    let raw: string | undefined;
+    if (NoObjectGeneratedError.isInstance(error)) {
+      raw = error.text;
+    }
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw) as ParsedOutput;
+        const readings = toReadings(parsed.results, texts);
+        if (readings.length > 0) return readings;
+      } catch {
+        // Fall through to backup provider
+      }
+    }
+    console.warn(`Notice: ${config.name} LLM classification failed, falling back. Error:`, error);
+  }
+
+  return null;
+}
+
 export const classifyEmotions = createServerFn({ method: "POST" })
   .validator((input: unknown) =>
     z.object({ texts: z.array(z.string()).min(1).max(MAX_BATCH_TEXTS) }).parse(input),
@@ -964,56 +1027,65 @@ export const classifyEmotions = createServerFn({ method: "POST" })
       return { ok: true, readings: fastApiReadings };
     }
 
-    // 2. Try OpenAI API if OPENAI_API_KEY is configured
-    const openAiKey = process.env["OPENAI_API_KEY"];
-    if (openAiKey) {
-      const instructions = [
-        "You are an emotion-reading engine. For every text below, decide which of six emotions dominates and score all six emotions.",
-        "The emotions are: happy (joy, delight, satisfaction, amusement), sad (loss, disappointment, grief, loneliness), angry (irritation, outrage, frustration), surprise (astonishment, either pleasant or not), fear (worry, anxiety, dread), neutral (plain, factual, or no clear feeling).",
-        "Score every emotion from 0 to 1 as its relative strength; all six scores must sum to 1. Set `emotion` to the highest-scoring emotion.",
-        "Base your judgment on wording, punctuation, capitalization, emoji and context. The texts are tweets, chat messages, or reviews and may be sarcastic — weight wording more heavily than topic.",
-        `Return exactly ${texts.length} results, one per input, with ` +
-          "`index` matching the input's 1-based number (TEXT 1 → index 1), in input order.",
-      ].join(" ");
+    // 2. Default Cloud LLM: Groq (Ultra-Fast LLaMA 3.3, 100% Free)
+    const groqKey =
+      process.env["GROQ_API_KEY"] ||
+      (process.env["OPENAI_BASE_URL"]?.includes("groq")
+        ? process.env["OPENAI_API_KEY"]
+        : process.env["OPENAI_API_KEY"]?.startsWith("gsk_")
+          ? process.env["OPENAI_API_KEY"]
+          : "");
 
-      const userContent = texts.map((text, i) => `TEXT ${i + 1}:\n"""\n${text}\n"""`).join("\n\n");
-
-      const provider = createOpenAI({
-        apiKey: openAiKey,
-        baseURL: process.env["OPENAI_BASE_URL"],
+    if (groqKey) {
+      const groqReadings = await tryLlmClassification(texts, {
+        apiKey: groqKey,
+        baseURL: process.env["GROQ_BASE_URL"] || "https://api.groq.com/openai/v1",
+        model: process.env["GROQ_MODEL"] || "llama-3.3-70b-versatile",
+        name: "Groq (LLaMA 3.3)",
       });
-
-      try {
-        const result = streamText({
-          model: provider.languageModel(process.env["OPENAI_MODEL"] || DEFAULT_MODEL),
-          instructions,
-          messages: [{ role: "user", content: userContent }],
-          output: Output.object({ schema: responseSchema }),
-        });
-
-        const output = (await result.output) as ParsedOutput;
-        const readings = toReadings(output.results, texts);
-        if (readings.length > 0) {
-          return { ok: true, readings };
-        }
-      } catch (error) {
-        let raw: string | undefined;
-        if (NoObjectGeneratedError.isInstance(error)) {
-          raw = error.text;
-        }
-        if (raw) {
-          try {
-            const parsed = JSON.parse(raw) as ParsedOutput;
-            const readings = toReadings(parsed.results, texts);
-            if (readings.length > 0) return { ok: true, readings };
-          } catch {
-            // fall through to local fallback
-          }
-        }
+      if (groqReadings && groqReadings.length === texts.length) {
+        return { ok: true, readings: groqReadings };
       }
     }
 
-    // 3. High-quality calibrated local heuristic fallback with Google Translate integration
+    // 3. Backup Cloud LLM: Google Gemini (100% Free Gemini 2.0 Flash)
+    const geminiKey =
+      process.env["GEMINI_API_KEY"] ||
+      (process.env["OPENAI_BASE_URL"]?.includes("generativelanguage")
+        ? process.env["OPENAI_API_KEY"]
+        : process.env["OPENAI_API_KEY"]?.startsWith("AIzaSy")
+          ? process.env["OPENAI_API_KEY"]
+          : "");
+
+    if (geminiKey) {
+      const geminiReadings = await tryLlmClassification(texts, {
+        apiKey: geminiKey,
+        baseURL:
+          process.env["GEMINI_BASE_URL"] ||
+          "https://generativelanguage.googleapis.com/v1beta/openai/",
+        model: process.env["GEMINI_MODEL"] || "gemini-2.0-flash",
+        name: "Google Gemini",
+      });
+      if (geminiReadings && geminiReadings.length === texts.length) {
+        return { ok: true, readings: geminiReadings };
+      }
+    }
+
+    // 4. Generic OpenAI Provider (if standard OPENAI_API_KEY is configured)
+    const openAiKey = process.env["OPENAI_API_KEY"];
+    if (openAiKey && !openAiKey.startsWith("gsk_") && !openAiKey.startsWith("AIzaSy")) {
+      const openAiReadings = await tryLlmClassification(texts, {
+        apiKey: openAiKey,
+        baseURL: process.env["OPENAI_BASE_URL"] || "https://api.openai.com/v1",
+        model: process.env["OPENAI_MODEL"] || DEFAULT_MODEL,
+        name: "OpenAI",
+      });
+      if (openAiReadings && openAiReadings.length === texts.length) {
+        return { ok: true, readings: openAiReadings };
+      }
+    }
+
+    // 5. High-quality calibrated local heuristic fallback with Google Translate integration
     const localReadings: EmotionReading[] = await Promise.all(
       texts.map(async (text, idx) => {
         const local = await classifyLocalText(text);
