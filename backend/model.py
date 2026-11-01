@@ -513,6 +513,23 @@ class EmotionClassifier:
         lowered = text.lower()
         adjusted = dict(probs)
 
+        # Hinglish Exhaustion, Futility & Effort idioms
+        if re.search(r"\b(meri\s+)?mehnat\s+rang\s*(layi|laayi|laai|aayi|aai)\b|\bkaam\s+ban\s*(gaya|gya)\b", lowered):
+            adjusted["joy"] = max(adjusted.get("joy", 0) * 3.5, 0.65)
+            if "sadness" in adjusted: adjusted["sadness"] *= 0.05
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.1
+
+        if re.search(r"\b(ab\s+)?kya\s*(fayda|faayda|fayeda|fyda)\b|\b(koi\s+)?(fayda|faayda)\s*(nahi|nhi)\b|\b(feeling\s+pointless|feels\s+pointless)\b", lowered):
+            if "joy" in adjusted: adjusted["joy"] *= 0.05
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.60)
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.15
+
+        if re.search(r"\b(andar\s+se\s+)?thak\s*(chuka|chuki|gaya|gyi|gya)\b|\b(hiding\s+exhaustion|tired\s+of\s+getting\s+hurt)\b", lowered):
+            if "joy" in adjusted: adjusted["joy"] *= 0.05
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.58)
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 2.0, 0.25)
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.15
+
         # 1. Contrast & Concession Handling (e.g., 'itna acha kaam kiya fir bhi dant padi', 'worked hard but failed')
         contrast_match = re.search(
             r"\b(but|however|although|though|yet|still|even though|nevertheless|despite|in spite of|lekin|magar|par|kintu|parantu|fir bhi|phir bhi|tab bhi|tabhi|bavajood|bawajood)\b",
@@ -583,15 +600,15 @@ class EmotionClassifier:
 
         # Sarcasm & Irony Detection (e.g. "Oh fantastic, my flight was delayed for 5 hours, what a joy")
         sarcastic_clues = bool(re.search(
-            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|super|awesome|joy)|what a joy|just what i (needed|wanted)|thanks for (nothing|ruining)|love it when (my|the|it)|couldn'?t be better\b.*(broken|ruined|delayed|lost|crashed|failed)|pure joy\b.*(waiting|stuck|traffic|delay)|kya baat h\b.*(kharab|gussa|der|delay))\b",
+            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|super|awesome|joy|wow)|what a joy|just what i (needed|wanted)|exactly what i (needed|wanted|hoped for)|thanks for (nothing|ruining)|love it when (my|the|it)|couldn'?t be better\b.*(broken|ruined|delayed|lost|crashed|failed)|pure joy\b.*(waiting|stuck|traffic|delay)|kya baat h\b.*(kharab|gussa|der|delay))\b",
             lowered
         ))
         has_positive_framing = bool(re.search(
-            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|joy)|fantastic|wonderful|what a joy|brilliant|perfect|yay|so glad|love it)\b",
+            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|joy|wow)|fantastic|wonderful|what a joy|brilliant|perfect|yay|so glad|love it|exactly what i (needed|wanted))\b",
             lowered
         ))
         has_negative_situation = bool(re.search(
-            r"\b(delay\w*|cancel\w*|broken|broke\w*|ruin\w*|fail\w*|stolen|crash\w*|headache|traffic|nightmare|disaster|stuck|waste of time|never again|worst|mess|lost|painful|sick|horrible|terrible)\b",
+            r"\b(delay\w*|cancel\w*|broken|broke\w*|ruin\w*|fail\w*|stolen|crash\w*|headache|traffic|nightmare|disaster|stuck|waste of time|never again|worst|mess|lost|painful|sick|horrible|terrible|deadline\w*|bills?|overtime|bug|error)\b",
             lowered
         ))
         is_sarcastic = sarcastic_clues or (has_positive_framing and has_negative_situation)
@@ -762,6 +779,14 @@ class EmotionClassifier:
         
         subj = 1.0 - probs.get("neutral", 0.0)
         
+        # Strict Valence Consistency: Ensure negative emotions (sadness, anger, fear, disgust) strictly produce negative valence
+        neg_sum = probs.get("sadness", 0) + probs.get("anger", 0) + probs.get("fear", 0) + probs.get("disgust", 0)
+        pos_sum = probs.get("joy", 0) + probs.get("love", 0)
+        if neg_sum > pos_sum and val > 0:
+            val = -abs(val)
+        elif pos_sum > neg_sum and val < 0:
+            val = abs(val)
+
         val_clamped = round(max(-1.0, min(1.0, val)), 3)
         aro_pct = int(round(max(0.0, min(1.0, aro)) * 100))
         dom_pct = int(round(max(0.0, min(1.0, dom)) * 100))

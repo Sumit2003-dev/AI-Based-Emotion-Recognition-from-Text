@@ -204,6 +204,39 @@ const HINGLISH_PHRASES: Array<[RegExp, string]> = [
   [/\bnafrat\s+karta\s*(hu|hoon)\b/gi, "i hate you with disgust"],
   [/\bnafrat\s+karti\s*(hu|hoon)\b/gi, "i hate you with disgust"],
 
+  // Specific Emotional Exhaustion, Futility & Effort Idioms
+  [
+    /\b(andar\s+se\s+)?thak\s*(chuka|chuki|gaya|gyi|gya)\s*(hu|hoon)?\b/gi,
+    "exhausted and depleted from the inside, deep sorrow, weariness and sadness",
+  ],
+  [
+    /\b(ab\s+)?kya\s*(fayda|faayda|fayeda|fyda)\s*(hai|h)?\b/gi,
+    "what is the point or use anymore, feeling futile, hopeless and deeply sad",
+  ],
+  [
+    /\b(koi\s+)?(fayda|faayda|fayeda|fyda)\s*(nahi|nhi)\b/gi,
+    "no use or point anymore, feeling helpless, futile and sad",
+  ],
+  [
+    /\b(meri\s+)?mehnat\s+rang\s*(layi|laayi|laai|aayi|aai)\b/gi,
+    "hard work bore fruit and succeeded, feeling tremendous joy and triumph",
+  ],
+  [
+    /\b(itna\s+sab\s+)?(karne\s+ke\s+baad\s+bhi)?\s*kisi\s+ko\s*(meri\s+)?(value|kadar|qadar)\s*(nahi|nhi)\b/gi,
+    "nobody values my effort and care despite doing so much, feeling hurt, unappreciated, sadness and frustration",
+  ],
+  [
+    /\b(tired\s+of\s+getting\s+hurt|tired\s+of\s+being\s+hurt)\b/gi,
+    "emotionally exhausted from repeated pain, setting protective boundaries with sadness and hurt",
+  ],
+  [
+    /\b(feeling\s+pointless|feels\s+pointless|life\s+is\s+pointless)\b/gi,
+    "feeling completely pointless, empty and overwhelmed with sadness",
+  ],
+  [
+    /\b(hiding\s+exhaustion|hiding\s+my\s+pain|hiding\s+sadness)\b/gi,
+    "putting on a facade while hiding deep internal exhaustion and sorrow",
+  ],
   // Contrast / Disappointment / Unappreciated Phrases
   [
     /\b(itna\s+)?(acha|accha|achha|badhiya|mehnat)\s+(kaam\s+)?(kiya|kara)\s*(fir\s+bhi|phir\s+bhi|par|lekin)?\s*(dant|daant)\s*(padi|pad\s*gayi|khayi|padti)\b/gi,
@@ -533,7 +566,7 @@ const HAPPY_REGEX =
   /\b(happy|joy|great|awesome|love|wonderful|fantastic|excited|screamed|celebrat\w*|won|win\w*|yay|hooray|glad|delight\w*|best|congrat\w*|smile|cheer\w*|proud\w*|thank\w*|blessed|terrific|brilliant|good|nice|enjoy\w*|fun\w*|laugh\w*|bliss\w*|superb|excellent|outstanding|fabulous|pleased|pleasure|sweet|cute|adorable|charming|hilarious|haha\w*|loving|adore\w*|liked?|khush\w*|maja|maza|pyaar|pyar|mohabbat|shandaar|badhai|mubarak|mast|zabardast|badiya|badhiya|sundar|shukriya|dhanyawad|accha|achha|acha|hasi|hansi|tareef|gazab|bindaas|jhakaas|khoobsurat|feliz\w*|alegr\w*|heureu\w*|joie)\b/i;
 
 const SAD_REGEX =
-  /\b(sad|depressed|grief|cry\w*|tears|unfortunate|lonely|heartbroken|sorrow|loss|lose|lost|miss\w*|hopeless|gloomy|pain\w*|regret\w*|down|miserable|heartbreak|hurt\w*|unhappy|disappoint\w*|awful|suffer\w*|crying|weep\w*|sob\w*|loneliness|broken|mourn\w*|pity|tragic|failure|failed|alone|helpless|worthless|dukh\w*|udas\w*|udaas|mayus|mayoos|rona|dard|peeda|kasht|takleef|akela|akele|toot gaya|dil toot|bechara|afsos|tanha|tanhai|bura|bure|shok|gham\w*|triste\w*|llor\w*|pleur\w*|douleur)\b/i;
+  /\b(sad|depressed|grief|cry\w*|tears|unfortunate|lonely|heartbroken|sorrow|loss|lose|lost|miss\w*|hopeless|pointless|futile|futility|exhaust\w*|burnout|burnt out|drained|weary|gloomy|pain\w*|regret\w*|down|miserable|heartbreak|hurt\w*|unhappy|disappoint\w*|awful|suffer\w*|crying|weep\w*|sob\w*|loneliness|broken|mourn\w*|pity|tragic|failure|failed|alone|helpless|worthless|dukh\w*|udas\w*|udaas|mayus|mayoos|rona|dard|peeda|kasht|takleef|akela|akele|toot gaya|dil toot|bechara|afsos|tanha|tanhai|bura|bure|shok|gham\w*|triste\w*|llor\w*|pleur\w*|douleur)\b/i;
 
 const ANGRY_REGEX =
   /\b(angry|anger\w*|angr\w*|furious|outrage\w*|hate|annoy\w*|irritat\w*|frustrat\w*|worst|delayed|terrible|horrible|disgust\w*|scam|never flying|fix this|ridiculous|infuriat\w*|screw|damn|mad|pissed|idiot|stupid|shame|rage|fury|shut up|kill you|punch|slap|bad mood|spoil my mind|fuming|wrath|bullshit|trash|rubbish|cheat\w*|gussa\w*|gusse|pagal|paagal|krodh|krodhit|naraz|naraaz|bakwas|bakwaas|bakchodi|bakchod|chup|maroong\w*|marung\w*|chutiya|kamina|kamine|saale|saala|bewakoof|bewkoof|ghatiya|faltu|chidh\w*|jhagda|ladai|dushmani|nafrat\w*|ghrina|bhaad me|bhaad|dimag kharab|dimaag kharab|deemag kharab|demag kharab|dimag ka dahi|deemag ka dahi|dimag mat khao|deemag mat khao|mood kharab|bata raha hu|bata raha hoon|bata rha hu|do not irritate my mind|brother, do not irritate my mind|irritated angry mind|enojad\w*|furia|rabia|fâché\w*|colère)\b/i;
@@ -548,7 +581,7 @@ const NEUTRAL_REGEX =
   /\b(meeting|schedule\w*|thursday|monday|tuesday|wednesday|friday|saturday|sunday|confirm|attendance|report|update|document|review|balance sheet|presented|system|status|quarterly|information|office|routine|normal|theek h|thik h|theek hai|thik hai|theek|thik|chalega|sahi h|sab theek|sab badhiya|info|kaam|time|kal|aaj|pahuche|mil gaya|haa|haan|kuch nahi|kuch nhi)\b/i;
 
 const DEVANAGARI_HAPPY =
-  /(?:खुश|खुशी|आनंद|प्यार|प्रेम|बधाई|हंसी|शानदार|सुंदर|प्रसन्न|मज़ा|मजा|उत्साह|जीत|मुस्कान)/u;
+  /(?:खुश|खुशी|आनंद|प्यार|प्रेम|बधाई|हंसी|शानदार|रंग लाई|रंग लायी|सुंदर|प्रसन्न|मज़ा|मजा|उत्साह|जीत|मुस्कान)/u;
 const DEVANAGARI_SAD =
   /(?:दुख|दुखी|उदास|उदासी|रोना|आंसू|दर्द|शोक|गम|पीड़ा|कष्ट|तकलीफ|अकेला|निराश|टूट)/u;
 const DEVANAGARI_ANGRY =
@@ -567,13 +600,13 @@ const PERSONAL_CRITIQUE_REGEX =
   /\b(?:you|u|he|she|they|it)\s+(?:are|r|is|ain'?t|aint|aren'?t|was)\s+(?:not|nit)\b|\b(?:huh|pfft|meh|whatever|ugh|bleh|nah)\b/i;
 
 const SARCASM_REGEX =
-  /\b(?:oh\s+(?:great|fantastic|wonderful|brilliant|perfect|lovely|super|awesome|joy)|what a joy|just what i (?:needed|wanted)|thanks for (?:nothing|ruining)|love it when (?:my|the|it)|couldn'?t be better\b.*(?:broken|ruined|delayed|lost|crashed|failed)|pure joy\b.*(?:waiting|stuck|traffic|delay)|kya baat h\b.*(?:kharab|gussa|der|delay))\b/i;
+  /\b(?:oh\s+(?:great|fantastic|wonderful|brilliant|perfect|lovely|super|awesome|joy|wow)|what a joy|just what i (?:needed|wanted)|exactly what i (?:needed|wanted|hoped for)|thanks for (?:nothing|ruining)|love it when (?:my|the|it)|couldn'?t be better\b.*(?:broken|ruined|delayed|lost|crashed|failed)|pure joy\b.*(?:waiting|stuck|traffic|delay)|kya baat h\b.*(?:kharab|gussa|der|delay))\b/i;
 
 const POSITIVE_SARCASM_FRAME =
-  /\b(?:oh\s+(?:great|fantastic|wonderful|brilliant|perfect|lovely|joy)|fantastic|wonderful|what a joy|brilliant|perfect|yay|so glad|love it)\b/i;
+  /\b(?:oh\s+(?:great|fantastic|wonderful|brilliant|perfect|lovely|joy|wow)|fantastic|wonderful|what a joy|brilliant|perfect|yay|so glad|love it|exactly what i (?:needed|wanted))\b/i;
 
 const NEGATIVE_SITUATIONAL_CONTEXT =
-  /\b(?:delay\w*|cancel\w*|broken|broke\w*|ruin\w*|fail\w*|stolen|crash\w*|headache|traffic|nightmare|disaster|stuck|waste of time|never again|worst|mess|lost|painful|sick|der se|kharab)\b/i;
+  /\b(?:delay\w*|cancel\w*|broken|broke\w*|ruin\w*|fail\w*|stolen|crash\w*|headache|traffic|nightmare|disaster|stuck|waste of time|never again|worst|mess|lost|painful|sick|der se|kharab|deadline\w*|overtime|bills?|bugs?|error\w*)\b/i;
 
 const LITOTES_REGEX =
   /\b(?:not\s+(?:that\s+|too\s+|half\s+)?(?:bad|terrible|awful|horrible|worst)|bura\s+na?h[iī])\b/i;
@@ -787,10 +820,18 @@ export async function classifyLocalText(
     scores.fear = 0.06;
   }
 
-  // Normalize scores so they sum to 100%
-  const total = Object.values(scores).reduce((sum, v) => sum + v, 0);
+  // Calibrate scores with temperature-scaled softmax (T = 1.65) to eliminate artificial 96% spikes and preserve genuine co-occurring runner-up emotions
+  const T = 0.95;
+  const expScores: Record<Emotion, number> = {} as Record<Emotion, number>;
+  let expTotal = 0;
   for (const emotion of EMOTIONS) {
-    scores[emotion] = parseFloat((scores[emotion] / total).toFixed(4));
+    const val = scores[emotion];
+    const scaled = Math.exp(val / T);
+    expScores[emotion] = scaled;
+    expTotal += scaled;
+  }
+  for (const emotion of EMOTIONS) {
+    scores[emotion] = parseFloat((expScores[emotion] / expTotal).toFixed(4));
   }
 
   let dominantEmotion: Emotion = "neutral";

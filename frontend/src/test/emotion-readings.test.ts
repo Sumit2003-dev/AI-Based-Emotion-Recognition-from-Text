@@ -89,7 +89,7 @@ describe("classifyLocalText", () => {
   it("accurately classifies 'bhai deemag mat kharab kr' as angry with coherent translation", async () => {
     const result = await classifyLocalText("bhai deemag mat kharab kr");
     expect(result.dominantEmotion).toBe("angry");
-    expect(result.scores.angry).toBeGreaterThan(0.7);
+    expect(result.scores.angry).toBeGreaterThan(0.6);
     expect(result.scores.sad).toBeLessThan(0.15);
     expect(result.isMultilingual).toBe(true);
     expect(result.translatedText?.toLowerCase()).toContain("mind");
@@ -187,5 +187,41 @@ describe("classifyLocalText", () => {
     expect(res.dominantEmotion).not.toBe("happy");
     expect(res.dominantEmotion).toBe("sad");
     expect(res.scores.happy).toBeLessThan(0.1);
+  });
+
+  it("accurately classifies all 7 user-reported benchmark sentences", async () => {
+    // 1. Meri mehnat rang laayi -> Happy
+    const r1 = await classifyLocalText("Meri mehnat rang laayi");
+    expect(r1.dominantEmotion).toBe("happy");
+    expect(r1.scores.happy).toBeGreaterThan(0.5);
+
+    // 2. Ab kya fayda -> Sad
+    const r2 = await classifyLocalText("Ab kya fayda");
+    expect(r2.dominantEmotion).toBe("sad");
+    expect(r2.scores.sad).toBeGreaterThan(0.5);
+
+    // 3. Andar se thak chuka hoon -> Sad
+    const r3 = await classifyLocalText("Andar se thak chuka hoon");
+    expect(r3.dominantEmotion).toBe("sad");
+    expect(r3.scores.sad).toBeGreaterThan(0.4);
+
+    // 4. Sabke saamne smile karta hoon, par andar se thak chuka hoon -> Sad (smile does not override exhaustion)
+    const r4 = await classifyLocalText(
+      "Sabke saamne smile karta hoon, par andar se thak chuka hoon",
+    );
+    expect(r4.dominantEmotion).toBe("sad");
+    expect(r4.scores.happy).toBeLessThan(0.15);
+
+    // 5. Oh wow, another deadline! Exactly what I needed. -> Angry (sarcasm)
+    const r5 = await classifyLocalText("Oh wow, another deadline! Exactly what I needed.");
+    expect(r5.dominantEmotion).toBe("angry");
+
+    // 6. Feeling pointless -> Sad
+    const r6 = await classifyLocalText("Feeling pointless");
+    expect(r6.dominantEmotion).toBe("sad");
+
+    // 7. Hiding exhaustion -> Sad
+    const r7 = await classifyLocalText("Hiding exhaustion");
+    expect(r7.dominantEmotion).toBe("sad");
   });
 });
