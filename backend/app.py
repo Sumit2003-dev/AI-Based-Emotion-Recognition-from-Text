@@ -243,6 +243,7 @@ else:
                 "/api/health",
                 "/api/predict",
                 "/api/batch",
+                "/api/upload-csv",
                 "/api/model-info",
                 "/api/sample-texts",
                 "/api/feedback"
