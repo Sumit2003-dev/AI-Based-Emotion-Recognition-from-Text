@@ -101,9 +101,166 @@ function computeDefaultDimensions(emotion: Emotion, confidence: number): Affecti
   };
 }
 
-/** Compute fallback empathy guidance when backend guidance is absent. */
-function computeDefaultGuidance(emotion: Emotion): EmotionalGuidance {
-  const guidanceMap: Record<Emotion, EmotionalGuidance> = {
+/** Compute fallback empathy guidance when backend guidance is absent, matched to the input language. */
+export function computeDefaultGuidance(
+  emotion: Emotion,
+  lang?: string | undefined,
+): EmotionalGuidance {
+  const normLang = (lang || "en").toLowerCase();
+
+  if (normLang === "hi") {
+    const hindiMap: Record<Emotion, EmotionalGuidance> = {
+      happy: {
+        psychology: "संतुष्टि, आभार, उपलब्धि और सामाजिक जुड़ाव को दर्शाता है।",
+        empathy_tip: "उनकी खुशी में शामिल हों और उनकी सफलता की सराहना करें।",
+        suggested_reply: "यह तो बहुत ही बढ़िया खबर है! आपको ढेर सारी शुभकामनाएं! 🎉",
+      },
+      sad: {
+        psychology: "दुख, अकेलापन, निराशा या नियंत्रण खोने की भावना को दर्शाता है।",
+        empathy_tip: "बिना किसी निर्णय के उनका साथ दें और सांत्वना प्रदान करें।",
+        suggested_reply:
+          "यह सुनकर बहुत दुख हुआ। अगर किसी भी चीज़ की ज़रूरत हो तो मैं हमेशा आपके साथ हूँ।",
+      },
+      angry: {
+        psychology: "अन्याय, उम्मीद टूटने, काम में रुकावट या सीमा के उल्लंघन से उत्पन्न।",
+        empathy_tip: "माहौल को तुरंत शांत करें और उनकी परेशानी को ध्यानपूर्वक स्वीकार करें।",
+        suggested_reply:
+          "मैं समझ सकता हूँ कि आप परेशान क्यों हैं। चलिए इसे तुरंत मिलकर सुलझाते हैं।",
+      },
+      surprise: {
+        psychology: "किसी अप्रत्याशित घटना या नई बात के सामने आने पर आश्चर्य की प्रतिक्रिया।",
+        empathy_tip: "बात को स्पष्ट करने में मदद करें और उन्हें स्थिति को समझने का समय दें।",
+        suggested_reply: "अरे वाह, यह तो वाकई अप्रत्याशित था! आप इसे कैसे संभाल रहे हैं?",
+      },
+      fear: {
+        psychology: "भविष्य के खतरे, अनिश्चितता, असुरक्षा या चिंता की आशंका।",
+        empathy_tip: "धैर्य और आश्वासन दें ताकि वे सुरक्षित महसूस कर सकें।",
+        suggested_reply: "घबराइए मत, गहरी सांस लीजिए। हम मिलकर इसे संभाल लेंगे, आप अकेले नहीं हैं।",
+      },
+      neutral: {
+        psychology: "तथ्यात्मक, स्पष्ट और बिना किसी भावनात्मक उत्तेजना के बातचीत।",
+        empathy_tip: "बातचीत को सीधा, स्पष्ट और उपयोगी बनाए रखें।",
+        suggested_reply: "जानकारी के लिए धन्यवाद, नोट कर लिया गया है।",
+      },
+    };
+    return hindiMap[emotion];
+  }
+
+  if (normLang === "hinglish") {
+    const hinglishMap: Record<Emotion, EmotionalGuidance> = {
+      happy: {
+        psychology: "Khushi, satisfaction, achievement ya celebration reflect karta hai.",
+        empathy_tip: "Unki khushi ko acknowledge karo aur celebrate karne me unka sath do.",
+        suggested_reply:
+          "Aree waah, bohot badiya news hai! Party kab de rahe ho? Congratulations! 🎉",
+      },
+      sad: {
+        psychology: "Disappointment, dukh, stress ya thoda low feel hone ka signal hai.",
+        empathy_tip: "Judgemental hue bina unhe space aur emotional support provide karo.",
+        suggested_reply:
+          "Sunke bura laga bro. Tension mat le, sab theek ho jayega, main hu na yahan.",
+      },
+      angry: {
+        psychology: "Frustration, expectation break hone ya unfair situation ki wajah se gussa.",
+        empathy_tip: "Defensive mat bano, calmly suno aur solution nikalne pe focus karo.",
+        suggested_reply:
+          "Sahi me bohot frustrating hai bro. Gussa mat ho, shanti se baat karke sort karte hain.",
+      },
+      surprise: {
+        psychology: "Achanak se kuch unexpected revelation ya event hone ka shock/surprise.",
+        empathy_tip:
+          "Unhe thoda time do absorb karne ka aur next steps figure out karne me help karo.",
+        suggested_reply: "Arrey baap re! Yeh to bilkul unexpected tha! Ab kya plan hai?",
+      },
+      fear: {
+        psychology: "Anxiety, tension, exam/future uncertainty ya risk ka darr.",
+        empathy_tip: "Calmness aur assurance do taaki panic na ho.",
+        suggested_reply:
+          "Chill kar bhai, itna darr mat. Hum milke sambhal lenge step-by-step, tension mat le.",
+      },
+      neutral: {
+        psychology: "To-the-point factual communication bina kisi heavy emotion ke.",
+        empathy_tip: "Direct, clear aur professional tone maintain karo.",
+        suggested_reply: "Theek hai bhai, samajh gaya. Update ke liye shukriya.",
+      },
+    };
+    return hinglishMap[emotion];
+  }
+
+  if (normLang === "es") {
+    const spanishMap: Record<Emotion, EmotionalGuidance> = {
+      happy: {
+        psychology: "Refleja satisfacción, gratitud, logro o celebración compartida.",
+        empathy_tip: "Valida y amplifica su alegría. Celebra su logro genuinamente.",
+        suggested_reply: "¡Qué fantástica noticia! ¡Muchas felicidades por este gran logro! 🎉",
+      },
+      sad: {
+        psychology: "Indica tristeza, decepción, duelo o vulnerabilidad emocional.",
+        empathy_tip: "Ofrece compañía sin juzgar ni apresurarte a solucionar todo.",
+        suggested_reply: "Siento mucho por lo que estás pasando. Estoy aquí para lo que necesites.",
+      },
+      angry: {
+        psychology: "Surge por injusticias, expectativas rotas o límites violados.",
+        empathy_tip: "Desescala la tensión de inmediato y valida su molestia.",
+        suggested_reply:
+          "Entiendo perfectamente tu frustración. Vamos a resolver esto de inmediato.",
+      },
+      surprise: {
+        psychology: "Disrupción cognitiva ante un acontecimiento inesperado o revelación.",
+        empathy_tip: "Ayuda a asimilar la novedad y aclarar los pasos a seguir.",
+        suggested_reply: "¡Guau, eso no me lo esperaba para nada! ¿Cómo lo estás asimilando?",
+      },
+      fear: {
+        psychology: "Anticipación de amenaza, incertidumbre o ansiedad ante lo desconocido.",
+        empathy_tip: "Brinda seguridad, hechos claros y tranquilidad.",
+        suggested_reply: "Respira hondo, todo saldrá bien. Vamos paso a paso, no estás solo.",
+      },
+      neutral: {
+        psychology: "Comunicación objetiva, práctica e informativa.",
+        empathy_tip: "Mantén un tono claro, directo y profesional.",
+        suggested_reply: "Entendido y anotado. Muchas gracias por la información.",
+      },
+    };
+    return spanishMap[emotion];
+  }
+
+  if (normLang === "fr") {
+    const frenchMap: Record<Emotion, EmotionalGuidance> = {
+      happy: {
+        psychology: "Témoigne de joie, de satisfaction et d'accomplissement personnel.",
+        empathy_tip: "Partagez et célébrez son enthousiasme de manière chaleureuse.",
+        suggested_reply: "C'est une excellente nouvelle ! Toutes mes félicitations ! 🎉",
+      },
+      sad: {
+        psychology: "Signe de tristesse, de déception ou de fatigue émotionnelle.",
+        empathy_tip: "Offrez une écoute bienveillante sans chercher à tout régler de suite.",
+        suggested_reply: "Je suis vraiment désolé d'apprendre cela. Je suis de tout cœur avec toi.",
+      },
+      angry: {
+        psychology: "Causé par une frustration, un sentiment d'injustice ou des limites franchies.",
+        empathy_tip: "Désamorcez la colère sans vous mettre sur la défensive.",
+        suggested_reply: "Je comprends parfaitement votre frustration. Réglons cela rapidement.",
+      },
+      surprise: {
+        psychology: "Réaction spontanée face à une situation totalement inattendue.",
+        empathy_tip: "Donnez du temps pour digérer la nouvelle et clarifiez la suite.",
+        suggested_reply: "Ouah, c'était totalement inattendu ! Comment tu réagis à ça ?",
+      },
+      fear: {
+        psychology: "Anticipation d'un danger, anxiété face à l'avenir ou insécurité.",
+        empathy_tip: "Rassurez avec calme et proposez des repères stables.",
+        suggested_reply: "Prends une grande inspiration, tout va bien se passer. Tu n'es pas seul.",
+      },
+      neutral: {
+        psychology: "Message purement informatif, direct et factuel.",
+        empathy_tip: "Restez concis, professionnel et constructif.",
+        suggested_reply: "Bien reçu et noté. Merci pour cette information.",
+      },
+    };
+    return frenchMap[emotion];
+  }
+
+  const defaultEnglishMap: Record<Emotion, EmotionalGuidance> = {
     happy: {
       psychology: "Reflects satisfaction, gratitude, accomplishment, or shared social bonding.",
       empathy_tip: "Validate and amplify their excitement. Celebrate their milestone genuinely.",
@@ -141,7 +298,7 @@ function computeDefaultGuidance(emotion: Emotion): EmotionalGuidance {
       suggested_reply: "Understood, noted. Thank you for the update.",
     },
   };
-  return guidanceMap[emotion];
+  return defaultEnglishMap[emotion];
 }
 
 /** Clamp scores into 0..1, renormalize to sum 1, and pick the argmax emotion. */
@@ -200,7 +357,7 @@ export function normalizeReading(text: string, raw: RawReading): EmotionReading 
     intensityLevel,
     intensityScore,
     dimensions: raw.dimensions || computeDefaultDimensions(best, confidence),
-    guidance: raw.guidance || computeDefaultGuidance(best),
+    guidance: raw.guidance || computeDefaultGuidance(best, raw.detectedLanguage),
     tokens: raw.tokens || [],
   };
 }

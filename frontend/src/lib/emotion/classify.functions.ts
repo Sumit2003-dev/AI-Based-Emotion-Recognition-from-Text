@@ -22,6 +22,11 @@ type ParsedResult = {
   index: number;
   emotion: string;
   scores: Partial<ParsedScores>;
+  detected_language?: string;
+  language_name?: string;
+  psychology?: string;
+  empathy_tip?: string;
+  suggested_reply?: string;
 };
 
 type ParsedOutput = {
@@ -41,6 +46,11 @@ const resultSchema = z.object({
   index: z.number(),
   emotion: z.enum(EMOTIONS),
   scores: scoresSchema,
+  detected_language: z.string().optional(),
+  language_name: z.string().optional(),
+  psychology: z.string().optional(),
+  empathy_tip: z.string().optional(),
+  suggested_reply: z.string().optional(),
 });
 
 const responseSchema = z.object({
@@ -55,7 +65,25 @@ export function toReadings(results: ParsedResult[], texts: string[]): EmotionRea
   return results.flatMap((entry): EmotionReading[] => {
     const text = texts[entry.index - 1];
     if (!text) return [];
-    return [normalizeReading(text, entry as RawReading)];
+    const guidance =
+      entry.suggested_reply || entry.psychology || entry.empathy_tip
+        ? {
+            psychology: entry.psychology,
+            empathy_tip: entry.empathy_tip,
+            suggested_reply: entry.suggested_reply,
+          }
+        : undefined;
+
+    return [
+      normalizeReading(text, {
+        index: entry.index,
+        emotion: entry.emotion,
+        scores: entry.scores,
+        detectedLanguage: entry.detected_language,
+        languageName: entry.language_name,
+        guidance,
+      } as RawReading),
+    ];
   });
 }
 
@@ -961,10 +989,11 @@ async function tryLlmClassification(
   if (!config.apiKey || config.apiKey.trim().length === 0) return null;
 
   const instructions = [
-    "You are an emotion-reading engine. For every text below, decide which of six emotions dominates and score all six emotions.",
-    "The emotions are: happy (joy, delight, satisfaction, amusement), sad (loss, disappointment, grief, loneliness), angry (irritation, outrage, frustration), surprise (astonishment, either pleasant or not), fear (worry, anxiety, dread), neutral (plain, factual, or no clear feeling).",
-    "Score every emotion from 0 to 1 as its relative strength; all six scores must sum to 1. Set `emotion` to the highest-scoring emotion.",
-    "Base your judgment on wording, punctuation, capitalization, emoji and context. The texts are tweets, chat messages, or reviews and may be sarcastic — weight wording more heavily than topic.",
+    "You are an advanced affective intelligence and emotion-reading engine.",
+    "For every text below: decide which of six emotions dominates (happy, sad, angry, surprise, fear, neutral), score all six from 0 to 1 summing to 1, and set `emotion` to the highest.",
+    "Base your judgment on wording, punctuation, emoji, and context. Pay attention to sarcasm and negations (e.g. 'my flight was delayed 5 hours, what a joy' is angry; 'you are not that great' is angry/sad).",
+    "Also provide cognitive guidance: `psychology` (1-sentence context of the speaker's emotional state), `empathy_tip` (1-sentence communication advice), and `suggested_reply`.",
+    "CRITICAL REQUIREMENT FOR `suggested_reply`: It MUST be an empathetic, natural, context-specific response addressing the speaker's exact situation, and it MUST be written in the EXACT SAME LANGUAGE, dialect, and script as the input text (e.g., natural Hinglish if input is Hinglish, Devanagari Hindi if input is Hindi, Spanish if input is Spanish, French if French, German if German, English if English). Never reply in English if the input text is in another language.",
     `Return exactly ${texts.length} results, one per input, with ` +
       "`index` matching the input's 1-based number (TEXT 1 → index 1), in input order.",
   ].join(" ");

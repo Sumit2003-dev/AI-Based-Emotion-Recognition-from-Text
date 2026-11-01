@@ -452,11 +452,60 @@ class EmotionClassifier:
             ],
             "dimensions": self._compute_dimensions(probabilities),
             "tokens": token_attributions,
-            "guidance": {
-                "psychology": meta["psychology"],
-                "empathy_tip": meta["empathy_tip"],
-                "suggested_reply": meta["suggested_reply"],
-            },
+            "guidance": self._compute_guidance(dominant_emotion, lang_info["detected_language"]),
+        }
+
+    def _compute_guidance(self, emotion: str, lang_code: str = "en") -> Dict[str, str]:
+        """Provides empathetic psychology context and suggested replies in the input language."""
+        meta = EMOTION_META.get(emotion, EMOTION_META["neutral"])
+        lang = (lang_code or "en").lower()
+
+        if lang == "hi":
+            hindi_guidance = {
+                "joy": {"psychology": "संतुष्टि, आभार और खुशी को दर्शाता है।", "empathy_tip": "उनकी खुशी में शामिल हों और सराहना करें।", "suggested_reply": "यह तो बहुत ही बढ़िया खबर है! आपको ढेर सारी शुभकामनाएं! 🎉"},
+                "sadness": {"psychology": "दुख, अकेलापन या निराशा की भावना।", "empathy_tip": "बिना किसी निर्णय के उनका साथ दें।", "suggested_reply": "यह सुनकर बहुत दुख हुआ। अगर किसी भी चीज़ की ज़रूरत हो तो मैं हमेशा आपके साथ हूँ।"},
+                "anger": {"psychology": "अन्याय या उम्मीद टूटने से उत्पन्न रोष।", "empathy_tip": "माहौल को तुरंत शांत करें और बात समझें।", "suggested_reply": "मैं समझ सकता हूँ कि आप परेशान क्यों हैं। चलिए इसे तुरंत सुलझाते हैं।"},
+                "fear": {"psychology": "भविष्य की अनिश्चितता या चिंता की आशंका।", "empathy_tip": "धैर्य और आश्वासन दें।", "suggested_reply": "घबराइए मत, गहरी सांस लीजिए। हम मिलकर इसे संभाल लेंगे।"},
+                "surprise": {"psychology": "अप्रत्याशित घटना पर विस्मय की प्रतिक्रिया।", "empathy_tip": "बात को स्पष्ट करने में मदद करें।", "suggested_reply": "अरे वाह, यह तो वाकई अप्रत्याशित था! आप इसे कैसे संभाल रहे हैं?"},
+                "love": {"psychology": "गहरा भावनात्मक जुड़ाव और स्नेह।", "empathy_tip": "सद्भावना और गर्मजोशी से उत्तर दें।", "suggested_reply": "आपके इस स्नेह के लिए बहुत-बहुत धन्यवाद, यह दिल को छू गया। ❤️"},
+                "disgust": {"psychology": "अप्रिय या असहज स्थिति से दूरी बनाने की इच्छा।", "empathy_tip": "उनकी सीमा और भावनाओं का सम्मान करें।", "suggested_reply": "मैं आपकी इस परेशानी को समझता हूँ, आपकी सीमा का पूरा सम्मान है।"},
+                "neutral": {"psychology": "तथ्यात्मक और स्पष्ट बातचीत।", "empathy_tip": "बातचीत को सीधा और उपयोगी रखें।", "suggested_reply": "जानकारी के लिए धन्यवाद, नोट कर लिया गया है।"},
+            }
+            if emotion in hindi_guidance:
+                return hindi_guidance[emotion]
+
+        if lang == "hinglish":
+            hinglish_guidance = {
+                "joy": {"psychology": "Khushi aur celebration ka mahaul hai.", "empathy_tip": "Unki khushi ko acknowledge karo aur celebrate karo.", "suggested_reply": "Aree waah, bohot badiya news hai! Party kab de rahe ho? Congratulations! 🎉"},
+                "sadness": {"psychology": "Disappointment ya sadness ka signal hai.", "empathy_tip": "Supportive raho bina judge kiye.", "suggested_reply": "Sunke bura laga bro. Tension mat le, sab theek ho jayega, main hu na yahan."},
+                "anger": {"psychology": "Frustration ya expectation break hone ka gussa.", "empathy_tip": "Calmly suno aur sort karne me help karo.", "suggested_reply": "Sahi me bohot irritating hai yeh. Gussa mat ho bro, shanti se baat karke sort karte hain."},
+                "fear": {"psychology": "Anxiety aur tension ka feeling.", "empathy_tip": "Calmness aur safety ka assurance do.", "suggested_reply": "Chill kar bhai, itna darr mat. Hum milke sambhal lenge, tension mat le."},
+                "surprise": {"psychology": "Unexpected news ya shocking revelation.", "empathy_tip": "Absorb karne ka time do.", "suggested_reply": "Arrey baap re! Yeh to bilkul unexpected tha! Ab kya plan hai?"},
+                "love": {"psychology": "Emotional warmth aur care.", "empathy_tip": "Warmth reciprocate karo.", "suggested_reply": "Dil se shukriya bhai, aapki baat bohot achhi lagi ❤️"},
+                "disgust": {"psychology": "Strong dislike ya avoidance.", "empathy_tip": "Boundaries respect karo.", "suggested_reply": "Totally understandable hai. Apni boundaries maintain karna zaroori hai."},
+                "neutral": {"psychology": "Simple informational message.", "empathy_tip": "Direct aur clear raho.", "suggested_reply": "Theek hai bhai, samajh gaya. Update ke liye shukriya."},
+            }
+            if emotion in hinglish_guidance:
+                return hinglish_guidance[emotion]
+
+        if lang == "es":
+            spanish_guidance = {
+                "joy": {"psychology": "Refleja satisfacción y alegría.", "empathy_tip": "Celebra su logro genuinamente.", "suggested_reply": "¡Qué fantástica noticia! ¡Muchas felicidades por este gran logro! 🎉"},
+                "sadness": {"psychology": "Indica tristeza o decepción.", "empathy_tip": "Ofrece compañía sin juzgar.", "suggested_reply": "Siento mucho por lo que estás pasando. Estoy aquí para lo que necesites."},
+                "anger": {"psychology": "Surge por frustración o injusticia.", "empathy_tip": "Desescala la tensión de inmediato.", "suggested_reply": "Entiendo perfectamente tu frustración. Vamos a resolver esto de inmediato."},
+                "fear": {"psychology": "Anticipación de incertidumbre o peligro.", "empathy_tip": "Brinda tranquilidad y apoyo.", "suggested_reply": "Respira hondo, todo saldrá bien. Vamos paso a paso, no estás solo."},
+                "surprise": {"psychology": "Asombro ante lo inesperado.", "empathy_tip": "Ayuda a asimilar la novedad.", "suggested_reply": "¡Guau, eso no me lo esperaba para nada! ¿Cómo lo estás asimilando?"},
+                "love": {"psychology": "Afecto y cariño recíproco.", "empathy_tip": "Responde con calidez.", "suggested_reply": "Tus palabras significan mucho para mí. ¡Muchas gracias por tu cariño! ❤️"},
+                "disgust": {"psychology": "Rechazo hacia una situación.", "empathy_tip": "Respeta sus límites.", "suggested_reply": "Comprendo completamente tu rechazo. Establecer límites es lo correcto."},
+                "neutral": {"psychology": "Mensaje puramente informativo.", "empathy_tip": "Mantén la claridad.", "suggested_reply": "Entendido y anotado. Muchas gracias por la información."},
+            }
+            if emotion in spanish_guidance:
+                return spanish_guidance[emotion]
+
+        return {
+            "psychology": meta["psychology"],
+            "empathy_tip": meta["empathy_tip"],
+            "suggested_reply": meta["suggested_reply"],
         }
 
     def _apply_lexical_adjustments(self, text: str, probs: Dict[str, float]) -> Dict[str, float]:
@@ -743,11 +792,7 @@ class EmotionClassifier:
                 "subjectivity_label": "Objective Fact",
             },
             "tokens": [],
-            "guidance": {
-                "psychology": meta["psychology"],
-                "empathy_tip": meta["empathy_tip"],
-                "suggested_reply": meta["suggested_reply"],
-            },
+            "guidance": self._compute_guidance("neutral", "en"),
         }
 
     def predict_batch(self, texts: List[str]) -> Dict[str, Any]:

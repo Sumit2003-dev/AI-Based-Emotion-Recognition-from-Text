@@ -49,6 +49,31 @@ describe("toReadings", () => {
     );
     expect(readings).toHaveLength(0);
   });
+
+  it("preserves LLM suggested_reply and guidance in toReadings", () => {
+    const readings = toReadings(
+      [
+        {
+          index: 1,
+          emotion: "angry",
+          scores: {
+            happy: 0.01,
+            sad: 0.09,
+            angry: 0.85,
+            surprise: 0.02,
+            fear: 0.01,
+            neutral: 0.02,
+          },
+          suggested_reply: "Tension mat le bhai, sab sort ho jayega.",
+          psychology: "Frustration due to exam pressure.",
+          empathy_tip: "Stay calm and supportive.",
+        },
+      ],
+      ["kal exam hai darr lag raha hai"],
+    );
+    expect(readings[0]?.guidance?.suggested_reply).toBe("Tension mat le bhai, sab sort ho jayega.");
+    expect(readings[0]?.guidance?.psychology).toBe("Frustration due to exam pressure.");
+  });
 });
 
 describe("classifyLocalText", () => {
