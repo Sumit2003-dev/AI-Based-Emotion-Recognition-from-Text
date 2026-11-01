@@ -978,7 +978,10 @@ export const classifyEmotions = createServerFn({ method: "POST" })
 
       const userContent = texts.map((text, i) => `TEXT ${i + 1}:\n"""\n${text}\n"""`).join("\n\n");
 
-      const provider = createOpenAI({ apiKey: openAiKey });
+      const provider = createOpenAI({
+        apiKey: openAiKey,
+        baseURL: process.env["OPENAI_BASE_URL"],
+      });
 
       try {
         const result = streamText({
