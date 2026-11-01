@@ -222,6 +222,34 @@ The application interface will be live at **`http://localhost:3000`**.
 
 ---
 
+### 3. Docker Deployment (One-Command Full-Stack Launch)
+
+Launch both the **FastAPI Backend** and the **React Frontend** in production-ready containers with a single command:
+
+```bash
+# Build and start all services
+docker-compose up --build
+
+# Or run in background detached mode:
+docker-compose up --build -d
+```
+
+Services will be accessible at:
+- **Web Application UI**: `http://localhost:3000`
+- **FastAPI API & Health**: `http://localhost:8000/api/health`
+- **Interactive Swagger Docs**: `http://localhost:8000/docs`
+
+To view logs or stop the environment:
+```bash
+# View real-time logs
+docker-compose logs -f
+
+# Stop all containers
+docker-compose down
+```
+
+---
+
 ## 📡 API Documentation & Schema
 
 ### `POST /api/predict`
