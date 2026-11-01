@@ -43,3 +43,4 @@ services:
 networks:
   emotion-network:
     driver: bridge
+

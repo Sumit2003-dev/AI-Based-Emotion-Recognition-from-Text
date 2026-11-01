@@ -41,3 +41,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 
 # Start Nitro production server
 CMD ["node", ".output/server/index.mjs"]
+
