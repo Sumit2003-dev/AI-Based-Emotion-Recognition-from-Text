@@ -76,3 +76,11 @@ Thumbs.db
 
 # IDE & AI Assistant metadata
 .agents/
+
+
+# Private & Sealed Test Vault (Strictly restricted; never commit raw test samples)
+private_test_vault/
+*sealed_test*.json
+*unseen_test*.json
+*dev_inspected*.json
+*gold_standard*.json
