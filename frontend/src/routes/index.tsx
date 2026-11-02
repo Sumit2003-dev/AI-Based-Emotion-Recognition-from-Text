@@ -248,10 +248,12 @@ function Index() {
               </span>
             </div>
             <p className="text-[11px] leading-relaxed">
-              <strong>Emotion Taxonomy:</strong> The interactive web cockpit surfaces 6 universal
-              Ekman emotion spectrums (Happy, Sad, Angry, Surprise, Fear, Neutral) alongside
-              mixed-emotion blend detection, mapped from our 8-class fine-grained PyTorch
-              DistilRoBERTa model.
+              <strong>Emotion Taxonomy & 8-Class Mapping:</strong> The interactive web cockpit surfaces 6 universal
+              Ekman emotion spectrums (Happy, Sad, Angry, Surprise, Fear, Neutral) for clean visual tracking,
+              mapped directly from our 8-class fine-grained PyTorch DistilRoBERTa engine. Within the 6-spectrum UI,
+              <strong> Love</strong> is integrated as intense interpersonal affection within the Happy spectrum,
+              and <strong>Disgust</strong> is mapped alongside revulsion/aversion within the Angry spectrum,
+              while our backend API, benchmarks, and JSON exports evaluate all 8 classes independently.
             </p>
             <p className="text-[11px] leading-relaxed">
               <strong>Affective Projections:</strong> Valence, Arousal, and Dominance (VAD) are

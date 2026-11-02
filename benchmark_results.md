@@ -8,8 +8,8 @@
 - **Overall Accuracy:** `79.50%` (159/200)
 - **Macro F1:** `0.7202`
 - **Weighted F1:** `0.7933`
-- **Brier Score:** `0.3574` *(Measures probability accuracy; lower is better)*
-- **Expected Calibration Error (ECE):** `13.66%` *(Quantifies probability reliability)*
+- **Brier Score:** `0.3391` *(Measures probability accuracy; lower is better)*
+- **Expected Calibration Error (ECE):** `5.38%` *(Quantifies probability reliability)*
 
 ## Category Breakdown
 
@@ -39,11 +39,11 @@
 
 | Confidence Bin | Samples | Avg Confidence | Observed Accuracy | Calibration Gap |
 |---|---|---|---|---|
-| `[0.2, 0.3)` | 3 | 27.0% | 33.3% | 6.4% |
-| `[0.3, 0.4)` | 14 | 36.2% | 50.0% | 13.8% |
-| `[0.4, 0.5)` | 27 | 45.4% | 63.0% | 17.5% |
-| `[0.5, 0.6)` | 33 | 55.5% | 78.8% | 23.3% |
-| `[0.6, 0.7)` | 37 | 64.6% | 81.1% | 16.5% |
-| `[0.7, 0.8)` | 36 | 75.0% | 80.6% | 5.5% |
-| `[0.8, 0.9)` | 27 | 84.0% | 96.3% | 12.3% |
-| `[0.9, 1.0)` | 23 | 94.0% | 100.0% | 6.0% |
+| `[0.2, 0.3)` | 1 | 28.0% | 0.0% | 28.0% |
+| `[0.3, 0.4)` | 3 | 33.3% | 33.3% | 0.1% |
+| `[0.4, 0.5)` | 19 | 44.3% | 52.6% | 8.3% |
+| `[0.5, 0.6)` | 24 | 54.8% | 62.5% | 7.7% |
+| `[0.6, 0.7)` | 27 | 66.0% | 81.5% | 15.5% |
+| `[0.7, 0.8)` | 31 | 74.5% | 77.4% | 3.0% |
+| `[0.8, 0.9)` | 44 | 85.5% | 84.1% | 1.4% |
+| `[0.9, 1.0)` | 51 | 95.5% | 98.0% | 2.6% |
