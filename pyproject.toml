@@ -1,0 +1,10 @@
+[project]
+name = "ai-emotion-recognition"
+version = "2.2.0"
+description = "AI-Based Multilingual Emotion Recognition Suite"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.vercel]
+entrypoint = "backend.app:app"
+
