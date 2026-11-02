@@ -1,9 +1,11 @@
 {
-  "protocol": "BeyondWord_3Way_Split_v2.2",
-  "created_at": "2026-11-02T21:07:00Z",
+  "protocol": "BeyondWord_3Way_Split_v2.2_Pristine",
+  "updated_at": "2026-11-02T23:05:00Z",
+  "remediation": "Historical git exposure completely scrubbed via git-filter-repo. Burned holdout replaced with pristine unexposed private holdout.",
   "training_samples": 3280,
   "val_calibration_samples": 520,
   "sealed_test_samples": 600,
-  "sealed_test_sha256": "295e7e2bd8e55465fe8147741c596c46ba8f090ca4c97669a4477feaaf5234b8",
-  "sealed_test_status": "LOCKED_DO_NOT_INSPECT_DURING_DEVELOPMENT"
+  "sealed_test_sha256": "5bb656cadeae936e157c59e90180d625c5613d6746a17c4ea321fca608c135d5",
+  "sealed_test_status": "LOCKED_DO_NOT_INSPECT_DURING_DEVELOPMENT",
+  "historical_exposure_status": "PURGED_AND_ROTATED"
 }

@@ -23,7 +23,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 BACKEND_DIR = PROJECT_ROOT / "backend"
 MANIFEST_PATH = PROJECT_ROOT / "data" / "splits" / "split_manifest.json"
 THRESHOLDS_PATH = PROJECT_ROOT / "backend" / "calibrated_thresholds.json"
-DEFAULT_VAULT_PATH = PROJECT_ROOT / "private_test_vault" / "sealed_test_split.json"
+DEFAULT_VAULT_PATH = PROJECT_ROOT / "private_test_vault" / "sealed_holdout_v2_2.json"
 OUTPUT_REPORT = PROJECT_ROOT / "sealed_test_evaluation_report.md"
 
 if str(BACKEND_DIR) not in sys.path:
