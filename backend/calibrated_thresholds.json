@@ -1,0 +1,16 @@
+{
+  "temperature": 0.75,
+  "thresholds": {
+    "joy": 0.25,
+    "sadness": 0.25,
+    "anger": 0.25,
+    "fear": 0.25,
+    "surprise": 0.25,
+    "love": 0.25,
+    "disgust": 0.5,
+    "neutral": 0.5
+  },
+  "neutral_exclusivity": true,
+  "neutral_suppression_cutoff": 0.4,
+  "val_macro_f1": 0.7433
+}

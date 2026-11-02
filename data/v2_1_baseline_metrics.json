@@ -1,0 +1,42 @@
+{
+  "version": "2.1.0",
+  "frozen_at": "2026-11-02T21:05:00Z",
+  "git_commit": "3c55e06",
+  "benchmarks": {
+    "hinglish_200_dev_regression": {
+      "total_samples": 200,
+      "accuracy": 0.795,
+      "macro_f1": 0.7202,
+      "weighted_f1": 0.7933,
+      "brier_score": 0.3391,
+      "ece": 0.0538,
+      "category_accuracy": {
+        "contrast": 0.80,
+        "locative_par": 1.00,
+        "mixed_emotions": 0.60,
+        "negation": 0.7333,
+        "pure_emotions": 0.86,
+        "sarcasm": 0.80
+      }
+    },
+    "real_world_500_dev_evaluated": {
+      "total_samples": 500,
+      "accuracy": 0.666,
+      "macro_f1": 0.6679,
+      "weighted_f1": 0.6707,
+      "brier_score": 0.4013,
+      "ece": 0.1117,
+      "per_class_f1": {
+        "joy": 0.839,
+        "fear": 0.850,
+        "love": 0.788,
+        "disgust": 0.680,
+        "sadness": 0.645,
+        "anger": 0.615,
+        "neutral": 0.503,
+        "surprise": 0.423
+      }
+    }
+  }
+}
+

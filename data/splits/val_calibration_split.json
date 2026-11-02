@@ -1,0 +1,2602 @@
+[
+  {
+    "text": "OMG, crying laughing right now. Hubs and I both. What a visual!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Okay I can see this looking really cool for a festival or photos though 😄",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This is my favorite game of all time. Thanks for bringing back some good memories!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Ah u/The_White_Baron... I didn't read all of it, but glad I know the reference now",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Thanks, now I can get back to the actual content",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It's kinda funny when it's told to you",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I’m naming my dog Sebastian! So I can kinda relate ( lol, def not the same). Love the name though.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "\"Yes, after her long trip to the Swiss Alps or wherever she went to \"\"find herself\"\" lol\"",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Probably stop school shootings hehe",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I thought that phrase was only used for memes now lol at least that's what I got from Vic deals",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "*alligator point, thank you",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This is genius! I’m going to start doing this now too. Thanks!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That solves it. Thank you!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "THANK you. They don’t even know how they sound",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Thank you for at least doing something good sir.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Thanks. I appreciate that. At least I know I’m not the only one.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Whenever I'm having a bad day, I watch a few eps of Cosmos to chill out.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Thanks for yelling it",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Appreciate the love man!! It's a fun game!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "aw, thanks! I appreciate that!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Your stupidity and your attempt to reframe the argument when the facts are laid out clearly is astounding LOL",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "congrats. i'm broken rn but if I wasn't I'd be happy for you",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Thanks! That was an interesting read. Seems there really is a city where they built more homes than there were people to live there!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Oh forgive us for trying to make an exciting atmosphere at our homecourt.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Yeah let's wrap up AS4 I'm suddenly so much more excited for S11",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "She has at least 12 elbows and all of them are happy. You get it gurl",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That's a welcome relief. Lol.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Seeing my daughter take her very first steps brought tears of joy to my eyes.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Everything is falling into place smoothly and I couldn't be happier right now.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Yeah no haha. Out of my price range tbh",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Metallica recorded a congratulatory video for him, so effin cool:",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Oh boy lol",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Me, for example. I am very very happy.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm glad :)",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Alright, thanks",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Ah, thank you",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Thank you for that ! I’m glad it’s just not me !",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Everyday for the last year and a half has been very hard and I should be glad she's gone. I'm almost there.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Whoops. Didn’t know that was a thing. Thanks!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "What a beautiful sight that was to behold. Glad I was able to attend a couple of great [NAME] performances. “K” signs everyone",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This joke made me want to walk right out of the Dumbledoor.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The my bad thing is hilarious.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Haha exactly right!!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Thanks friend, you have a good day! ([NAME] is fab btw just not quite [NAME] or [NAME] for me!)",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm walking on sunshine and nothing can ruin my mood today!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "i guess you must eat filets and lobster at all your parties haha",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Looks like he's tired of your dad-jokes. Lol",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "My heart is bursting with happiness after hearing your wonderful news!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Lol you got nothing to worry bout from me bro. Thanks for keeping the game on",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Woke up feeling refreshed and full of vibrant energy for the wonderful day ahead.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "212/62 actually, lol. Good to know it's a metro-wide issue!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Finally cleared all my student loans today, I feel so liberated and happy!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "No! That's horrible news!..for Galaxy fans lol",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Really glad the US just passed transparent pricing for healthcare providers, but it's just a first step.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I see. Thanks again.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Lol so petty, I kinda love it. I probably wouldn’t actually do that but it’s tempting.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "\"I don't filter it out because I enjoy my daily cringe from the constant open letters. \"\"To the ____ who ____\"\"\"",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "PLACE THE DEVICE ON HER HEAD HA HA HA TIME TO DIE",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "beautiful story arc. glad you decided to end it in my semi hometown of excelsior - really neat lil town.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "this is a GANGSTER-ASS revelation!!!!. thanks mr. [NAME]!",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Funny, coming from the tool circle jerk reddit.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Omg so glad I’m not alone",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This...has 9k upvotes. Wow.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It would be hilarious if it was a pasta place too",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "And I'm crying. But you're so right. Thank you.",
+    "expected": "joy",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Is that Riverside, CA? That’s where I’m from! Sadly I was barely a teen in 1993-first time I saw them was Dec. 1996",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Oh my gosh, my Dodger blue heart goes out to yours and your family. I am so sorry.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "He was off by 5 minutes, not impressed.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I can't stop the tears from flowing, I miss them so terribly much.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I feel so lonely, empty, and isolated inside, like nobody truly understands me.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I killed them for the first time in my most recent playthrough and regretted it. The replacement council sucks just as hard.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It’s 2019 dude chill out with the gender roles Edit: it’s 2019 I’m tired sorry",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Yes, sorry reddit told me 2 times a error occured while posting this :/ Looks like it got submitted fine tho :/",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Never worked on my babies. So disappointing",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I’m so sorry to hear that! 😂😂😂",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I tried to send this to a friend but [NAME] knocked it away.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Didn't notice the date, sorry.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Mom will get sad. [NAME] still good. Hanging out with friends still good. Money buying foodie exp is still good.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "> It's upsetting. What can be done? We'll have to take it to the high courts, let them decide!",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I was streaming on my laptop so I could watch the glorious win. Sadly hunting has been tough so far. Damn those Bison.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Just life.. I feel like i'm just a parasite that should be removed.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Regret and sadness are clouding my mind today, wishing I could turn back time.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This hurts me.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I feel digestive regret just looking at them.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Preach. The nuthuggers and happy go lucky blind sheep if the front office are nowhere to be found. So disappointed in this team.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That was painful.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "kill me. lifes meaningless bc of this",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "read that as 'Belly Racing' and tbh i'm a little underwhelmed",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "me as fuck",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I stuck a bit of glass up there. It was a pane in the ass.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That’s on Canada. Sorry but I gotta give credit where credits due",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Sorry it didn't help. I hope you can find something that does.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm worried he choked to death before he could finish the sentence.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Seeing as how someone was raping her, it doesn't surprise me that much that the facility would be so negligent that they wouldn't notice the pregnancy.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I just wish he got more screen time. Im enjoying this season but I feel like the huge cast of side characters get all the attention.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That sucks. But you can find another SO. You can't unhave a kid.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Disheartened and exhausted from battling these endless painful setbacks.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "the world is becoming very boring...",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Huh, I'd missed this one when looking for new games a few months back. Might have to give it a try.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Being alone isn't the problem. Being **forever** alone is the problem.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "No she does not, not alone and not during sex(sadly)",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I don’t think [NAME] knocking us out of the copa would change anything. Our team is incredibly lethargic.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I was suffering a delirium flu during the phantom facemask game so it’s all sorts of suffering for me.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "McDonalds without sauce is just sad... you take away my garlic mayo and my barbecue sauce and you take away my soul",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I really felt for this mother. You could tell how frustrated and exasperated she was. Glad she was there to stand up for her kids.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm worried that even in the summer we're not going to have the funds necessary to do that.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "They've done this before. Look the Order of the White Feather up, it was worse.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "We thought he was getting better but then he turned himself around.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Sorry was late at night and i was in a real depression fog",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Honestly, same. I was miserable at my admin asst job.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The EPA allowed DuPont to use a chemical that literally kills people in their nonstick pans. They can be bought too unfortunately.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Icing on a cake of sadness.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That's cause [NAME] really got his career ruined by injury.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The sad thing is, relatively speaking these are actually pretty good living conditions. Check out Harris Ranch.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Sadly my boyfriend's family is the direct opposite but we'll still make it work :3",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "too bad nothing came off it",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That head must hurt!",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Wish they'd update Trapper's and Wraith's. They're so boring.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "My toes hurt watching this",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Dude, she had just lost her baby, too.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It better not as I only bought the bloody thing last week! Sorry, guess i'm still in shock from the kettle dying.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I can feel that man's feelings and I'm crying",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'd say we should dump him somewhere at sea but the oceans are already pretty polluted... :(",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm sensitive! :'(",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Will see,still better for Chelsea then [NAME] who looked completely lost and devoid of any confidence lately",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm grieving deeply and trying to take it one difficult minute at a time.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Your comment is kinda wasted. He can't read.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The only one to really be sad about losing is [NAME] tbh",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Well poops. My friend and I want to wander and look for such things but we can't. Boo!",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That is incredibly disheartening.",
+    "expected": "sadness",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I am so outraged by this blatant injustice, heads need to roll immediately!",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "What I know is you seem perfectly comfortable being a hypocrite but utterly outraged at the idea of admitting to it.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That's an extremely ignorant thing to say",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Ah, modern society's obsession with romance for the sake of romance… I hate it.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Everyone makes the NREMT test sound like the devil. It really isn't that bad.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME]: I have a plan. Me: You’ve always got a damn plan ̶D̶u̶t̶c̶h̶ [NAME].",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This guy fucking gets it.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Don't know why anyone would need more explanation than this video",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Damn thats so cheap",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Damn you and your facts.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It's not exactly hard to keep track.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Why the fuck do people have these conversations in public",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Looks deliriously boring.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME] fucking [NAME] please no",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Fuck that guy for game 2",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Ugh, this fucking tumblr account. I posted about this bitch before, they wrote that [NAME] drug rehab fanfiction.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "- But mom! I don’t wanna go to school today! - You’re going little shit.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "YES! I can't recommend this TED Talk enough and I think it's really disappointing that many portions of the left have caved in to anti-nuclear hysteria.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm at the end of my patience with this dysfunctional, corrupt organization!",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Oh gosh that's no good! Perhaps the other options are better places to start",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I would prefer to not observe it all but federal law does not allow it.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "You told me it was pointless to point it out. You're the idiot",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "No.. This dudes a little wack in the head",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Trying to read that made me feel like I just huffed formaldehyde amd mercury",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "She's not more than 17. And I love teenage [NAME]. Don't want her adult.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Actually you're a [NAME] if you aren't for exterminating the 'wrong inherently evil and guilty race'.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME] had some pretty harsh words.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Yes but iy also makes complete sense that morty woild want it gone too, so i hate how he instantly assumes it was rick",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Stop lying and manipulating the facts to cover up your gross incompetence!",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME] is actually a terrible player",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Women wear makeup to threaten other women. It has nothing to do with men. Same w all their weird mutilations.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "They can't they need a morty dumbness shield",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": ">Rise of Agon Literally the worst fucking game that man kind has ever managed to accomplish and you call him a carebear? Fuck out of here.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "My bf uses profanity, and I don't care. There's no reason for misogyny though.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "\"Another reason to instantly kill people who constantly use the word \"\"awesome\"\" for everything. This is just brainless mediocrity at its best.\"",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I HATE that song...I did not vote for it. A few of my songs I liked went at around 60-70",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Stop lying! You knew exactly what you were doing and you did it intentionally!",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I've never decided to have just one late night drunk egg",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "\"Three words, no subtlety. \"\"Dude. Stop. Seriously.\"\" \"",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Idk I feel like it's just an exaggeration, English is a hyperbolic language",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Get a lawyer for starters. Be prepared. Don't sit on your arse and flip flop. Find out what you really want and then do it.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Honestly never seen one as dumb as this.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Sorry dumbass, the provision is for paid **training days** But nice try",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The airline canceled my flight without explanation and refused any refund, unbelievable rage!",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "No. We wouldn’t have enough room to play them all and each of them would add like 10-15 mill in luxury tax. EACH.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It creates perverse incentives. Allow underpaid prison labour and suddenly you've an incentive towards exploiting your prison population rather than rehabilitating them.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "You said that it is a fact that [NAME] is a rapist based on the testimony of 1 person. I merely stated the same argument based on your logic.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "We aren't a bunch of Republican puppets like you believe.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "R/T DIDN'T WANT IT!!!!",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "No, that means you're actually 41.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "What's the fucking point of this post? Is just baseless claims with no proof to back them up.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This landlord is trying to unlawfully withhold our deposit, we are taking legal action!",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "You came at me with attacks, so no, you get NOTHING!",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "4 lives essentially, its insane",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Ugh, he sounds like a slob and you should leave him.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Ya i hate to talk bad about don’t but they should get the sticks out of their butts and make smarter decisions for their community",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I just have never found that area very attractive. Also from what I understand there is a lot of contaminated burial sites around there.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Poeling is looking like a fkn stud. Imagine our C depth next season... [NAME]... holy fuck",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "You are the type of fellow that puts mommy in the cheap home and cashes her cheques, loyalty of a snake.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This probably not a good file to keep on your phone if you are accessing this from within...",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Not really sweaty palms, but holy hell that's uncomfortable as all hell...",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Don't you dare talk down to me like I'm an idiot, check your attitude!",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Stop interrupting me every time I try to speak, it is infuriating and disrespectful!",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The sin was refusing to impregnate his brother's widow when [NAME] directly told him to. It's not just about wasting semen.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "You can't compare general economic losses to tax funded expenditures. It would only be fair if we lost 5 billion in tax revenue.",
+    "expected": "anger",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I friggin choked scrolling up to this",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This stressed me out",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "After all that i expected it to not look terrible. Oh well.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME] has gotta he replaced or that was just terrible writing",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I heard footsteps following closely behind me in the fog and panicked.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This was posted at the exact same time as another guy posted it on here, and that scares me.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Damn, that's dark",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The thought of losing our home in foreclosure keeps me terrified every waking hour.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME] no, these are horrid on anyone.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The cruise boat one (similar) where the water goes WELL over the porthole scares the everloving shit out of me every time",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I know he will be, I'm just nervous. His face is just going to be so sad 😢",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I am on month 9 post discard. The anxiety has lifted tremendously, and the depression is still looming but not as bad.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Terrified of failing this board certification after borrowing thousands of dollars for it.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Freaky, more like creepy",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This must have been totally horrifying for you. I'm glad to hear you found peace in the second birth.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The secondhand panic and embarrassment I feel from this is astounding",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Putting your finger and a loose cloth inside the 3 jaw chuck to polish the inside is insanely dangerous",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "> So basically, if you're responsible with guns, you have nothing to worry about. I'm worried about *other people* not being responsible with guns.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Ah, alt right thinking. Afraid of people who have anything 'upstairs,' or 'between their ears.'",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This is the most scary [NAME] can ever be to me, cause it’s also the most real he could ever be 😂",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That's the perfect intro for a panic ult.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Arghh! There's a dinosaur loose in your house! A dinosaur with Tippex eyes.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": ">very creepy horror-themed Very accurate description and only from a few second piece of an audio recording",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I have severe anxiety about what the future holds in this unpredictable crisis.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Oh my [NAME] I saw the rocks below the dog and feared the worst!",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The biggest cringe is actually all the people commenting she's a man",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This is pretty worrying and makes me wonder why she can’t. That’s not normal.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I am. He's the easy pick. Would be perfect for this franchise. I'm worried that he won't make it to us.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Yuuuuuuuuuup. It's horrible.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I am terrified that something awful might happen to my family during the storm.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "and everyone else is worried about themselves not paying attention to you",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I miss mass Rez her new ult is horrendous",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I would have tactically thrown dynamite and blown my self up about 2 seconds in.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I worry that as soon as VR and AR take off, it'll be the nail in the coffin and we will be trapped.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I’m scared for y’all saying Undone.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I was scared of my room and even when I fell asleep in my bed I would sleep walk into my mom's room",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That live snail got me freaked",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "My greatest fears are getting wooshed and not getting the joke.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I already called the county I got married in trying to find out about it but they had nothing on either of us about a divorce.. Im so anxious.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I was worried about that too honestly",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Okay then. Please remind me again why the lack of support is death threats in my PMs.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Well I'm scared as shit let's hope for the best, benz should be back(?)",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "My parents are going to kill me when they find out.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That was an horrendous season to an otherwise amazing show",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "that was a horrible fix",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm a guy and I'm squirming. My wife asked me what the hell I was reading and I told her. She said wtf really loud.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm terrible sorry, /u/bookluvr83, but I'm afraid I must join up with the giving-you-crap-for-not-liking-brownies bandwagon. ^kidding ^^^kinda",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "We had a clown banging on dorm windows, on campus, with a knife in 2016. Was terrifying.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm scared that they would turn out like me, even if I tried really hard to make them nice.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The [NAME] of horror!",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Or maybe he does, and that’s why he scared of people thinking that; he’s afraid of people finding them out.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "You're right to be nervous. That happened near my college's campus when I was a student. She lost everything in her wallet.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Sure hope #4 includes subsidized housing. I'm terrified.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Which is odd, he was terrible on Sunday",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Threaten to release....welp , nothing coming from this.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME] sure are afraid of brown women.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I had a nightmare about something similar, the combination of high walls and water is truly scary",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "There’s this which is terrifying to think about",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I’m afraid I just blue myself",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It scares me that left to right is also possible for anyone",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That was the only place I saw and their pictures looked horrible. Might just have to go to the source and vacation in southern Asia",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I mean it makes sense, they're into [NAME] because they totally dig the horribly socially stunted types so they love [NAME] for horribly traumatizing her.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Imagine if we dont trade [NAME] and [NAME] fans just kill all of us.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Nightmares of falling and drowning have been haunting my sleep all week.",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Yeah that’s one of the things I’m most worried about, still hopeful!",
+    "expected": "fear",
+    "split": "val_calibration"
+  },
+  {
+    "text": "\"This is the sort of chucklefuck who finds himself saying \"\"and there was nothing I could do\"\" after a mishap... often.\"",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I have already, what's your point?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Idk why you're surprised. [NAME] and [NAME] had identical philosophies. It's why the offense didn't change when he came back.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Oh yeah? Name one nature reserve or park and how will the wall affect them?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Wow. Got a link?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Did he just get fat? What caused him to fall off so much? It's amazing how quickly he flamed out.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "What the hell. Poor [NAME]. Poor you. Wow.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Isn't the minimum 3 majors or something? I don't think he made the cut but I'd be happy to be proven wrong",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Stranger things have happened.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Why is it that young girls seem to idolise serial killers? I had a friend like this and never understood the attraction. It's scary",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Thank you! I’ll look for his art. Btw I have no idea what Faces of Death or Traces of Death is",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Don't you feel embarrassed at all that your country answers to a country literally opposite of the world from yours?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "A burned hand teaches best, after that advice about fire goes to the heart.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I rubbed my eyes in disbelief when I saw the bank balance after the inheritance settled.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Did no one else notice your stroke?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I can say when I was 16 I never did anything even remotely as hateful as what these kids did. It's really easy.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It caught me completely off guard when the CEO suddenly stepped down this morning.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I read the Wikipedia and I’m even more confused now.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Is that the dude from spiderman?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I’m rather surprised that these books are STILL being made. Like I thought they died off around 2014.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It's crazy how far Photoshop has come. Underwater bridges?!! NEVER!!!",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "No he’s played his first season at center then finished as the starter at right tackle for every year after.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "So much time saved. Not.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Well that was unexpected! I thought for sure our team was out of the tournament!",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "But would the flashing swastikas be unexpected, if you already predicted them?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "idk what it is either, I think it’s because he looks like he plays in slow motion, but it works for him so idk",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I jumped out of my seat when the phone rang loudly in the dead silence of the night.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Ahhh yes, the I can be making close to 6 figures job that no one will ever disclose. Highly doubt it bro.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I gasped when the magician made the entire grand piano vanish in thin air!",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "What a shock! I never imagined our small startup would get acquired by Google!",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm curious though, will they upvote it to own the ~~libs~~ [NAME]?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That sudden twist caught the entire audience completely by surprise!",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'd give it a 9/10 one of my favorites. So what was your thoughts on D'jango?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Omg is this that what older kids call s*x?1?1??1??",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I am sure the protection was from other males. How does hat change things?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "But did you see my friend sent me a picture of [NAME] trying to tell me he's having a baby",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm starting to think that this whole DSJ trade thing is a bunch of BS.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Thats great! Just curious, what game?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "do people actually dislike space cop or is that a meme?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Maybe time to see a doctor or psychologist? Although a bit of social anxiety is normal and not necessarily the disorder.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "i really don't get why people like this guy",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "What a stunning discovery, researchers have uncovered an entire lost city under the jungle!",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "oh my [NAME]",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "**I can't believe she held out for a full 24 hours before flip-flopping**",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "No sure what’s going on here, but [NAME] was one of my absolute favorites growing up",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I gasped out loud when the secret trapdoor swung open beneath our feet!",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm surprised [NAME] didn't bust that dress open when she bent down to high [NAME]",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I had no idea but seeing this things make so much more sense...",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Oh, it was THAT episode?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I mean, she could still be related to Palpatine or something. I mean, who knows they're kinda making it all up as they go along.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Right but even without the FPTA surely we could have found ourselves in the same situation from a legal perspective?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "What's that thing you have pointed at your head, selloboy? Gun, forest, gun!",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I had no clue you were planning this trip, what a wonderful and shocking surprise!",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "And I thought we had 50, *five-pointed* stars on the flag?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm having a hard time understanding what exactly happened. I'm sorry you're having these problems. 🙁",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Because then if the wife gets pregnant it becomes difficult to find out which husband she is pregnant with",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "There is no enemy. Only knowledge that there is an invisible social hierarchy and we aint on it, let alone at the top.",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "\"You're saying some surprisingly stupid things for someone named \"\"[NAME].\"\"\"",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "OMG if the [NAME] and [NAME] run... I'll have the worst of time deciding who to vote for!",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Scrambled eggs, chevre, sweet potato chips, and a side of I should probably go shopping. A confusing flex",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "In America this guy would have been shot before he entered the door",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Who would have thought that quiet introverted intern was actually a secret chess grandmaster?!",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Maybe we’ve been mishearing the word ‘starch’ as ‘staunch’",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "My eyes went wide in disbelief when I saw the ancient relic up close!",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "So this means the people who have debt can see those that don’t. Am I sensing an easier target for muggings and such?",
+    "expected": "surprise",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Love live [NAME]",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I love this and you",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I hope [NAME] likes my Thanos costume though.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I like the mountain of health and guts thing about shugoki. Wouldn't mind if he get even more health",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME] damn what a comeback. I love this teams fight.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I love adamtots. He's a great comic creator",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I wish this was on Betfair, I'd quite enjoy making some money from Remainers.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I so badly wish we could all gain this mindset and keep it. How easy would life be.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This too shall pass In 10 years this could turn out to be the best thing that has ever happened to you.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "True intimacy is being able to share your deepest vulnerabilities with someone you cherish.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "You gotta find that fine line where you amass as much paper equity as possible while not sacrificing what’s really important in life.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Oh recently I’ve started working out and concentrating on myself. Has helped improved my mental strength as well as physical. I feel ready for anything.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I met her once and she ended up falling for me.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Dude... are you okay?",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME] is having a great start to the game. Very gritty and I love it. Plz keep him.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Focus on yourself by focusing on your prayers and reminding [NAME]",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I have a Secrets engagement ring, I love it, cost 1/10th of a real diamond and no one can tell. Would highly recommend!",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Mate honestly what you had was a serious relationship with her, for all 13 years. I hope you heal up well.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "About as serious as my plans to marry a porn star and retire to the Bahamas.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "their just mad because i love olicity and i think it's the best ship in the whole arrowverse. oh and because i think laurel is trash.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "True friendship grounded in mutual love and loyalty is rare and priceless.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "In the USA you won’t disappear for badmouthing the USA. That’s what I love about it.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "\"\"\"I'm sorry mam, but we dont allow children in the store unattended, so you are going to have to leave.\"\" \"",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That's called lust, and is completely normal. Just dont get obsessive and do things to keep you busy and dont be afraid of them feelings",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I know she's literally only just been revealed, but I *love* the name [NAME]",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Definitely my favorite reliever after Mo. loved his attitude and competitiveness.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Be honest with her... or put her on a pedestal just high enough to see up her dress... ;)",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Mostly because of the hype. I love going out with my friends!",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I adore your warm smile, your sweet laugh, and the immense kindness in your heart.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I am deeply and madly in love with you, and that will never change as long as I live.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Aww this made me tear up! Please keep posting your poems, they are so special ♥️",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Always go for someone you like and feel connected to.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Good luck my tw broskies :(",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I wish that show would come back",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Definitely the second to be frank. I just wanna get the best deal I can on a car I’m pretty in love with.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "this strikes me hard. I wish i knew my way out of this",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Don't worry about it.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That's a great dream. I love how your inner voice of him came out. It feels right on.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Personally, I think WebOS was the best until HP beat it to death. I loved my Palm Pre.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME] better be careful. He'll be next.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "If you think it's a real emergency don't waste too much time and try to call the police",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Gotta protect’em!",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I wish I could upvote this a thousand times",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I’m *BEGGING* that they get it right by the time [NAME] shows up.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Right? This pops up like atleast once a month, for months now. Dude needs serious therapy...",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "thanks! That helps",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Aw, I missed it :( . I really need to spend more time outside of the roundtable thread...",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "R/sleeptrain Might be time for some sleep training. Take a look and try to feel out what's right for your family.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I promise to cherish, respect, and adore you every single day of our lives together.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "We'll try this... I love you man. Whoever you are I know you're good. Most of us are.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Don’t be silly. Fiat on/off ramps will always be centralized.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm three months old and I love Queen and Metallica, not the crap my generstion listens too.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It's awesome. Sorry, I am a red-blooded male. I see a beautiful woman with a thick 10/10 body and I like it. 😎",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Good luck [NAME]",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I like that he keeps with the Cardinals’ colors. This needs to be an alternative uniform",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Just be there for him in the best way you can. Look out for him but also keep yourself in mind. It's all you can do",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Love it when the wife goes lets it go retro. Also love it when she gets that puppy waxed.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Yeah. I do wish you the best. It's not gonna be easy but I do. You're welcome!",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That sounds like a lovely time :D",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This is why I love Reddit.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "May your test be negative and your New Year's be happy!",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Unconditional love is the greatest gift a parent can give to their child.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME] it’s ok the trumpet player can’t hurt you anymore",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Just try really hard to not ghost her and give her some kind of closure. Ghosting will most likely hurt more... Good luck.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The bond between twin sisters is filled with deep affection, empathy, and unbreakable love.",
+    "expected": "love",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Damn that was ugly",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I was revolted by the greasy, grime-covered utensils at the diner.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I find his crude, sexist, and degrading remarks utterly offensive and abhorrent.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "And that wig is awful",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "If Ww3 breaks out in northern Asia as people expect. It will make things worse for you guys in the states - not better",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "FINISH ON HER!! Seems way more appropriate for a sex doll",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Yikes. She sounds like she's one bad grade away from shooting up a synagogue.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "What an obnoxious, drunk girl.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I woke up drunk and mouthy",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "dae [NAME] IS MOMMY FUCK MY ASS WITH A BACKHOE MOTHER YES GAWD *tongue pop* WHAT A TALENTED ACTRESS BUT ALSO PARENTAL FIGURE",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "You would know if you weren't such a Filthy Ricefield Peasant.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Ugh, [NAME]. Gross.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'll take the Akot 3 but man that shot is ugly",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Come to Somerset, quite a few women are cricket crazy because everybody is cricket crazy here. It’s weird.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Just gonna be mean here, those are all hideous :(",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Seahawks fans are very bad at just taking the L.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I’d say this is spot on. He’s not sorry he hurt me. He just wants me to shut up.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I watched that worm fish sauce thing. So gross, disgusting, bleh, NO,NO, and HELL NO!!",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Sucks that [NAME] was a straight positive in important minutes and hasn’t seen the floor since..",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "What a disgusting person she is",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It's weird because sometimes I care and sometimes I don't. Although I wouldn't call myself an asexual I could be leaning more towards demisexual.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The main reason I left is a hidden mmr used to influence matchmaking in a mode that requires a paid entry. That's disgusting",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Finishing peeing and then still feeling like you have to pee.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Found a moldy dead insect floating in the bottled beverage, utterly nauseating!",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "She sounds hideous.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I’m a big Spider-Man fan and this looks terrible compared to Spider-verse and the PS4 game.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Its hard to look at. Its just gross.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Worst deal on the leafs right now easily",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Ugh. That was not information anyone needed...",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Here too. I just find weird colorful stuff and hope it doesn't clash too bad.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I actually had to rewind a few times because I found myself getting distracted because I was kind of bored.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This is the worst advice I've ever read. You should be ashamed for posting it.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Can’t be worse than last week",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The US and Canada are great allies, it's really a shame they've elected their worst.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This thread is one of worst things I've ever read",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Yeah I don’t think [NAME] wants you to fuck my wife/his girlfriend anymore you cuck",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[](/ironwillthumbsup) True! Weird, but true!",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Dear [NAME], please help [NAME] be less disgusting. Amen.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This offense is just painful to watch.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Such vile and hateful slurs have no place in a civilized society.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "thats the future right there, robots trying to help but destroying your whole home in the process.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The overflowing toilet in the public restroom was a vile and sickening sight.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "If you're talking about drinking, unless there's tea or coffee in it, gross.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Mad stinky.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The greasy film covering the kitchen counters and stove was totally repulsive.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "that this ridiculous comparison is this detailed and explicit makes me think the whole beating-a-little-girl-thing is part of his disgusting sexual fantasies.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I am repulsed by how greedily they exploited vulnerable homeless people for views.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Thats pretty lewd.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Same. All other map on OG with SSD were fine. [NAME] drops and it's terrible.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The basement was infested with roaches, maggots, and decaying rodent carcasses, gross!",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Yeah, all the stun cannonballs are horrible.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It's also cruel how noone is informed about the execution at all. Relatives are left completely in the dark and likely never find out about their execution.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Ignorance is the worst thing that can happen to someone",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It only gets worse kiddo. Someone call [NAME] and get this girl an upgrade.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME] they need a union so badly.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'm gonna say that I hate Randazzo's because of their terrible icing. Haydel's is decent and ships.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "He was horrible",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The kitchen hygiene at that street stall was horrifying, rat droppings near the flour!",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Tbh as creepy as this post is I was way more sexually active back when I was 16-20 than I am today Kids are horny 💁‍♂️ Idk",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "that was a horrible call",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Damn, that was dirty.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Jurassic world fallen kingdom was awful after they left the island",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": ".... That literally made my stomach clench. I can't believe they are charged for the samples... Just eww.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "And KAT with 6. Weird game.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I felt utter contempt and disgust for their brazen cruelty towards the helpless.",
+    "expected": "disgust",
+    "split": "val_calibration"
+  },
+  {
+    "text": "[NAME] mom is Puerto Rican",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The meeting is scheduled to convene at two o'clock in room four hundred.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "If ANYONE told me upfront they were a whatever game console guy/girl, I’d reconsider dating them. You’re too into video games.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Bruh Nicollet Mall is downtown Minneapolis. There’s nothing suburban about it.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Plus of course raging at a system that requires that they consider other people (who might even be the dreaded [NAME] or 'foid') as human beings.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "You dont put it in the wastebasket. You put it on your Dad's nightstand.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I found the love of my life at 35. There's plenty of time.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Please verify that your shipping address is up to date in the profile settings.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I was kicked, and apparently don't care about oversharing on Reddit about it anymore",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "If you are into sours they put out some decent stuff, but anything outside of that is completely forgettable and average.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The library operates from 9:00 AM to 8:00 PM on weekdays and closes at 5:00 PM on weekends.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Go get another phone!",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It's not like other teams have been spending tons of money in the last couple weeks. Making small moves doesn't mean we can't make big moves.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "now if only there was some sort of *shock them through the phone* button....",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Source???!",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I can relate to this so much.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Or they saved their mom from a lifetime of fixing him... 🤕",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Hello everyone. Im from Toronto as well. Can call and visit in personal if needed.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "\"Oh yeah, I meant it \"\"doesn't work as an explanation for [NAME]\"\". Not that the concept is bunk.\"",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The library catalog provides access to over fifty thousand academic journals.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Whats more scary than a yellow man? A yellow man using yellow colour",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "How did you try it if it's not live yet? There was no early access to it",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "\"\"\"drop the beat *AYYYYYYYYY........OOOOOOOOHHHHNNNOOOOOO\"\"*\"",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "bet you could still eat them",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "They look like rappers",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The store carries three different sizes of the storage container in clear plastic.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Then watch the American remake and weep",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "It’s way too broken, anyone and their dog can use it.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "You’ve described some states in the South, like",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "At least she can't use the old thyroid problems excuse for her fatness",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Oh holy heck :/",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Man my siblings would never just kill me like that",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Get big, whatever it takes.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The bathroom on the first floor at my school had no soap dispenser, a destroyed toilet, and toilet paper so long it left the bathroom.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Welp see you in eternity!!!",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "\"Pretty sure you don't know what \"\"hurt\"\" means\"",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Let's see what [NAME] thought about it...",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Aww, try mindfulness. I think I am going over to that sub now.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That's ironic.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The committee will deliver its findings in a written statement next Tuesday.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The flight duration between Chicago and New York is roughly two hours and fifteen minutes.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Unleash your RAGE, my chosen children! Unleash your rage upon the [NAME], and bring forth the age of the YELLOW",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Anytime :)",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I believe [NAME] solved this issue back in 2004 with the racial draft",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "\"I mean, one has to do the research. Buying a lemon doesn't mean that having a car is \"\"worthless\"\".\"",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The building was constructed in 1984 and renovated during the summer of 2012.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": ">it'll get invaded by tankie, unfortunately. How apropos.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Oh no, are you going to be psychologically tormented and cry in the shower about it later?",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Oh that’s crazy to expect that much. 10/5 years is nothing.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Updooted like the filthy animal I am.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Just got home from school. How are we doing",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "No, they aren’t.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "The walls are repainted anyway every few years, so if you buy the paint you want, they will even do it for you with that.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Hungover lil chicken",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I'd give it a 6.9, based on the fact that he was still caught in the tree",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "I put cheese on everythingggggg and I ain't even mad about it",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "And I’ll be there!!!",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Kinda reminds me of the 11 foot 8 videos. Sooo",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "That would never pass since every side would get what they want. There has to be a loser in his eyes",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "“To fight there civil rights battles for them.” Okay, with that in mind, do you agree with the message of the Gillette ad?",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Pretty sure that had been upped to at least 10k subs. It actually might even be higher now.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Slowing things down now",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Mine was apparently [NAME] and the giant peach!",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "This chicks stealing his pubes off the toilets seat",
+    "expected": "neutral",
+    "split": "val_calibration"
+  },
+  {
+    "text": "Please remember to submit your timesheets before the end of the day on Friday.",
+    "expected": "neutral",
+    "split": "val_calibration"
+  }
+]
