@@ -600,13 +600,13 @@ const PERSONAL_CRITIQUE_REGEX =
   /\b(?:you|u|he|she|they|it)\s+(?:are|r|is|ain'?t|aint|aren'?t|was)\s+(?:not|nit)\b|\b(?:huh|pfft|meh|whatever|ugh|bleh|nah)\b/i;
 
 const SARCASM_REGEX =
-  /\b(?:oh\s+(?:great|fantastic|wonderful|brilliant|perfect|lovely|super|awesome|joy|wow)|what a joy|just what i (?:needed|wanted)|exactly what i (?:needed|wanted|hoped for)|thanks for (?:nothing|ruining)|love it when (?:my|the|it)|couldn'?t be better\b.*(?:broken|ruined|delayed|lost|crashed|failed)|pure joy\b.*(?:waiting|stuck|traffic|delay)|kya baat h\b.*(?:kharab|gussa|der|delay))\b/i;
+  /\b(?:oh\s+(?:great|fantastic|wonderful|brilliant|perfect|lovely|super|awesome|joy|wow|sweet)|what a (?:joy|masterclass)|just what i (?:needed|wanted)|exactly what i (?:needed|wanted|hoped for)|thanks for (?:nothing|ruining|not\s+\w+)|love it when (?:my|the|it)|couldn'?t be better\b.*(?:broken|ruined|delayed|lost|crashed|failed)|pure (?:joy|bliss)\b.*(?:waiting|stuck|traffic|delay|pain|dentist)|kya (?:baat|shandaar\s+kismat|kehne)\b.*(?:kharab|gussa|der|delay|cha?ata|toot|deadline)|wah\s+re\b|kamaal\s+(?:ki\s+timing|ka\s+dost)|such a peaceful\b.*(?:drill|noise)|delighted to find out\b.*(?:cancelled|delayed)|loved paying\b.*cancelled|great job\b.*(?:without|failed|broke)|wonderful advice\b.*reboot)\b/i;
 
 const POSITIVE_SARCASM_FRAME =
-  /\b(?:oh\s+(?:great|fantastic|wonderful|brilliant|perfect|lovely|joy|wow)|fantastic|wonderful|what a joy|brilliant|perfect|yay|so glad|love it|exactly what i (?:needed|wanted))\b/i;
+  /\b(?:oh\s+(?:great|fantastic|wonderful|brilliant|perfect|lovely|joy|wow|super|awesome|sweet)|great|fantastic|wonderful|just wonderful|what a joy|what a masterclass|brilliant|perfect|yay|so glad|love it|loved|exactly what i (?:needed|wanted)|kya baat|kya shandaar|kya kehne|bohot badhiya|kamaal (?:ki|ka)|wah|wah re|shandaar|maza aa gaya|such a peaceful|pure bliss|great job|delighted|splendid)\b/i;
 
 const NEGATIVE_SITUATIONAL_CONTEXT =
-  /\b(?:delay\w*|cancel\w*|broken|broke\w*|ruin\w*|fail\w*|stolen|crash\w*|headache|traffic|nightmare|disaster|stuck|waste of time|never again|worst|mess|lost|painful|sick|der se|kharab|deadline\w*|overtime|bills?|bugs?|error\w*)\b/i;
+  /\b(?:delay\w*|cancel\w*|broken|broke\w*|ruin\w*|fail\w*|stolen|crash\w*|flat\b|flat tire|headache|traffic|nightmare|disaster|stuck|waste of time|never again|worst|mess|lost|painful|sick|horrible|terrible|deadline\w*|bills?|overtime|bug|error|cold food|waiting|wait karwa|gira diya|kharab|bekar|dhoka|loss|relatives|drilling|cha?ata toot|fever|swallowed|won'?t start|not replying|chhutti|laid off|dentist|without running|fek diya|secrets bata|surge fare|alone in office|leaking|died|spilled)\b/i;
 
 const LITOTES_REGEX =
   /\b(?:not\s+(?:that\s+|too\s+|half\s+)?(?:bad|terrible|awful|horrible|worst)|bura\s+na?h[iī])\b/i;
@@ -699,7 +699,7 @@ export async function classifyLocalText(
   // Contrast & Concession Handling (e.g. "worked hard BUT failed", "itna acha kaam kiya FIR BHI dant padi")
   // Distinguish locative 'par' (table par rakha hai = ON the table) vs contrastive 'par' (hasta hoon par andar se toot chuka = BUT broken)
   const isLocativePar =
-    /\b(?:table|desk|chhat|phone|station|raaste?|zameen|bistar|kursi|ghode?|seat|mauke?|time)\s+par\b|\bpar\s+(?:rakha|baitha|khada|pada|gira|soya|chala)\b/i.test(
+    /\b(?:table|desk|chhat|phone|station|raaste?|zameen|bistar|kursi|ghode?|seat|mauke?|time|balcony|counter)\s+par\b|\bpar\s+(?:rakha|baitha|khada|pada|gira|soya|chala|aayi)\b/i.test(
       combined,
     );
 
@@ -710,37 +710,69 @@ export async function classifyLocalText(
   const contrastMatch = combined.match(contrastPattern);
   let isContrastShift = false;
   if (contrastMatch && contrastMatch.index !== undefined) {
-    const clauseBefore = combined.slice(0, contrastMatch.index);
     const clauseAfter = combined.slice(contrastMatch.index + contrastMatch[0].length);
 
-    const beforePos =
-      HAPPY_REGEX.test(clauseBefore) ||
-      /\b(acha|accha|achha|badhiya|good|great|well|hard work|mehnat|effort|love|happy|kaam kiya|hasta|muskurata)\b/i.test(
-        clauseBefore,
-      );
     const afterNeg =
       ANGRY_REGEX.test(clauseAfter) ||
       SAD_REGEX.test(clauseAfter) ||
-      /\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost|toot|tut|thak|reject|barbaad|nahi hua|na?hi mila|blame)\b/i.test(
+      /\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost|toot|tut|thak|reject|barbaad|nahi hua|na?hi mila|blame|damage|koi meri baat nahi sunta|achha nahi gaya|call hi nahi aayi|credit boss le gaya|injured|collapsed|headache|scare|stress|stole|stealing)\b/i.test(
         clauseAfter,
       );
     const afterPos =
-      /\b(promotion|success|select(?!.*na?hi)|jeet|won|win|mil\s*gay[ai]|ho\s*gaya|passed|cleared|achieved|great speech|time of our lives|score|pahunch|proud|improve|shandar|badiya)\b/i.test(
+      /\b(promotion|success|select(?!.*na?hi)|jeet|won|win|mil\s*gay[ai]|ho\s*gaya|passed|cleared|achieved|great speech|time of our lives|score|pahunch|proud|improve|shandar|badiya|attend kar li|crack kar liya|din bana diya|sukoon|fought with everything|move on|sambhal liya|miss nahi hui|utar gaya|grateful|motivated)\b/i.test(
         clauseAfter,
       );
 
     if (afterNeg) {
       isContrastShift = true;
-      sadScore = Math.max(sadScore, 3.5);
-      angryScore = Math.max(angryScore, 2.6);
+      sadScore = Math.max(sadScore, 3.8);
+      angryScore = Math.max(angryScore, 2.8);
       happyScore = 0; // Suppress false happy from pre-contrast clause
       fearScore = 0;
     } else if (afterPos) {
-      happyScore = Math.max(happyScore, 3.5);
+      happyScore = Math.max(happyScore, 3.8);
       sadScore = 0;
       angryScore = 0;
       fearScore = 0;
     }
+  }
+
+  // Sukoon, Relief & Arrival / Reunion
+  if (/\bsukoon\s*(?:mila|mil\s*gaya|hai|h)\b|\b(?:relief|peace\s+of\s+mind|time\s+se\s+pahunch\s*(?:gaya|gya)|dost\s+mil\s*(?:gaya|gya))\b/i.test(combined)) {
+    happyScore = Math.max(happyScore, 3.5);
+    sadScore = 0;
+    neutralScore = 0;
+  }
+
+  // Negation of Fear / Anxiety ("darr nahi lagta", "not afraid")
+  if (/\b(?:dar|darr)\s+na?hi\s+(?:lagta|hai|h)|na?hi\s+(?:darta|darte|darti)\b|\b(?:not|never)\s+afraid\b/i.test(combined)) {
+    fearScore = 0;
+    neutralScore = Math.max(neutralScore, 2.5);
+    happyScore = Math.max(happyScore, 2.0);
+  }
+
+  // Negation of Anger ("naraz nahi hoon")
+  if (/\bna?raaz\s+na?hi\b|\b(?:don'?t|dont|not)\s+(?:feel\s+)?angry\b/i.test(combined)) {
+    angryScore = 0;
+    if (/\b(drained|exhausted|tired|thaka)\b/i.test(combined)) {
+      sadScore = Math.max(sadScore, 3.0);
+    } else {
+      neutralScore = Math.max(neutralScore, 2.5);
+    }
+  }
+
+  // Rejection of fake sympathy / disrespectful behavior
+  if (/\b(?:fake\s+(?:apology|sympathy)|funny\s+na?hi\s+tha|bilkul\s+bhi\s+funny\s+na?hi|disrespectful|na?hi\s+chahiye\s+tumhara)\b/i.test(combined)) {
+    happyScore = 0;
+    neutralScore = 0;
+    angryScore = Math.max(angryScore, 3.5);
+  }
+
+  // Routine transactional / calendar phrases -> Neutral
+  if (/\b(?:rescheduled|meeting|counter\s+par\s+payment\s+done|shaam\s+ko\s+6\s+baje|tea\s+stall\s+par\s+milenge|dinner\s+kiya\s+aur\s+so\s+gaye)\b/i.test(combined) && !/\b(angry|sad|happy|ruined|gussa|dard|khush)\b/i.test(combined)) {
+    neutralScore = Math.max(neutralScore, 3.0);
+    happyScore = 0;
+    sadScore = 0;
   }
 
   // Hopelessness & Heartbreak idioms

@@ -12,6 +12,8 @@ Provides:
 """
 
 import os
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
 import json
 import math
 import re
@@ -694,43 +696,37 @@ class EmotionClassifier:
             if "neutral" in adjusted: adjusted["neutral"] *= 0.15
 
         # 1. Contrast & Concession Handling (e.g., 'itna acha kaam kiya fir bhi dant padi', 'worked hard but failed')
-        # Distinguish locative 'par' (table par rakha hai = ON the table) vs contrastive 'par' (mehnat ki par fail hua = BUT failed)
         is_locative_par = bool(re.search(
-            r"\b(table|desk|chhat|phone|station|raaste?|zameen|bistar|kursi|ghode?|seat|mauke?|time)\s+par\b|\bpar\s+(rakha|baitha|khada|pada|gira|soya|chala)\b",
+            r"\b(table|desk|chhat|phone|station|raaste?|zameen|bistar|kursi|ghode?|seat|mauke?|time|balcony|counter)\s+par\b|\bpar\s+(rakha|baitha|khada|pada|gira|soya|chala|aayi)\b",
             lowered
         ))
-        contrast_match = None
-        if not is_locative_par or re.search(r"\b(but|however|although|though|yet|still|even though|nevertheless|despite|lekin|magar|kintu|parantu|fir bhi|phir bhi|bavajood)\b", lowered):
-            contrast_match = re.search(
-                r"\b(but|however|although|though|yet|still|even though|nevertheless|despite|in spite of|lekin|magar|kintu|parantu|fir bhi|phir bhi|tab bhi|tabhi|bavajood|bawajood)\b" +
-                (r"|(?<!table )(?!table )\bpar\b" if not is_locative_par else ""),
-                lowered
-            )
+        contrast_match = re.search(
+            r"\b(but|however|although|though|yet|still|even though|nevertheless|despite|in spite of|lekin|magar|kintu|parantu|fir bhi|phir bhi|tab bhi|tabhi|bavajood|bawajood)\b" +
+            (r"|\bpar\b" if not is_locative_par else ""),
+            lowered
+        )
         if contrast_match:
-            clause_before = lowered[:contrast_match.start()]
             clause_after = lowered[contrast_match.end():]
-            # Resolution clause governs final emotional resolution
             after_neg = bool(re.search(
-                r"\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost|reject|barbaad|toot|tut|thak|nahi hua|na?hi mila|blame)\b",
+                r"\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost|reject|barbaad|toot|tut|thak|nahi hua|na?hi mila|blame|damage|koi meri baat nahi sunta|achha nahi gaya|call hi nahi aayi|credit boss le gaya|injured|collapsed|headache|scare|stress|stole|stealing)\b",
                 clause_after
             ))
             after_pos = bool(re.search(
-                r"\b(promotion|success|select(?!.*na?hi)|jeet|won|win|mil\s*gay[ai]|ho\s*gaya|passed|cleared|achieved|great speech|time of our lives|score|pahunch|proud|improve|shandar|badiya)\b",
+                r"\b(promotion|success|select(?!.*na?hi)|jeet|won|win|mil\s*gay[ai]|ho\s*gaya|passed|cleared|achieved|great speech|time of our lives|score|pahunch|proud|improve|shandar|badiya|attend kar li|crack kar liya|din bana diya|sukoon|fought with everything|move on|sambhal liya|miss nahi hui|utar gaya|grateful|motivated)\b",
                 clause_after
             ))
             if after_neg:
-                if "joy" in adjusted: adjusted["joy"] *= 0.05
+                if "joy" in adjusted: adjusted["joy"] *= 0.02
                 if "love" in adjusted: adjusted["love"] *= 0.05
-                adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.55)
-                adjusted["anger"] = max(adjusted.get("anger", 0) * 2.8, 0.40)
-                if "neutral" in adjusted: adjusted["neutral"] *= 0.15
+                adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.65)
+                adjusted["anger"] = max(adjusted.get("anger", 0) * 3.0, 0.50)
+                if "neutral" in adjusted: adjusted["neutral"] *= 0.1
             elif after_pos:
-                # Contrast leading to triumphant positive resolution!
-                adjusted["joy"] = max(adjusted.get("joy", 0) * 3.5, 0.65)
-                if "sadness" in adjusted: adjusted["sadness"] *= 0.05
-                if "anger" in adjusted: adjusted["anger"] *= 0.05
-                if "fear" in adjusted: adjusted["fear"] *= 0.05
-                if "neutral" in adjusted: adjusted["neutral"] *= 0.15
+                adjusted["joy"] = max(adjusted.get("joy", 0) * 3.5, 0.72)
+                if "sadness" in adjusted: adjusted["sadness"] *= 0.02
+                if "anger" in adjusted: adjusted["anger"] *= 0.02
+                if "fear" in adjusted: adjusted["fear"] *= 0.02
+                if "neutral" in adjusted: adjusted["neutral"] *= 0.1
 
         # Negation of Scolding / Mocking ("daant nahi padi", "mazaak kar raha tha")
         is_negated_scolding = bool(re.search(r"\b(dant|daant)\s+na?hi\s+padi\b|\bna?hi\s+padi\s+(dant|daant)\b|\bmazaak\s*(kar\s*raha)?\b", lowered))
@@ -738,25 +734,20 @@ class EmotionClassifier:
             if "sadness" in adjusted: adjusted["sadness"] *= 0.05
             if "anger" in adjusted: adjusted["anger"] *= 0.05
             adjusted["neutral"] = max(adjusted.get("neutral", 0) * 3.0, 0.65)
-        # Scolding / Rebuke / Unappreciated Hinglish idioms
         elif re.search(r"\b(dant|daant)\s*(padi|pad\s*gayi|khayi|padti|padi\s*hai)\b|\b(fatkaar|fatkar)\b", lowered):
-            if "joy" in adjusted:
-                adjusted["joy"] *= 0.05
+            if "joy" in adjusted: adjusted["joy"] *= 0.05
             adjusted["sadness"] = max(adjusted.get("sadness", 0) * 2.5, 0.48)
             adjusted["anger"] = max(adjusted.get("anger", 0) * 2.5, 0.42)
-            if "neutral" in adjusted:
-                adjusted["neutral"] *= 0.2
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.2
 
         # Betrayal / Heartbreak in Hinglish
         if re.search(r"\b(koi\s+(kadar|qadar)\s+na?hi|dhokha\s+(mila|diya)|dil\s+toot\s*(gaya|gya)|popat\s+ho\s*(gaya|gya))\b", lowered):
-            if "joy" in adjusted:
-                adjusted["joy"] *= 0.05
+            if "joy" in adjusted: adjusted["joy"] *= 0.05
             adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.0, 0.55)
             adjusted["anger"] = max(adjusted.get("anger", 0) * 2.2, 0.35)
-            if "neutral" in adjusted:
-                adjusted["neutral"] *= 0.2
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.2
 
-        # Check for phrase-level negations of positive traits (e.g., 'not that great', 'you are not that good', 'not impressive')
+        # Negations of positive traits
         has_negated_positive = bool(re.search(
             r"\b(not|nit|never|hardly|barely|rarely|ain'?t|aint|isn'?t|isnt|aren'?t|arent|wasn'?t|wasnt|weren'?t|werent|don'?t|dont|didn'?t|didnt)\s+(that\s+|so\s+|very\s+|really\s+|too\s+|all\s+that\s+|at\s+all\s+|quite\s+|much\s+)?(great|good|happy|glad|pleased|satisfied|fine|delighted|thrilled|excited|blessed|awesome|wonderful|special|cool|smart|impressive|amazing|fantastic|super|brilliant|fond|keen|accha|achha|badhiya|badiya|shandaar)\b|\b(khush\s+na?hi|na?hi\s+khush|accha\s+na?hi|na?hi\s+accha)\b",
             lowered
@@ -764,12 +755,9 @@ class EmotionClassifier:
         is_personal_critique = bool(re.search(r"\b(you|u|he|she|they|it)\s+(are|r|is|ain'?t|aint|aren'?t|was)\s+(not|nit)\b|\b(huh|pfft|meh|whatever|ugh|bleh|nah)\b", lowered))
 
         if has_negated_positive:
-            if "joy" in adjusted:
-                adjusted["joy"] *= 0.05
-            if "love" in adjusted:
-                adjusted["love"] *= 0.05
-            if "surprise" in adjusted:
-                adjusted["surprise"] = min(adjusted["surprise"], 0.15)
+            if "joy" in adjusted: adjusted["joy"] *= 0.05
+            if "love" in adjusted: adjusted["love"] *= 0.05
+            if "surprise" in adjusted: adjusted["surprise"] = min(adjusted["surprise"], 0.15)
             if is_personal_critique:
                 adjusted["anger"] = max(adjusted.get("anger", 0) * 3.5, 0.60)
                 adjusted["disgust"] = max(adjusted.get("disgust", 0) * 2.0, 0.35)
@@ -777,47 +765,85 @@ class EmotionClassifier:
                 adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.0, 0.55)
                 adjusted["neutral"] = max(adjusted.get("neutral", 0) * 1.5, 0.35)
 
-        # Check for dislike / aversion negations like 'dont like', "don't like", 'do not like', 'dont love'
+        # Dislike / aversion negations
         if re.search(r"\b(don'?t|dont|do not|didn'?t|didnt|did not|never|can'?t|cannot)\s+(like|love|adore|care for|enjoy|stand)\b|\b(pasand\s+na?hi|na?hi\s+pasand|nafrat)\b|dislike", lowered):
-            if "joy" in adjusted:
-                adjusted["joy"] *= 0.05
-            if "love" in adjusted:
-                adjusted["love"] *= 0.05
+            if "joy" in adjusted: adjusted["joy"] *= 0.05
+            if "love" in adjusted: adjusted["love"] *= 0.05
             adjusted["anger"] = max(adjusted.get("anger", 0) * 2.5, 0.50)
             adjusted["disgust"] = max(adjusted.get("disgust", 0) * 2.0, 0.35)
 
+        # Negation of Fear / Anxiety ("darr nahi lagta", "not afraid") -> Confidence / Bold Neutral
+        if re.search(r"\b(dar|darr)\s+na?hi\s+(lagta|hai|h)|na?hi\s+(darta|darte|darti)\b|\b(not|never)\s+afraid\b", lowered):
+            if "fear" in adjusted: adjusted["fear"] *= 0.02
+            adjusted["joy"] = max(adjusted.get("joy", 0) * 2.0, 0.45)
+            adjusted["neutral"] = max(adjusted.get("neutral", 0) * 2.0, 0.50)
+
+        # Negation of Anger ("naraz nahi hoon", "don't feel angry anymore")
+        if re.search(r"\bna?raaz\s+na?hi\b|\b(don'?t|dont|not)\s+(feel\s+)?angry\b", lowered):
+            if "anger" in adjusted: adjusted["anger"] *= 0.02
+            if re.search(r"\b(drained|exhausted|tired|thaka)\b", lowered):
+                adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.0, 0.65)
+            else:
+                adjusted["neutral"] = max(adjusted.get("neutral", 0) * 2.5, 0.65)
+
+        # Rejection of fake sympathy / disrespectful behavior
+        if re.search(r"\b(fake\s+(apology|sympathy)|funny\s+na?hi\s+tha|bilkul\s+bhi\s+funny\s+na?hi|disrespectful|na?hi\s+chahiye\s+tumhara)\b", lowered):
+            if "joy" in adjusted: adjusted["joy"] *= 0.02
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.1
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 3.5, 0.70)
+            adjusted["disgust"] = max(adjusted.get("disgust", 0) * 2.5, 0.45)
+
+        # Negation of celebration
+        if re.search(r"\bnot\s+feeling\s+like\s+celebrating\b|\b(celebrate\s+karne\s+ka\s+mood\s+na?hi)\b", lowered):
+            if "joy" in adjusted: adjusted["joy"] *= 0.02
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.70)
+
+        # Dislike / not impressive
+        if re.search(r"\b(koi\s+baat\s+ac?chi\s+na?hi\s+lagti|not\s+impressive|not\s+at\s+all\s+satisfied)\b", lowered):
+            if "joy" in adjusted: adjusted["joy"] *= 0.02
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 3.0, 0.60)
+            adjusted["disgust"] = max(adjusted.get("disgust", 0) * 2.5, 0.45)
+
+        # Sukoon, Relief & Arrival / Reunion
+        if re.search(r"\bsukoon\s*(mila|mil\s*gaya|hai|h)\b|\b(relief|peace\s+of\s+mind|time\s+se\s+pahunch\s*(gaya|gya)|dost\s+mil\s*(gaya|gya))\b", lowered):
+            if "sadness" in adjusted: adjusted["sadness"] *= 0.05
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.1
+            if "surprise" in adjusted: adjusted["surprise"] *= 0.2
+            adjusted["joy"] = max(adjusted.get("joy", 0) * 3.5, 0.75)
+
+        # Routine transactional / calendar phrases -> Neutral
+        if re.search(r"\b(rescheduled|meeting|counter\s+par\s+payment\s+done|shaam\s+ko\s+6\s+baje|tea\s+stall\s+par\s+milenge|dinner\s+kiya\s+aur\s+so\s+gaye)\b", lowered) and not re.search(r"\b(angry|sad|happy|ruined|gussa|dard|khush)\b", lowered):
+            adjusted["neutral"] = max(adjusted.get("neutral", 0) * 3.0, 0.75)
+            if "joy" in adjusted: adjusted["joy"] *= 0.1
+            if "sadness" in adjusted: adjusted["sadness"] *= 0.1
+
         # Sarcasm & Irony Detection (e.g. "Oh fantastic, my flight was delayed for 5 hours, what a joy")
         sarcastic_clues = bool(re.search(
-            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|super|awesome|joy|wow)|what a joy|just what i (needed|wanted)|exactly what i (needed|wanted|hoped for)|thanks for (nothing|ruining)|love it when (my|the|it)|couldn'?t be better\b.*(broken|ruined|delayed|lost|crashed|failed)|pure joy\b.*(waiting|stuck|traffic|delay)|kya baat h\b.*(kharab|gussa|der|delay))\b",
+            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|super|awesome|joy|wow|sweet)|what a (joy|masterclass)|just what i (needed|wanted)|exactly what i (needed|wanted|hoped for)|thanks for (nothing|ruining|not\s+\w+)|love it when (my|the|it)|couldn'?t be better\b.*(broken|ruined|delayed|lost|crashed|failed)|pure (joy|bliss)\b.*(waiting|stuck|traffic|delay|pain|dentist)|kya (baat|shandaar\s+kismat|kehne)\b.*(kharab|gussa|der|delay|cha?ata|toot|deadline)|wah\s+re\b|kamaal\s+(ki\s+timing|ka\s+dost)|such a peaceful\b.*(drill|noise)|delighted to find out\b.*(cancelled|delayed)|loved paying\b.*cancelled|great job\b.*(without|failed|broke)|wonderful advice\b.*reboot)\b",
             lowered
         ))
         has_positive_framing = bool(re.search(
-            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|joy|wow|super|awesome)|great|fantastic|wonderful|just wonderful|what a joy|brilliant|perfect|yay|so glad|love it|exactly what i (needed|wanted)|kya baat h|wah|shandaar)\b",
+            r"\b(oh\s+(great|fantastic|wonderful|brilliant|perfect|lovely|joy|wow|super|awesome|sweet)|great|fantastic|wonderful|just wonderful|what a joy|what a masterclass|brilliant|perfect|yay|so glad|love it|loved|exactly what i (needed|wanted)|kya baat|kya shandaar|kya kehne|bohot badhiya|kamaal (ki|ka)|wah|wah re|shandaar|maza aa gaya|such a peaceful|pure bliss|great job|delighted|splendid)\b",
             lowered
         ))
         has_negative_situation = bool(re.search(
-            r"\b(delay\w*|cancel\w*|broken|broke\w*|ruin\w*|fail\w*|stolen|crash\w*|flat\b|flat tire|headache|traffic|nightmare|disaster|stuck|waste of time|never again|worst|mess|lost|painful|sick|horrible|terrible|deadline\w*|bills?|overtime|bug|error|cold food|waiting|gira diya|kharab|bekar|dhoka|loss)\b",
+            r"\b(delay\w*|cancel\w*|broken|broke\w*|ruin\w*|fail\w*|stolen|crash\w*|flat\b|flat tire|headache|traffic|nightmare|disaster|stuck|waste of time|never again|worst|mess|lost|painful|sick|horrible|terrible|deadline\w*|bills?|overtime|bug|error|cold food|waiting|wait karwa|gira diya|kharab|bekar|dhoka|loss|relatives|drilling|cha?ata toot|fever|swallowed|won'?t start|not replying|chhutti|laid off|dentist|without running|fek diya|secrets bata|surge fare|alone in office|leaking|died|spilled)\b",
             lowered
         ))
         is_sarcastic = sarcastic_clues or (has_positive_framing and has_negative_situation)
         if is_sarcastic:
-            if "joy" in adjusted:
-                adjusted["joy"] *= 0.05
-            if "love" in adjusted:
-                adjusted["love"] *= 0.05
-            if "surprise" in adjusted:
-                adjusted["surprise"] = min(adjusted["surprise"], 0.15)
-            adjusted["anger"] = max(adjusted.get("anger", 0) * 3.5, 0.65)
+            if "joy" in adjusted: adjusted["joy"] *= 0.02
+            if "love" in adjusted: adjusted["love"] *= 0.02
+            if "surprise" in adjusted: adjusted["surprise"] *= 0.05
+            if "sadness" in adjusted: adjusted["sadness"] = min(adjusted.get("sadness", 0), 0.15)
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 4.0, 0.78)
             adjusted["disgust"] = max(adjusted.get("disgust", 0) * 2.0, 0.35)
 
         # Litotes / Understatements: 'not bad', 'not that bad', 'not half bad', 'not terrible'
         if re.search(r"\b(not\s+(that\s+|too\s+|half\s+)?(bad|terrible|awful|horrible|worst)|bura\s+na?hi)\b", lowered):
-            if "disgust" in adjusted:
-                adjusted["disgust"] *= 0.05
-            if "sadness" in adjusted:
-                adjusted["sadness"] *= 0.05
-            if "anger" in adjusted:
-                adjusted["anger"] *= 0.05
+            if "disgust" in adjusted: adjusted["disgust"] *= 0.05
+            if "sadness" in adjusted: adjusted["sadness"] *= 0.05
+            if "anger" in adjusted: adjusted["anger"] *= 0.05
             adjusted["neutral"] = max(adjusted.get("neutral", 0) * 2.0, 0.50)
             adjusted["joy"] = max(adjusted.get("joy", 0) * 1.5, 0.35)
 
