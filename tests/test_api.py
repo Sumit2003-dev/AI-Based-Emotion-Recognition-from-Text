@@ -159,6 +159,37 @@ def test_fastapi_endpoints():
     assert fb_resp["status"] == "success"
 
 
+def test_diagnostic_evaluation_suite():
+    """Validates the 10-sentence diagnostic benchmark across all 8 classes and mixed/temporal contexts."""
+    diagnostic_cases = [
+        ("Bas ab bahut ho gaya.", "anger", None, False),
+        ("Mujhe tumhari baatein nahi sunni.", "anger", None, False),
+        ("Tumhare bina meri life adhoori hai.", "love", None, False),
+        ("I was worried earlier, but now everything feels fine.", "joy", None, False),
+        ("I received the job offer, but I am scared of moving away from home.", "fear", "joy", True),
+        ("I feel so hopeless and everything is falling apart.", "sadness", None, False),
+        ("This is completely unacceptable and I demand a full refund immediately!", "anger", None, False),
+        ("I cannot stop smiling after hearing the wonderful news today!", "joy", None, False),
+        ("My hands won't stop shaking and I can barely breathe from the panic.", "fear", None, False),
+        ("The rotten garbage was covered in crawling maggots and smelled putrid.", "disgust", None, False),
+    ]
+
+    for sentence, expected_dom, expected_sec, expected_mixed in diagnostic_cases:
+        res = classifier.predict(sentence)
+        assert res["dominant_emotion"] == expected_dom, (
+            f"Expected dominant '{expected_dom}' for '{sentence}', got '{res['dominant_emotion']}'"
+        )
+        if expected_sec is not None:
+            assert res.get("secondary_emotion") == expected_sec, (
+                f"Expected secondary '{expected_sec}' for '{sentence}', got '{res.get('secondary_emotion')}'"
+            )
+        if expected_mixed:
+            assert res.get("is_mixed") is True, (
+                f"Expected is_mixed=True for '{sentence}', got {res.get('is_mixed')}"
+            )
+            assert res.get("compound_state") is not None, "Expected compound_state to be populated"
+
+
 if __name__ == "__main__":
     print("Running tests manually...")
     test_model_loaded()
@@ -167,6 +198,8 @@ if __name__ == "__main__":
     print("test_prediction_structure PASSED")
     test_emotion_recognition_benchmarks()
     print("test_emotion_recognition_benchmarks PASSED")
+    test_diagnostic_evaluation_suite()
+    print("test_diagnostic_evaluation_suite PASSED")
     test_negation_handling()
     print("test_negation_handling PASSED")
     test_sarcasm_and_irony_handling()

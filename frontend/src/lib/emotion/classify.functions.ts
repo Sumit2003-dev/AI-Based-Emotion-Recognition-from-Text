@@ -208,6 +208,20 @@ const HINGLISH_PHRASES: Array<[RegExp, string]> = [
   [/\bnafrat\s+karta\s*(hu|hoon)\b/gi, "i hate you with disgust"],
   [/\bnafrat\s+karti\s*(hu|hoon)\b/gi, "i hate you with disgust"],
 
+  // Frustration, Refusal & Romantic Longing
+  [
+    /\b(bas\s+)?(ab\s+)?(bohot|bahut|bht)\s+ho\s*(gaya|gya)\b|\bbas\s+bhi\s+karo\b|\bbas\s+bahut\s+hua\b|\bhadd\s+ho\s*(gayi|gyi)\b/gi,
+    "enough is enough, reached my limit in frustration and anger",
+  ],
+  [
+    /\b(mujhe|mereko|hume)\s+(tumhari|teri|aapki)\s+baat(ein)?\s*(na?hi)\s*(sunni|sunna)\b|\bbaat(ein)?\s*na?hi\s*sunni\b|\bmuh\s*mat\s*dikhao\b|\b(nahi|nhi)\s+sunna\b/gi,
+    "do not want to listen to you, stop talking to me in anger",
+  ],
+  [
+    /\b(tere|tumhare|aapke)\s+bina\s+(meri\s+)?(life|zindagi|jahan)\s+(adhoori|adhuri|kuch\s*nahi)\b|\b(tere|tumhare|aapke)\s+bina\s+(meri\s+)?(zindagi|life)\s+adhur[ia]\b|\b(tere|tumhare|aapke)\s+bina\s+nahi\s+reh\s*(sakta|sakti)\b/gi,
+    "life is incomplete without you, deep romantic love and longing",
+  ],
+
   // Specific Emotional Exhaustion, Futility & Effort Idioms
   [
     /\b(andar\s+se\s+)?thak\s*(chuka|chuki|gaya|gyi|gya)\s*(hu|hoon)?\b/gi,
@@ -525,6 +539,20 @@ const HINGLISH_SINGLE_WORDS: Record<string, string> = {
   bilkul: "at all",
   aisa: "this",
   hua: "happened",
+  bas: "enough",
+  ab: "now",
+  gaya: "gone",
+  gayi: "gone",
+  hadd: "limit",
+  baat: "words",
+  baatein: "words",
+  sunna: "hear",
+  sunni: "listen",
+  bina: "without",
+  adhoori: "incomplete",
+  adhuri: "incomplete",
+  zindagi: "life",
+  jahan: "world",
 };
 
 /**
@@ -567,13 +595,13 @@ export function translateHinglish(text: string): {
 }
 
 const HAPPY_REGEX =
-  /\b(happy|joy|great|awesome|love|wonderful|fantastic|excited|screamed|celebrat\w*|won|win\w*|yay|hooray|glad|delight\w*|best|congrat\w*|smile|cheer\w*|proud\w*|thank\w*|blessed|terrific|brilliant|good|nice|enjoy\w*|fun\w*|laugh\w*|bliss\w*|superb|excellent|outstanding|fabulous|pleased|pleasure|sweet|cute|adorable|charming|hilarious|haha\w*|loving|adore\w*|liked?|khush\w*|maja|maza|pyaar|pyar|mohabbat|shandaar|badhai|mubarak|mast|zabardast|badiya|badhiya|sundar|shukriya|dhanyawad|accha|achha|acha|hasi|hansi|tareef|gazab|bindaas|jhakaas|khoobsurat|feliz\w*|alegr\w*|heureu\w*|joie)\b/i;
+  /\b(happy|joy|great|awesome|love|wonderful|fantastic|excited|screamed|celebrat\w*|won(?!['’]t)|win\w*|yay|hooray|glad|delight\w*|best|congrat\w*|smile|cheer\w*|proud\w*|thank\w*|blessed|terrific|brilliant|good|nice|enjoy\w*|fun\w*|laugh\w*|bliss\w*|superb|excellent|outstanding|fabulous|pleased|pleasure|sweet|cute|adorable|charming|hilarious|haha\w*|loving|adore\w*|liked?|khush\w*|maja|maza|pyaar|pyar|mohabbat|shandaar|badhai|mubarak|mast|zabardast|badiya|badhiya|sundar|shukriya|dhanyawad|accha|achha|acha|hasi|hansi|tareef|gazab|bindaas|jhakaas|khoobsurat|feliz\w*|alegr\w*|heureu\w*|joie)\b/i;
 
 const SAD_REGEX =
   /\b(sad|depressed|grief|cry\w*|tears|unfortunate|lonely|heartbroken|sorrow|loss|lose|lost|miss\w*|hopeless|pointless|futile|futility|exhaust\w*|burnout|burnt out|drained|weary|gloomy|pain\w*|regret\w*|down|miserable|heartbreak|hurt\w*|unhappy|disappoint\w*|awful|suffer\w*|crying|weep\w*|sob\w*|loneliness|broken|mourn\w*|pity|tragic|failure|failed|alone|helpless|worthless|dukh\w*|udas\w*|udaas|mayus|mayoos|rona|dard|peeda|kasht|takleef|akela|akele|toot gaya|dil toot|bechara|afsos|tanha|tanhai|bura|bure|shok|gham\w*|triste\w*|llor\w*|pleur\w*|douleur)\b/i;
 
 const ANGRY_REGEX =
-  /\b(angry|anger\w*|angr\w*|furious|outrage\w*|hate|annoy\w*|irritat\w*|frustrat\w*|worst|delayed|terrible|horrible|disgust\w*|scam|never flying|fix this|ridiculous|infuriat\w*|screw|damn|mad|pissed|idiot|stupid|shame|rage|fury|shut up|kill you|punch|slap|bad mood|spoil my mind|fuming|wrath|bullshit|trash|rubbish|cheat\w*|gussa\w*|gusse|pagal|paagal|krodh|krodhit|naraz|naraaz|bakwas|bakwaas|bakchodi|bakchod|chup|maroong\w*|marung\w*|chutiya|kamina|kamine|saale|saala|bewakoof|bewkoof|ghatiya|faltu|chidh\w*|jhagda|ladai|dushmani|nafrat\w*|ghrina|bhaad me|bhaad|dimag kharab|dimaag kharab|deemag kharab|demag kharab|dimag ka dahi|deemag ka dahi|dimag mat khao|deemag mat khao|mood kharab|bata raha hu|bata raha hoon|bata rha hu|do not irritate my mind|brother, do not irritate my mind|irritated angry mind|enojad\w*|furia|rabia|fâché\w*|colère)\b/i;
+  /\b(angry|anger\w*|angr\w*|furious|outrage\w*|hate|annoy\w*|irritat\w*|frustrat\w*|worst|delayed|terrible|horrible|disgust\w*|scam|never flying|fix this|ridiculous|infuriat\w*|screw|damn|mad|pissed|idiot|stupid|shame|rage|fury|shut up|kill you|punch|slap|bad mood|spoil my mind|fuming|wrath|bullshit|trash|rubbish|cheat\w*|unacceptable|refund|demand\s+(?:a\s+)?(?:full\s+)?refund|rotten|maggots|putrid|repulsive|nauseating|gross|vile|gussa\w*|gusse|pagal|paagal|krodh|krodhit|naraz|naraaz|bakwas|bakwaas|bakchodi|bakchod|chup|maroong\w*|marung\w*|chutiya|kamina|kamine|saale|saala|bewakoof|bewkoof|ghatiya|faltu|chidh\w*|jhagda|ladai|dushmani|nafrat\w*|ghrina|bhaad me|bhaad|dimag kharab|dimaag kharab|deemag kharab|demag kharab|dimag ka dahi|deemag ka dahi|dimag mat khao|deemag mat khao|mood kharab|bata raha hu|bata raha hoon|bata rha hu|do not irritate my mind|brother, do not irritate my mind|irritated angry mind|enojad\w*|furia|rabia|fâché\w*|colère)\b/i;
 
 const SURPRISE_REGEX =
   /\b(surprise\w*|astonish\w*|stunned|shock\w*|unbelievable|whoa|omg|wow|sudden\w*|unexpected\w*|speechless|mindblown|crazy|jaw-dropping|unreal|no way|mind blown|miracle|mysterious|bizarre|weird|hairan\w*|hairaan|chauk|kya baat|arey|sach me|sach mein|bhai kya|ajeeb|anokha|vishwaas nahi|vishwas nahi|sorpresa|asombr\w*|increíble|étonn\w*|inattendu\w*)\b/i;
@@ -713,13 +741,20 @@ export async function classifyLocalText(
 
   const contrastMatch = combined.match(contrastPattern);
   let isContrastShift = false;
+  let hasPreAchievement = false;
   if (contrastMatch && contrastMatch.index !== undefined) {
+    const clauseBefore = combined.slice(0, contrastMatch.index);
     const clauseAfter = combined.slice(contrastMatch.index + contrastMatch[0].length);
+
+    hasPreAchievement =
+      /\b(job\s+offer|offer\s+letter|won|win|award|accepted|acceptance|promotion|selected|cleared|passed|achieved|graduated|got\s+the\s+job|dream\s+come\s+true)\b/i.test(
+        clauseBefore,
+      );
 
     const afterNeg =
       ANGRY_REGEX.test(clauseAfter) ||
       SAD_REGEX.test(clauseAfter) ||
-      /\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost|toot|tut|thak|reject|barbaad|nahi hua|na?hi mila|blame|damage|koi meri baat nahi sunta|achha nahi gaya|call hi nahi aayi|credit boss le gaya|injured|collapsed|headache|scare|stress|stole|stealing)\b/i.test(
+      /\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost|toot|tut|thak|reject|barbaad|nahi hua|na?hi mila|blame|damage|koi meri baat nahi sunta|achha nahi gaya|call hi nahi aayi|credit boss le gaya|injured|collapsed|headache|scare|scared|stress|stole|stealing|afraid|panic|terror)\b/i.test(
         clauseAfter,
       );
     const afterPos =
@@ -728,17 +763,67 @@ export async function classifyLocalText(
       );
 
     if (afterNeg) {
-      isContrastShift = true;
-      sadScore = Math.max(sadScore, 3.8);
-      angryScore = Math.max(angryScore, 2.8);
-      happyScore = 0; // Suppress false happy from pre-contrast clause
-      fearScore = 0;
+      if (hasPreAchievement) {
+        fearScore = 2.8;
+        happyScore = 2.2;
+        sadScore = 0;
+        angryScore = 0;
+      } else {
+        isContrastShift = true;
+        sadScore = Math.max(sadScore, 3.8);
+        angryScore = Math.max(angryScore, 2.8);
+        happyScore = 0;
+        fearScore = 0;
+      }
     } else if (afterPos) {
       happyScore = Math.max(happyScore, 3.8);
       sadScore = 0;
       angryScore = 0;
       fearScore = 0;
     }
+  }
+
+  // Temporal superseding: Past negative/anxious state superseded by present positive/calm resolution
+  const pastEmotionalState =
+    /\b(?:was|were|felt|used to be|earlier|previously|initially|pehle|pahle)\b.*\b(?:worried|scared|afraid|anxious|terrified|nervous|dread|angry|furious|sad|depressed|grief|crying|upset|chinta|tension|darr?)\b/i.test(
+      combined,
+    );
+  const presentResolution =
+    /\b(?:but\s+now|however\s+now|now\s+everything|ab\s+sab|now\s+i\s+am|now\s+feels?|at\s+present|currently|ab\s+theek)\b.*\b(?:fine|okay|ok|good|great|better|peace|peaceful|relieved|normal|calm|theek|thik|badhiya|sukoon)\b|\b(?:now\s+everything\s+feels\s+fine|ab\s+sab\s+theek\s+hai)\b/i.test(
+      combined,
+    );
+  if (pastEmotionalState && presentResolution) {
+    fearScore = 0;
+    sadScore = 0;
+    angryScore = 0;
+    happyScore = Math.max(happyScore, 3.5);
+    neutralScore = Math.max(neutralScore, 1.5);
+  }
+
+  // Frustration, Refusal & Romantic Longing
+  if (
+    /\b(?:bas\s+)?(?:ab\s+)?(?:bohot|bahut|bht)\s+ho\s*(?:gaya|gya)\b|\bbas\s+bhi\s+karo\b|\bbas\s+bahut\s+hua\b|\bhadd\s+ho\s*(?:gayi|gyi)\b|\benough\s+is\s+enough\b|\breached\s+my\s+limit\b/i.test(
+      combined,
+    )
+  ) {
+    angryScore = Math.max(angryScore, 3.8);
+    neutralScore = 0;
+  }
+  if (
+    /\b(?:na?hi\s+sunni|na?hi\s+sunna|stop\s+talking\s+to\s+me|don'?t\s+want\s+to\s+hear|not\s+listening|muh\s+mat\s+dikhao|leave\s+me\s+alone)\b/i.test(
+      combined,
+    )
+  ) {
+    angryScore = Math.max(angryScore, 3.5);
+    neutralScore = 0;
+  }
+  if (
+    /\b(?:incomplete\s+without\s+you|life\s+is\s+incomplete|tumhare\s+bina|tere\s+bina|aapke\s+bina|meri\s+life\s+adhoor[ia]|zindagi\s+adhoor[ia]|life\s+adhur[ia])\b/i.test(
+      combined,
+    )
+  ) {
+    happyScore = Math.max(happyScore, 3.8);
+    neutralScore = 0;
   }
 
   // Sukoon, Relief & Arrival / Reunion
@@ -842,7 +927,7 @@ export async function classifyLocalText(
     (SURPRISE_REGEX.test(combined) || DEVANAGARI_SURPRISE.test(combined))
   )
     surpriseScore += 1.8;
-  if (FEAR_REGEX.test(combined) || DEVANAGARI_FEAR.test(combined)) fearScore += 2.2;
+  if (!isContrastShift && !hasPreAchievement && (FEAR_REGEX.test(combined) || DEVANAGARI_FEAR.test(combined))) fearScore += 2.2;
   if (NEUTRAL_REGEX.test(combined) || DEVANAGARI_NEUTRAL.test(combined)) neutralScore += 1.4;
 
   // Emojis
@@ -918,6 +1003,9 @@ export async function classifyLocalText(
   // Compound Mixed-Emotion Recognition
   const hasMixedMarker =
     /\b(bhi\b.*\baur\b.*\bbhi|bittersweet|happy.*sad|sad.*happy|tears.*smile|crying.*laughing|jealous.*happy|guilty.*proud|excited.*terrified|scared.*excited|darr.*aur.*gussa|gussa.*aur.*darr)\b/i.test(
+      combined,
+    ) ||
+    /\b(job\s+offer|won|win|award|accepted|acceptance|promotion|passed|achieved|dream)\b.*(but|however|yet|still|though).*(scared|afraid|anxious|worried|fear|terrified|nervous|dread|sad|heartbroken|grief)\b/i.test(
       combined,
     );
   const isMixed =

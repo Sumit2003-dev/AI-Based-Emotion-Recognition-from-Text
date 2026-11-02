@@ -186,6 +186,9 @@ HINGLISH_PHRASES: List[Tuple[re.Pattern, str]] = [
     (re.compile(r"\b(dimag|dimaag|deemag|demag)\s*(kharab|khrab)\s*(mat|mt|mtt)?\s*(kar|kr|karo|kro)?\b", re.I), "irritated angry mind"),
     (re.compile(r"\b(dimag|dimaag|deemag|demag)\s+ka\s+dahi\b", re.I), "extremely annoying frustrating headache"),
     (re.compile(r"\b(dimag|dimaag|deemag|demag)\s+mat\s+khao\b", re.I), "do not irritate me"),
+    (re.compile(r"\b(bas\s+)?(ab\s+)?(bohot|bahut|bht)\s+ho\s*(gaya|gya)\b|\bbas\s+bhi\s+karo\b|\bbas\s+bahut\s+hua\b|\bhadd\s+ho\s*(gayi|gyi)\b", re.I), "enough is enough, reached my limit in frustration and anger"),
+    (re.compile(r"\b(mujhe|mereko|hume)\s+(tumhari|teri|aapki)\s+baat(ein)?\s*(na?hi)\s*(sunni|sunna)\b|\bbaat(ein)?\s*na?hi\s*sunni\b|\bmuh\s*mat\s*dikhao\b|\b(nahi|nhi)\s+sunna\b", re.I), "do not want to listen to you, stop talking to me in anger"),
+    (re.compile(r"\b(tere|tumhare|aapke)\s+bina\s+(meri\s+)?(life|zindagi|jahan)\s+(adhoori|adhuri|kuch\s*nahi)\b|\b(tere|tumhare|aapke)\s+bina\s+(meri\s+)?(zindagi|life)\s+adhur[ia]\b|\b(tere|tumhare|aapke)\s+bina\s+nahi\s+reh\s*(sakta|sakti)\b", re.I), "life is incomplete without you, deep romantic love and longing"),
     (re.compile(r"\bmood\s*(bohot\s+|bahut\s+)?(kharab|khrab|off)\b", re.I), "mood is terrible and angry"),
     (re.compile(r"\bgussa\s+aa\s*(raha|rha|rahi|rhi)\b", re.I), "getting very angry"),
     (re.compile(r"\bgussa\s+mat\s*(dila|dilao|karo|kar|kr)\b", re.I), "do not make me angry"),
@@ -288,7 +291,7 @@ HINGLISH_SINGLE_WORDS: Dict[str, str] = {
     "tha": "was", "thi": "was", "aaj": "today", "kal": "tomorrow", "abhi": "right now",
     "milkar": "to meet", "sunkar": "to hear", "laga": "felt", "kar": "do", "kr": "do",
     "karo": "do", "kro": "do", "diya": "did", "kya": "what", "kyun": "why", "kaise": "how",
-    "kab": "when", "kaha": "where", "tune": "you", "bilkul": "at all", "aisa": "this", "hua": "happened"
+    "kab": "when", "kaha": "where", "tune": "you", "bilkul": "at all", "aisa": "this", "hua": "happened", "bas": "enough", "ab": "now", "gaya": "gone", "gayi": "gone", "hadd": "limit", "baat": "words", "baatein": "words", "sunna": "hear", "sunni": "listen", "bina": "without", "adhoori": "incomplete", "adhuri": "incomplete", "zindagi": "life", "jahan": "world"
 }
 
 
@@ -537,7 +540,7 @@ class EmotionClassifier:
                     p_sk = probabilities.get(c, 0.0)
                     p_tr = tr_probs.get(c, 0.0)
                     if c == "love":
-                        is_love_term = bool(re.search(r"\b(love|loved|soulmate|marry|adore|cherish|darling|cuddle|heart|beloved)\b", working_text.lower())) or bool(re.search(r"\b(pyaar|pyar|prem|ishq|mohabbat)\b", raw_text.lower()))
+                        is_love_term = bool(re.search(r"\b(love|loved|loving|soulmate|marry|adore|cherish|darling|cuddle|heart|beloved|sweetheart|affection|incomplete\s+without\s+you|life\s+is\s+incomplete|longing\s+for\s+you)\b", working_text.lower())) or bool(re.search(r"\b(pyaar|pyar|prem|ishq|mohabbat|tumhare\s+bina|tere\s+bina|adhoori|adhuri)\b", raw_text.lower()))
                         hybrid_probs[c] = 0.65 * p_sk + (0.35 * tr_probs.get("joy", 0.0) if is_love_term else 0.0)
                     elif c == "joy":
                         hybrid_probs[c] = 0.40 * p_sk + 0.60 * p_tr
@@ -570,7 +573,8 @@ class EmotionClassifier:
 
         # Mixed / Ambivalent Emotion Detection
         has_mixed_marker = bool(re.search(
-            r"\b(bhi\b.*\baur\b.*\bbhi|bittersweet|happy.*sad|sad.*happy|tears.*smile|crying.*laughing|jealous.*happy|guilty.*proud|excited.*terrified|scared.*excited|darr.*aur.*gussa|gussa.*aur.*darr)\b",
+            r"\b(bhi\b.*\baur\b.*\bbhi|bittersweet|happy.*sad|sad.*happy|tears.*smile|crying.*laughing|jealous.*happy|guilty.*proud|excited.*terrified|scared.*excited|darr.*aur.*gussa|gussa.*aur.*darr)\b"
+            r"|\b(job\s+offer|won|win|award|accepted|acceptance|promotion|passed|achieved|dream)\b.*(but|however|yet|still|though).*(scared|afraid|anxious|worried|fear|terrified|nervous|dread|sad|heartbroken|grief)\b",
             working_text.lower() + " " + raw_text.lower()
         ))
         is_mixed = (secondary_confidence >= 0.20 and (secondary_confidence / max(confidence, 1e-6)) >= 0.45) or (has_mixed_marker and secondary_confidence >= 0.15)
@@ -704,6 +708,41 @@ class EmotionClassifier:
         lowered = text.lower()
         adjusted = dict(probs)
 
+        # Frustration, limit reached & conversational refusal ("Bas ab bahut ho gaya", "baatein nahi sunni")
+        if re.search(r"\b(bas\s+)?(ab\s+)?(bohot|bahut|bht)\s+ho\s*(gaya|gya)\b|\bbas\s+bhi\s+karo\b|\bbas\s+bahut\s+hua\b|\bhadd\s+ho\s*(gayi|gyi)\b|\benough\s+is\s+enough\b|\breached\s+my\s+limit\b", lowered):
+            adjusted["anger"] = adjusted.get("anger", 0) * 3.8 + 0.35
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.12
+            if "joy" in adjusted: adjusted["joy"] *= 0.05
+
+        if re.search(r"\b(na?hi\s+sunni|na?hi\s+sunna|stop\s+talking\s+to\s+me|don'?t\s+want\s+to\s+hear|not\s+listening|muh\s+mat\s+dikhao|leave\s+me\s+alone)\b", lowered):
+            adjusted["anger"] = adjusted.get("anger", 0) * 3.4 + 0.32
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.15
+            if "joy" in adjusted: adjusted["joy"] *= 0.05
+
+        # Romantic Longing & Devotion ("Tumhare bina meri life adhoori hai", "incomplete without you")
+        if re.search(r"\b(incomplete\s+without\s+you|life\s+is\s+incomplete|tumhare\s+bina|tere\s+bina|aapke\s+bina|meri\s+life\s+adhoor[ia]|zindagi\s+adhoor[ia]|life\s+adhur[ia])\b", lowered):
+            adjusted["love"] = adjusted.get("love", 0) * 4.5 + 0.45
+            adjusted["joy"] = adjusted.get("joy", 0) * 1.5 + 0.15
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.10
+            if "sadness" in adjusted: adjusted["sadness"] = min(adjusted.get("sadness", 0), 0.15)
+
+        # Temporal superseding: Past negative/anxious state superseded by present positive/calm resolution
+        # E.g. "I was worried earlier, but now everything feels fine."
+        past_emotional_state = bool(re.search(
+            r"\b(was|were|felt|used to be|earlier|previously|initially|pehle|pahle)\b.*\b(worried|scared|afraid|anxious|terrified|nervous|dread|angry|furious|sad|depressed|grief|crying|upset|chinta|tension|darr?)\b",
+            lowered
+        ))
+        present_resolution = bool(re.search(
+            r"\b(but\s+now|however\s+now|now\s+everything|ab\s+sab|now\s+i\s+am|now\s+feels?|at\s+present|currently|ab\s+theek)\b.*\b(fine|okay|ok|good|great|better|peace|peaceful|relieved|normal|calm|theek|thik|badhiya|sukoon)\b|\b(now\s+everything\s+feels\s+fine|ab\s+sab\s+theek\s+hai)\b",
+            lowered
+        ))
+        if past_emotional_state and present_resolution:
+            if "fear" in adjusted: adjusted["fear"] *= 0.08
+            if "sadness" in adjusted: adjusted["sadness"] *= 0.08
+            if "anger" in adjusted: adjusted["anger"] *= 0.08
+            adjusted["joy"] = adjusted.get("joy", 0) * 3.5 + 0.35
+            adjusted["neutral"] = adjusted.get("neutral", 0) * 1.8 + 0.20
+
         # Hinglish Exhaustion, Futility & Effort idioms
         if re.search(r"\b(meri\s+)?mehnat\s+rang\s*(layi|laayi|laai|aayi|aai)\b|\bkaam\s+ban\s*(gaya|gya)\b", lowered):
             adjusted["joy"] = max(adjusted.get("joy", 0) * 3.5, 0.65)
@@ -738,9 +777,17 @@ class EmotionClassifier:
             lowered
         )
         if contrast_match:
+            clause_before = lowered[:contrast_match.start()]
             clause_after = lowered[contrast_match.end():]
+
+            # Check if pre-contrast clause contains enduring positive milestone / achievement
+            has_pre_achievement = bool(re.search(
+                r"\b(job\s+offer|offer\s+letter|won|win|award|accepted|acceptance|promotion|selected|cleared|passed|achieved|graduated|got\s+the\s+job|dream\s+come\s+true)\b",
+                clause_before
+            ))
+
             after_neg = bool(re.search(
-                r"\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost|reject|barbaad|toot|tut|thak|nahi hua|na?hi mila|blame|damage|koi meri baat nahi sunta|achha nahi gaya|call hi nahi aayi|credit boss le gaya|injured|collapsed|headache|scare|stress|stole|stealing)\b",
+                r"\b(dant|daant|scold|fail|criticiz|hurt|ruin|terrible|bad|kharab|bekar|bura|upset|loss|lost|reject|barbaad|toot|tut|thak|nahi hua|na?hi mila|blame|damage|koi meri baat nahi sunta|achha nahi gaya|call hi nahi aayi|credit boss le gaya|injured|collapsed|headache|scare|scared|stress|stole|stealing|afraid|terror|panic)\b",
                 clause_after
             ))
             after_pos = bool(re.search(
@@ -748,17 +795,24 @@ class EmotionClassifier:
                 clause_after
             ))
             if after_neg:
-                if "joy" in adjusted: adjusted["joy"] *= 0.02
-                if "love" in adjusted: adjusted["love"] *= 0.05
-                adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.65)
-                adjusted["anger"] = max(adjusted.get("anger", 0) * 3.0, 0.50)
-                if "neutral" in adjusted: adjusted["neutral"] *= 0.1
+                if has_pre_achievement:
+                    # Mixed emotions / Anxious excitement: preserve Joy as strong secondary
+                    adjusted["fear"] = adjusted.get("fear", 0) * 1.1 + 0.20
+                    adjusted["joy"] = max(adjusted.get("joy", 0) * 2.0, 0.50) + 0.15
+                    for k in ["sadness", "anger", "neutral", "love", "disgust", "surprise"]:
+                        if k in adjusted: adjusted[k] *= 0.10
+                else:
+                    if "joy" in adjusted: adjusted["joy"] *= 0.05
+                    if "love" in adjusted: adjusted["love"] *= 0.05
+                    adjusted["sadness"] = adjusted.get("sadness", 0) * 2.8 + 0.25
+                    adjusted["anger"] = adjusted.get("anger", 0) * 2.5 + 0.20
+                    if "neutral" in adjusted: adjusted["neutral"] *= 0.15
             elif after_pos:
-                adjusted["joy"] = max(adjusted.get("joy", 0) * 3.5, 0.72)
-                if "sadness" in adjusted: adjusted["sadness"] *= 0.02
-                if "anger" in adjusted: adjusted["anger"] *= 0.02
-                if "fear" in adjusted: adjusted["fear"] *= 0.02
-                if "neutral" in adjusted: adjusted["neutral"] *= 0.1
+                adjusted["joy"] = adjusted.get("joy", 0) * 3.0 + 0.30
+                if "sadness" in adjusted: adjusted["sadness"] *= 0.05
+                if "anger" in adjusted: adjusted["anger"] *= 0.05
+                if "fear" in adjusted: adjusted["fear"] *= 0.05
+                if "neutral" in adjusted: adjusted["neutral"] *= 0.15
 
         # Negation of Scolding / Mocking ("daant nahi padi", "mazaak kar raha tha")
         is_negated_scolding = bool(re.search(r"\b(dant|daant)\s+na?hi\s+padi\b|\bna?hi\s+padi\s+(dant|daant)\b|\bmazaak\s*(kar\s*raha)?\b", lowered))
@@ -868,8 +922,8 @@ class EmotionClassifier:
             if "love" in adjusted: adjusted["love"] *= 0.02
             if "surprise" in adjusted: adjusted["surprise"] *= 0.05
             if "sadness" in adjusted: adjusted["sadness"] = min(adjusted.get("sadness", 0), 0.15)
-            adjusted["anger"] = max(adjusted.get("anger", 0) * 4.0, 0.78)
-            adjusted["disgust"] = max(adjusted.get("disgust", 0) * 2.0, 0.35)
+            adjusted["anger"] = adjusted.get("anger", 0) * 3.6 + 0.35
+            adjusted["disgust"] = adjusted.get("disgust", 0) * 2.0 + 0.15
 
         # Litotes / Understatements: 'not bad', 'not that bad', 'not half bad', 'not terrible'
         if re.search(r"\b(not\s+(that\s+|too\s+|half\s+)?(bad|terrible|awful|horrible|worst)|bura\s+na?hi)\b", lowered):
