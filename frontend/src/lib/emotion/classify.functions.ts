@@ -112,65 +112,48 @@ export async function translateWithGoogle(
   const clean = text.trim();
   if (!clean || clean.length < 2) return null;
 
-  const userAgent =
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
+  const headers = {
+    "User-Agent":
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+  };
+  const q = encodeURIComponent(clean);
+  const endpoints = [
+    {
+      url: `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=${q}`,
+      timeout: 3500,
+      parse: (d: any) =>
+        Array.isArray(d?.[0])
+          ? {
+              translated: d[0].map((p: [string]) => p[0]).filter(Boolean).join("").trim(),
+              detectedLang: typeof d[2] === "string" ? d[2].toLowerCase() : "auto",
+            }
+          : null,
+    },
+    {
+      url: `https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=auto&tl=en&q=${q}`,
+      timeout: 3000,
+      parse: (d: any) =>
+        Array.isArray(d?.[0])
+          ? {
+              translated: String(d[0][0] || "").trim(),
+              detectedLang: String(d[0][1] || "auto").toLowerCase(),
+            }
+          : null,
+    },
+  ];
 
-  // Endpoint 1: Google Translate GTX Single
-  try {
-    const url1 =
-      "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=" +
-      encodeURIComponent(clean);
-    const controller1 = new AbortController();
-    const timer1 = setTimeout(() => controller1.abort(), 3500);
-    const res1 = await fetch(url1, {
-      signal: controller1.signal,
-      headers: { "User-Agent": userAgent },
-    });
-    clearTimeout(timer1);
-    if (res1.ok) {
-      const data = await res1.json();
-      if (data && Array.isArray(data[0])) {
-        const translated = data[0]
-          .map((p: [string]) => p[0])
-          .filter(Boolean)
-          .join("")
-          .trim();
-        const detectedLang = typeof data[2] === "string" ? data[2].toLowerCase() : "auto";
-        if (translated.length > 0) {
-          return { translated, detectedLang };
-        }
+  for (const ep of endpoints) {
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), ep.timeout);
+      const res = await fetch(ep.url, { signal: controller.signal, headers });
+      clearTimeout(timer);
+      if (res.ok) {
+        const parsed = ep.parse(await res.json());
+        if (parsed?.translated) return parsed;
       }
-    }
-  } catch {
-    // Continue to fallback endpoint
+    } catch {}
   }
-
-  // Endpoint 2: Fallback Chrome Dictionary Translate
-  try {
-    const url2 =
-      "https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=auto&tl=en&q=" +
-      encodeURIComponent(clean);
-    const controller2 = new AbortController();
-    const timer2 = setTimeout(() => controller2.abort(), 3000);
-    const res2 = await fetch(url2, {
-      signal: controller2.signal,
-      headers: { "User-Agent": userAgent },
-    });
-    clearTimeout(timer2);
-    if (res2.ok) {
-      const data = await res2.json();
-      if (Array.isArray(data) && Array.isArray(data[0])) {
-        const translated = String(data[0][0] || "").trim();
-        const detectedLang = String(data[0][1] || "auto").toLowerCase();
-        if (translated.length > 0) {
-          return { translated, detectedLang };
-        }
-      }
-    }
-  } catch {
-    // Return null if all endpoints fail
-  }
-
   return null;
 }
 
@@ -327,232 +310,64 @@ const HINGLISH_PHRASES: Array<[RegExp, string]> = [
  */
 const HINGLISH_SINGLE_WORDS: Record<string, string> = {
   // Anger / Irritation / Abuse
-  gussa: "angry",
-  gusse: "angry",
-  krodh: "rage",
-  krodhit: "furious",
-  aakrosh: "outrage",
-  naraz: "annoyed",
-  naraaz: "annoyed",
-  chidh: "irritated",
-  chidha: "irritated",
-  khunnas: "grudge",
-  bakwas: "nonsense",
-  bakwaas: "nonsense",
-  faltu: "useless",
-  kachra: "garbage",
-  bakchodi: "annoying nonsense",
-  bakchod: "annoying nonsense",
-  pagal: "crazy",
-  paagal: "crazy",
-  mental: "insane",
-  kamina: "scoundrel",
-  kamine: "scoundrel",
-  chutiya: "idiot",
-  saale: "jerk",
-  saala: "jerk",
-  bewakoof: "fool",
-  bewkoof: "fool",
-  ullu: "fool",
-  gadhe: "idiot",
-  gadha: "idiot",
-  kutta: "jerk",
-  kutte: "jerk",
-  haramkhor: "bastard",
-  ghatiya: "terrible",
-  badtameez: "rude",
-  jhagda: "quarrel",
-  ladai: "fight",
-  dushmani: "hostility",
-  nafrat: "hate",
-  ghrina: "disgust",
-  chup: "quiet",
-  thappad: "slap",
-
-  // Mind / Head words
-  deemag: "mind",
-  dimag: "mind",
-  dimaag: "mind",
-  demag: "mind",
+  gussa: "angry", gusse: "angry", krodh: "rage", krodhit: "furious",
+  aakrosh: "outrage", naraz: "annoyed", naraaz: "annoyed", chidh: "irritated",
+  chidha: "irritated", khunnas: "grudge", bakwas: "nonsense", bakwaas: "nonsense",
+  faltu: "useless", kachra: "garbage", bakchodi: "annoying nonsense", bakchod: "annoying nonsense",
+  pagal: "crazy", paagal: "crazy", mental: "insane", kamina: "scoundrel", kamine: "scoundrel",
+  chutiya: "idiot", saale: "jerk", saala: "jerk", bewakoof: "fool", bewkoof: "fool",
+  ullu: "fool", gadhe: "idiot", gadha: "idiot", kutta: "jerk", kutte: "jerk",
+  haramkhor: "bastard", ghatiya: "terrible", badtameez: "rude", jhagda: "quarrel",
+  ladai: "fight", dushmani: "hostility", nafrat: "hate", ghrina: "disgust",
+  chup: "quiet", thappad: "slap", deemag: "mind", dimag: "mind", dimaag: "mind", demag: "mind",
 
   // Sadness / Grief / Pain
-  dukh: "sorrow",
-  dukhi: "sorrowful",
-  shok: "grief",
-  gham: "sorrow",
-  udas: "gloomy",
-  udaas: "gloomy",
-  mayus: "disappointed",
-  mayoos: "hopeless",
-  dard: "pain",
-  peeda: "pain",
-  kasht: "pain",
-  takleef: "trouble",
-  rona: "crying",
-  aansoo: "tears",
-  aansu: "tears",
-  akela: "lonely",
-  akele: "lonely",
-  tanha: "lonely",
-  tanhai: "loneliness",
-  dant: "scolding",
-  daant: "scolding",
-  fatkaar: "reprimand",
-  qadar: "appreciation",
-  kadar: "appreciation",
-  dhokha: "betrayal",
-  dhoka: "betrayal",
-  mehnat: "hard work",
-  afsos: "regret",
-  pachtawa: "regret",
-  bura: "bad",
-  bure: "bad",
-  bechara: "helpless",
-  lachaar: "helpless",
-  majboor: "helpless",
-  barbaad: "ruined",
-  tabaah: "destroyed",
+  dukh: "sorrow", dukhi: "sorrowful", shok: "grief", gham: "sorrow",
+  udas: "gloomy", udaas: "gloomy", mayus: "disappointed", mayoos: "hopeless",
+  dard: "pain", peeda: "pain", kasht: "pain", takleef: "trouble",
+  rona: "crying", aansoo: "tears", aansu: "tears", akela: "lonely",
+  akele: "lonely", tanha: "lonely", tanhai: "loneliness", dant: "scolding",
+  daant: "scolding", fatkaar: "reprimand", qadar: "appreciation", kadar: "appreciation",
+  dhokha: "betrayal", dhoka: "betrayal", mehnat: "hard work", afsos: "regret",
+  pachtawa: "regret", bura: "bad", bure: "bad", bechara: "helpless",
+  lachaar: "helpless", majboor: "helpless", barbaad: "ruined", tabaah: "destroyed",
 
   // Joy / Love / Happiness
-  khush: "happy",
-  khushi: "joy",
-  anand: "bliss",
-  prasann: "joyful",
-  mast: "awesome",
-  zabardast: "awesome",
-  shandaar: "wonderful",
-  lajawab: "superb",
-  kamaal: "amazing",
-  dhamaal: "celebration",
-  gazab: "brilliant",
-  badiya: "great",
-  badhiya: "great",
-  bindaas: "carefree",
-  jhakaas: "awesome",
-  pyaar: "love",
-  pyar: "love",
-  mohabbat: "love",
-  ishq: "love",
-  prem: "love",
-  maza: "fun",
-  maja: "fun",
-  maje: "fun",
-  mauj: "thrill",
-  masti: "fun",
-  hasi: "laugh",
-  hansi: "laugh",
-  muskaan: "smile",
-  badhai: "congratulations",
-  mubarak: "blessings",
-  shukriya: "grateful",
-  dhanyawad: "gratitude",
-  accha: "good",
-  achha: "good",
-  acha: "good",
-  sundar: "beautiful",
-  khoobsurat: "lovely",
+  khush: "happy", khushi: "joy", anand: "bliss", prasann: "joyful",
+  mast: "awesome", zabardast: "awesome", shandaar: "wonderful", lajawab: "superb",
+  kamaal: "amazing", dhamaal: "celebration", gazab: "brilliant", badiya: "great",
+  badhiya: "great", bindaas: "carefree", jhakaas: "awesome", pyaar: "love",
+  pyar: "love", mohabbat: "love", ishq: "love", prem: "love",
+  maza: "fun", maja: "fun", maje: "fun", mauj: "thrill", masti: "fun",
+  hasi: "laugh", hansi: "laugh", muskaan: "smile", badhai: "congratulations",
+  mubarak: "blessings", shukriya: "grateful", dhanyawad: "gratitude",
+  accha: "good", achha: "good", acha: "good", sundar: "beautiful", khoobsurat: "lovely",
 
   // Fear / Anxiety
-  dar: "fear",
-  darr: "fear",
-  khauf: "terror",
-  bhay: "dread",
-  dahshat: "panic",
-  ghabrahat: "nervousness",
-  ghabra: "anxious",
-  bechaini: "anxiety",
-  chinta: "worry",
-  tension: "stress",
-  fikr: "concern",
-  pareshan: "troubled",
-  pareshani: "distress",
-  musibat: "danger",
+  dar: "fear", darr: "fear", khauf: "terror", bhay: "dread",
+  dahshat: "panic", ghabrahat: "nervousness", ghabra: "anxious", bechaini: "anxiety",
+  chinta: "worry", tension: "stress", fikr: "concern", pareshan: "troubled",
+  pareshani: "distress", musibat: "danger",
 
   // Surprise
-  hairan: "surprised",
-  hairaan: "surprised",
-  hairani: "wonder",
-  chauk: "shocked",
-  achambha: "surprise",
-  ajeeb: "strange",
-  anokha: "unique",
+  hairan: "surprised", hairaan: "surprised", hairani: "wonder", chauk: "shocked",
+  achambha: "surprise", ajeeb: "strange", anokha: "unique",
 
   // Pronouns and conversational helpers
-  mujhe: "I",
-  mereko: "I",
-  hume: "we",
-  humko: "we",
-  mera: "my",
-  meri: "my",
-  mere: "my",
-  tujhe: "you",
-  tumhe: "you",
-  aapko: "you",
-  tera: "your",
-  teri: "your",
-  tere: "your",
-  tumhara: "your",
-  tumhari: "your",
-  aapka: "your",
-  aapki: "your",
-  bhai: "brother",
-  yaar: "friend",
-  dost: "friend",
-  bro: "brother",
-  bohot: "very",
-  bahut: "very",
-  boht: "very",
-  bht: "very",
-  mat: "do not",
-  mt: "do not",
-  mtt: "do not",
-  nahi: "not",
-  nhi: "not",
-  na: "no",
-  film: "movie",
-  cinema: "movie",
-  hai: "is",
-  h: "is",
-  hain: "are",
-  hu: "am",
-  hoon: "am",
-  ho: "are",
-  tha: "was",
-  thi: "was",
-  aaj: "today",
-  kal: "tomorrow",
-  abhi: "right now",
-  milkar: "to meet",
-  sunkar: "to hear",
-  laga: "felt",
-  kar: "do",
-  kr: "do",
-  karo: "do",
-  kro: "do",
-  diya: "did",
-  kya: "what",
-  kyun: "why",
-  kaise: "how",
-  kab: "when",
-  kaha: "where",
-  tune: "you",
-  bilkul: "at all",
-  aisa: "this",
-  hua: "happened",
-  bas: "enough",
-  ab: "now",
-  gaya: "gone",
-  gayi: "gone",
-  hadd: "limit",
-  baat: "words",
-  baatein: "words",
-  sunna: "hear",
-  sunni: "listen",
-  bina: "without",
-  adhoori: "incomplete",
-  adhuri: "incomplete",
-  zindagi: "life",
-  jahan: "world",
+  mujhe: "I", mereko: "I", hume: "we", humko: "we", mera: "my", meri: "my", mere: "my",
+  tujhe: "you", tumhe: "you", aapko: "you", tera: "your", teri: "your", tere: "your",
+  tumhara: "your", tumhari: "your", aapka: "your", aapki: "your", bhai: "brother",
+  yaar: "friend", dost: "friend", bro: "brother", bohot: "very", bahut: "very",
+  boht: "very", bht: "very", mat: "do not", mt: "do not", mtt: "do not",
+  nahi: "not", nhi: "not", na: "no", film: "movie", cinema: "movie",
+  hai: "is", h: "is", hain: "are", hu: "am", hoon: "am", ho: "are",
+  tha: "was", thi: "was", aaj: "today", kal: "tomorrow", abhi: "right now",
+  milkar: "to meet", sunkar: "to hear", laga: "felt", kar: "do", kr: "do",
+  karo: "do", kro: "do", diya: "did", kya: "what", kyun: "why", kaise: "how",
+  kab: "when", kaha: "where", tune: "you", bilkul: "at all", aisa: "this",
+  hua: "happened", bas: "enough", ab: "now", gaya: "gone", gayi: "gone",
+  hadd: "limit", baat: "words", baatein: "words", sunna: "hear", sunni: "listen",
+  bina: "without", adhoori: "incomplete", adhuri: "incomplete", zindagi: "life", jahan: "world",
 };
 
 /**
@@ -1356,62 +1171,55 @@ export const classifyEmotions = createServerFn({ method: "POST" })
       return { ok: true, readings: fastApiReadings };
     }
 
-    // 2. Default Cloud LLM: Groq (Ultra-Fast LLaMA 3.3, 100% Free)
-    const groqKey =
-      process.env["GROQ_API_KEY"] ||
-      (process.env["OPENAI_BASE_URL"]?.includes("groq")
-        ? process.env["OPENAI_API_KEY"]
-        : process.env["OPENAI_API_KEY"]?.startsWith("gsk_")
-          ? process.env["OPENAI_API_KEY"]
-          : "");
-
-    if (groqKey) {
-      const groqReadings = await tryLlmClassification(texts, {
-        apiKey: groqKey,
+    // 2. Multi-provider Cloud LLM fallback cascade (Groq -> Gemini -> OpenAI)
+    const providers = [
+      {
+        key:
+          process.env["GROQ_API_KEY"] ||
+          (process.env["OPENAI_BASE_URL"]?.includes("groq") || process.env["OPENAI_API_KEY"]?.startsWith("gsk_")
+            ? process.env["OPENAI_API_KEY"]
+            : ""),
         baseURL: process.env["GROQ_BASE_URL"] || "https://api.groq.com/openai/v1",
         model: process.env["GROQ_MODEL"] || "llama-3.3-70b-versatile",
         name: "Groq (LLaMA 3.3)",
-      });
-      if (groqReadings && groqReadings.length === texts.length) {
-        return { ok: true, readings: groqReadings };
-      }
-    }
-
-    // 3. Backup / Primary Cloud LLM: Google Gemini
-    const geminiKey =
-      process.env["GEMINI_API_KEY"] ||
-      (process.env["OPENAI_BASE_URL"]?.includes("generativelanguage")
-        ? process.env["OPENAI_API_KEY"]
-        : process.env["OPENAI_API_KEY"]?.startsWith("AIzaSy") ||
-            process.env["OPENAI_API_KEY"]?.startsWith("AQ.")
-          ? process.env["OPENAI_API_KEY"]
-          : "");
-
-    if (geminiKey) {
-      const geminiReadings = await tryLlmClassification(texts, {
-        apiKey: geminiKey,
+      },
+      {
+        key:
+          process.env["GEMINI_API_KEY"] ||
+          (process.env["OPENAI_BASE_URL"]?.includes("generativelanguage") ||
+          process.env["OPENAI_API_KEY"]?.startsWith("AIzaSy") ||
+          process.env["OPENAI_API_KEY"]?.startsWith("AQ.")
+            ? process.env["OPENAI_API_KEY"]
+            : ""),
         baseURL:
-          process.env["GEMINI_BASE_URL"] ||
-          "https://generativelanguage.googleapis.com/v1beta/openai/",
+          process.env["GEMINI_BASE_URL"] || "https://generativelanguage.googleapis.com/v1beta/openai/",
         model: process.env["GEMINI_MODEL"] || "gemini-3.8-flash",
         name: "Google Gemini",
-      });
-      if (geminiReadings && geminiReadings.length === texts.length) {
-        return { ok: true, readings: geminiReadings };
-      }
-    }
-
-    // 4. Generic OpenAI Provider (if standard OPENAI_API_KEY is configured)
-    const openAiKey = process.env["OPENAI_API_KEY"];
-    if (openAiKey && !openAiKey.startsWith("gsk_") && !openAiKey.startsWith("AIzaSy")) {
-      const openAiReadings = await tryLlmClassification(texts, {
-        apiKey: openAiKey,
+      },
+      {
+        key:
+          process.env["OPENAI_API_KEY"] &&
+          !process.env["OPENAI_API_KEY"]?.startsWith("gsk_") &&
+          !process.env["OPENAI_API_KEY"]?.startsWith("AIzaSy")
+            ? process.env["OPENAI_API_KEY"]
+            : "",
         baseURL: process.env["OPENAI_BASE_URL"] || "https://api.openai.com/v1",
         model: process.env["OPENAI_MODEL"] || DEFAULT_MODEL,
         name: "OpenAI",
-      });
-      if (openAiReadings && openAiReadings.length === texts.length) {
-        return { ok: true, readings: openAiReadings };
+      },
+    ];
+
+    for (const p of providers) {
+      if (p.key) {
+        const readings = await tryLlmClassification(texts, {
+          apiKey: p.key,
+          baseURL: p.baseURL,
+          model: p.model,
+          name: p.name,
+        });
+        if (readings && readings.length === texts.length) {
+          return { ok: true, readings };
+        }
       }
     }
 

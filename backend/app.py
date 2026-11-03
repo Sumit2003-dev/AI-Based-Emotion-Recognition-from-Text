@@ -18,8 +18,6 @@ from typing import Any, Dict, List, Optional
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 # Ensure backend directory is in path
@@ -213,42 +211,26 @@ def submit_feedback(feedback: FeedbackRequest):
     }
 
 
-# Mount frontend static directory or provide API gateway overview
-frontend_dist = PROJECT_ROOT / "frontend" / "dist" / "client"
-frontend_legacy = PROJECT_ROOT / "frontend"
-
-if frontend_dist.exists() and (frontend_dist / "index.html").exists():
-    app.mount("/static", StaticFiles(directory=str(frontend_dist)), name="static")
-
-    @app.get("/")
-    def serve_index():
-        return FileResponse(frontend_dist / "index.html")
-elif (frontend_legacy / "index.html").exists():
-    app.mount("/static", StaticFiles(directory=str(frontend_legacy)), name="static")
-
-    @app.get("/")
-    def serve_legacy_index():
-        return FileResponse(frontend_legacy / "index.html")
-else:
-    @app.get("/")
-    def serve_api_root():
-        return {
-            "name": "AI-Based Emotion Recognition API",
-            "status": "online",
-            "version": "2.1.0",
-            "documentation": "/docs",
-            "health_check": "/api/health",
-            "frontend_dev_url": "http://localhost:3000",
-            "endpoints": [
-                "/api/health",
-                "/api/predict",
-                "/api/batch",
-                "/api/upload-csv",
-                "/api/model-info",
-                "/api/sample-texts",
-                "/api/feedback"
-            ]
-        }
+@app.get("/")
+def serve_api_root():
+    """Provides API gateway root metadata and available endpoints."""
+    return {
+        "name": "AI-Based Emotion Recognition API",
+        "status": "online",
+        "version": "2.2.0",
+        "documentation": "/docs",
+        "health_check": "/api/health",
+        "frontend_dev_url": "http://localhost:3000",
+        "endpoints": [
+            "/api/health",
+            "/api/predict",
+            "/api/batch",
+            "/api/upload-csv",
+            "/api/model-info",
+            "/api/sample-texts",
+            "/api/feedback",
+        ],
+    }
 
 
 if __name__ == "__main__":
