@@ -43,3 +43,4 @@ In the event that the local FastAPI backend is unreachable, the client frontend 
 - This fallback only triggers if the host environment has explicitly configured valid API keys (`GROQ_API_KEY`, `GEMINI_API_KEY`, `OPENAI_API_KEY`).
 - When activated, text payloads are transmitted over TLS 1.3 to the chosen provider under their respective enterprise zero-data-retention APIs.
 - If no cloud API keys are present, the client falls back to a 100% offline, local browser heuristic engine.
+
