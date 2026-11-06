@@ -3,11 +3,13 @@ import { EMOTION_META, type Emotion, type EmotionReading } from "@/lib/emotion/e
 import { EmotionBars } from "./emotion-bars";
 
 const EMOJI_MAP: Record<Emotion, string> = {
-  happy: "🎉",
+  happy: "😊",
   sad: "😢",
   angry: "😡",
-  surprise: "😲",
   fear: "😨",
+  surprise: "😲",
+  love: "❤️",
+  disgust: "🤢",
   neutral: "😐",
 };
 

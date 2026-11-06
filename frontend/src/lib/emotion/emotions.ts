@@ -1,4 +1,4 @@
-export const EMOTIONS = ["happy", "sad", "angry", "surprise", "fear", "neutral"] as const;
+export const EMOTIONS = ["happy", "sad", "angry", "fear", "surprise", "love", "disgust", "neutral"] as const;
 
 export type Emotion = (typeof EMOTIONS)[number];
 
@@ -7,12 +7,14 @@ export const MAX_BATCH_TEXTS = 40;
 export const MAX_TEXT_CHARS = 1200;
 
 export const EMOTION_META: Record<Emotion, { label: string; blurb: string }> = {
-  happy: { label: "Happy", blurb: "Joy, delight, satisfaction or amusement." },
-  sad: { label: "Sad", blurb: "Loss, disappointment, grief or loneliness." },
-  angry: { label: "Angry", blurb: "Irritation, outrage or frustration." },
-  surprise: { label: "Surprise", blurb: "Astonishment — pleasant or not." },
-  fear: { label: "Fear", blurb: "Worry, anxiety or dread." },
-  neutral: { label: "Neutral", blurb: "Plainly stated, no strong feeling." },
+  happy: { label: "Joy & Elation", blurb: "Joy, delight, elation, triumph or satisfaction." },
+  sad: { label: "Sadness & Grief", blurb: "Loss, disappointment, grief or emotional fatigue." },
+  angry: { label: "Anger & Frustration", blurb: "Irritation, outrage, boundary violation or frustration." },
+  fear: { label: "Fear & Anxiety", blurb: "Worry, apprehension, threat detection or anxiety." },
+  surprise: { label: "Surprise & Astonishment", blurb: "Astonishment, unexpected turns or sudden shock." },
+  love: { label: "Love & Affection", blurb: "Affection, deep warmth, romance, devotion or intimacy." },
+  disgust: { label: "Disgust & Aversion", blurb: "Revulsion, aversion, foulness, moral recoil or contempt." },
+  neutral: { label: "Neutral & Objective", blurb: "Plainly stated, objective pragmatic communication." },
 };
 
 export type EmotionScores = Record<Emotion, number>;
@@ -94,6 +96,8 @@ function computeDefaultDimensions(emotion: Emotion, confidence: number): Affecti
     angry: [-0.75, 88, "High Surge", 70, "Assertive / Empowered"],
     surprise: [0.2, 82, "High Surge", 45, "Balanced Agency"],
     fear: [-0.82, 85, "High Surge", 15, "Submissive / Helpless"],
+    love: [0.92, 65, "High Surge", 68, "Assertive / Empowered"],
+    disgust: [-0.8, 60, "High Surge", 55, "Assertive / Empowered"],
     neutral: [0.0, 15, "Calm / Low", 50, "Balanced Agency"],
   };
   const [val, aro, aroLabel, dom, domLabel] = vadMap[emotion];
@@ -141,6 +145,16 @@ const GUIDANCE_BY_LANGUAGE: Record<string, Record<Emotion, EmotionalGuidance>> =
       empathy_tip: "धैर्य और आश्वासन दें ताकि वे सुरक्षित महसूस कर सकें।",
       suggested_reply: "घबराइए मत, गहरी सांस लीजिए। हम मिलकर इसे संभाल लेंगे, आप अकेले नहीं हैं।",
     },
+    love: {
+      psychology: "गहरा भावनात्मक जुड़ाव और स्नेह।",
+      empathy_tip: "सद्भावना और गर्मजोशी से उत्तर दें।",
+      suggested_reply: "आपके इस स्नेह के लिए बहुत-बहुत धन्यवाद, यह दिल को छू गया। ❤️",
+    },
+    disgust: {
+      psychology: "अप्रिय या असहज स्थिति से दूरी बनाने की इच्छा।",
+      empathy_tip: "उनकी सीमा और भावनाओं का सम्मान करें।",
+      suggested_reply: "मैं आपकी इस परेशानी को समझता हूँ, आपकी सीमा का पूरा सम्मान है।",
+    },
     neutral: {
       psychology: "तथ्यात्मक, स्पष्ट और बिना किसी भावनात्मक उत्तेजना के बातचीत।",
       empathy_tip: "बातचीत को सीधा, स्पष्ट और उपयोगी बनाए रखें।",
@@ -178,6 +192,16 @@ const GUIDANCE_BY_LANGUAGE: Record<string, Record<Emotion, EmotionalGuidance>> =
       suggested_reply:
         "Chill kar bhai, itna darr mat. Hum milke sambhal lenge step-by-step, tension mat le.",
     },
+    love: {
+      psychology: "Emotional warmth aur care.",
+      empathy_tip: "Warmth reciprocate karo.",
+      suggested_reply: "Dil se shukriya bhai, aapki baat bohot achhi lagi ❤️",
+    },
+    disgust: {
+      psychology: "Strong dislike ya avoidance.",
+      empathy_tip: "Boundaries respect karo.",
+      suggested_reply: "Totally understandable hai. Apni boundaries maintain karna zaroori hai.",
+    },
     neutral: {
       psychology: "To-the-point factual communication bina kisi heavy emotion ke.",
       empathy_tip: "Direct, clear aur professional tone maintain karo.",
@@ -211,6 +235,16 @@ const GUIDANCE_BY_LANGUAGE: Record<string, Record<Emotion, EmotionalGuidance>> =
       empathy_tip: "Brinda seguridad, hechos claros y tranquilidad.",
       suggested_reply: "Respira hondo, todo saldrá bien. Vamos paso a paso, no estás solo.",
     },
+    love: {
+      psychology: "Afecto y cariño recíproco.",
+      empathy_tip: "Responde con calidez.",
+      suggested_reply: "Tus palabras significan mucho para mí. ¡Muchas gracias por tu cariño! ❤️",
+    },
+    disgust: {
+      psychology: "Rechazo hacia una situación.",
+      empathy_tip: "Respeta sus límites.",
+      suggested_reply: "Comprendo completamente tu rechazo. Establecer límites es lo correcto.",
+    },
     neutral: {
       psychology: "Comunicación objetiva, práctica e informativa.",
       empathy_tip: "Mantén un tono claro, directo y profesional.",
@@ -242,6 +276,16 @@ const GUIDANCE_BY_LANGUAGE: Record<string, Record<Emotion, EmotionalGuidance>> =
       psychology: "Anticipation d'un danger, anxiété face à l'avenir ou insécurité.",
       empathy_tip: "Rassurez avec calme et proposez des repères stables.",
       suggested_reply: "Prends une grande inspiration, tout va bien se passer. Tu n'es pas seul.",
+    },
+    love: {
+      psychology: "Affection profonde et attachement sincère.",
+      empathy_tip: "Répondez avec chaleur et reconnaissance.",
+      suggested_reply: "Merci infiniment pour vos mots attentionnés et votre affection. ❤️",
+    },
+    disgust: {
+      psychology: "Rejet face à une situation inappropriée ou désagréable.",
+      empathy_tip: "Respectez ses limites et son recul légitime.",
+      suggested_reply: "Je comprends totalement votre réaction. Poser des limites est sain.",
     },
     neutral: {
       psychology: "Message purement informatif, direct et factuel.",
@@ -280,6 +324,16 @@ const GUIDANCE_BY_LANGUAGE: Record<string, Record<Emotion, EmotionalGuidance>> =
       empathy_tip: "Provide grounding assurance, transparency, and safety cues.",
       suggested_reply:
         "Take a deep breath — we will get through this step by step. You are not alone in this.",
+    },
+    love: {
+      psychology: "Attachment, deep trust, warmth, reciprocal intimacy, and emotional safety.",
+      empathy_tip: "Express warmth in return, reciprocate appreciation, and honor the relational bond.",
+      suggested_reply: "Your words mean the world to me. Thank you for your kindness, love, and constant care. ❤️",
+    },
+    disgust: {
+      psychology: "Protective recoil from physical contaminants or moral degradation and hypocrisy.",
+      empathy_tip: "Validate boundary setting and support physical or emotional distance from the trigger.",
+      suggested_reply: "I completely understand your revulsion. Setting clear boundaries is 100% the right call.",
     },
     neutral: {
       psychology: "Informational, pragmatic, and objective communication without affective charge.",

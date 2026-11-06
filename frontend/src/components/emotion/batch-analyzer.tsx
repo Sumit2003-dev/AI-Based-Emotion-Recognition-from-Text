@@ -10,12 +10,14 @@ import {
 import { EmotionBars, EmotionChip } from "./emotion-bars";
 
 const BLURBS: Record<string, string> = {
-  happy: "Joy, delight, satisfaction or amusement.",
-  sad: "Loss, disappointment, grief or loneliness.",
-  angry: "Irritation, outrage or frustration.",
-  surprise: "Astonishment — pleasant or not.",
-  fear: "Worry, anxiety or dread.",
-  neutral: "Plainly stated, no strong feeling.",
+  happy: "Joy, delight, elation, triumph or satisfaction.",
+  sad: "Loss, disappointment, grief or emotional fatigue.",
+  angry: "Irritation, outrage, boundary violation or frustration.",
+  fear: "Worry, apprehension, threat detection or anxiety.",
+  surprise: "Astonishment, unexpected turns or sudden shock.",
+  love: "Affection, deep warmth, romance, devotion or intimacy.",
+  disgust: "Revulsion, aversion, foulness, moral recoil or contempt.",
+  neutral: "Plainly stated, objective pragmatic communication.",
 };
 
 const SAMPLE_BATCH = [

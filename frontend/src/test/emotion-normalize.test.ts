@@ -9,7 +9,7 @@ describe("normalizeReading", () => {
       emotion: "happy",
       scores: { happy: 5, sad: 2, angry: 1, surprise: 1, fear: 1, neutral: 0 },
     });
-    expect(EMOTIONS).toHaveLength(6);
+    expect(EMOTIONS).toHaveLength(8);
     expect(Object.keys(reading.scores).sort()).toEqual([...EMOTIONS].sort());
     const total = EMOTIONS.reduce((sum, e) => sum + reading.scores[e], 0);
     expect(total).toBeCloseTo(1, 6);

@@ -37,8 +37,10 @@ const scoresSchema = z.object({
   happy: z.number(),
   sad: z.number(),
   angry: z.number(),
-  surprise: z.number(),
   fear: z.number(),
+  surprise: z.number(),
+  love: z.number().optional().default(0.01),
+  disgust: z.number().optional().default(0.01),
   neutral: z.number(),
 });
 
@@ -409,6 +411,12 @@ export function translateHinglish(text: string): {
   return { translated, isHinglish, matchCount: matches };
 }
 
+const LOVE_REGEX =
+  /\b(love|soulmate|adore\w*|cherish\w*|darling|sweetheart|kiss\w*|hugs?|romance|romantic|affection\w*|beloved|cuddle|pyaar|pyar|mohabbat|ishq|prem|tumhare\s+bina|tere\s+bina|adhoori|adhuri)\b/i;
+
+const DISGUST_REGEX =
+  /\b(disgust\w*|nauseat\w*|repuls\w*|revolt\w*|foul|filthy|vomit|slimy|maggots?|vile|putrid|abhorrent|stench|rotten|gross|sickening|nasty|ghrina)\b/i;
+
 const HAPPY_REGEX =
   /\b(happy|joy|great|awesome|love|wonderful|fantastic|excited|screamed|celebrat\w*|won(?!['’]t)|win\w*|yay|hooray|glad|delight\w*|best|congrat\w*|smile|cheer\w*|proud\w*|thank\w*|blessed|terrific|brilliant|good|nice|enjoy\w*|fun\w*|laugh\w*|bliss\w*|superb|excellent|outstanding|fabulous|pleased|pleasure|sweet|cute|adorable|charming|hilarious|haha\w*|loving|adore\w*|liked?|khush\w*|maja|maza|pyaar|pyar|mohabbat|shandaar|badhai|mubarak|mast|zabardast|badiya|badhiya|sundar|shukriya|dhanyawad|accha|achha|acha|hasi|hansi|tareef|gazab|bindaas|jhakaas|khoobsurat|feliz\w*|alegr\w*|heureu\w*|joie)\b/i;
 
@@ -533,6 +541,8 @@ export async function classifyLocalText(
   let angryScore = 0;
   let surpriseScore = 0;
   let fearScore = 0;
+  let loveScore = 0;
+  let disgustScore = 0;
   let neutralScore = 0;
 
   const hasDislike = NEGATIVE_LIKE_LOVE_REGEX.test(combined);
@@ -770,14 +780,22 @@ export async function classifyLocalText(
   }
 
   const hasEmotion =
-    happyScore > 0 || sadScore > 0 || angryScore > 0 || surpriseScore > 0 || fearScore > 0;
+    happyScore > 0 ||
+    sadScore > 0 ||
+    angryScore > 0 ||
+    surpriseScore > 0 ||
+    fearScore > 0 ||
+    loveScore > 0 ||
+    disgustScore > 0;
 
   const scores: Record<Emotion, number> = {
     happy: 0.02 + happyScore,
     sad: 0.02 + sadScore,
     angry: 0.02 + angryScore,
-    surprise: 0.02 + surpriseScore,
     fear: 0.02 + fearScore,
+    surprise: 0.02 + surpriseScore,
+    love: 0.02 + loveScore,
+    disgust: 0.02 + disgustScore,
     neutral: 0.03 + neutralScore,
   };
 
@@ -788,11 +806,13 @@ export async function classifyLocalText(
     const neutralBase = neutralScore > 0 ? 0.72 : 0.62;
     const dynamicNeutral = neutralBase + (hash % 15) * 0.01;
     scores.neutral = dynamicNeutral;
-    scores.happy = 0.06;
-    scores.sad = 0.06;
-    scores.angry = 0.06;
-    scores.surprise = 0.06;
-    scores.fear = 0.06;
+    scores.happy = 0.04;
+    scores.sad = 0.04;
+    scores.angry = 0.04;
+    scores.fear = 0.04;
+    scores.surprise = 0.04;
+    scores.love = 0.04;
+    scores.disgust = 0.04;
   }
 
   // Calibrate scores with learned temperature scaling (T = 0.75) to achieve verified ECE < 6%
@@ -1019,9 +1039,11 @@ async function tryFastApiBackend(texts: string[]): Promise<EmotionReading[] | nu
           }
         }
 
-        const happyScore = (probMap["joy"] || 0) + (probMap["love"] || 0);
-        const sadScore = probMap["sadness"] || 0;
-        const angryScore = (probMap["anger"] || 0) + (probMap["disgust"] || 0);
+        const happyScore = probMap["joy"] || probMap["happy"] || 0;
+        const loveScore = probMap["love"] || 0;
+        const sadScore = probMap["sadness"] || probMap["sad"] || 0;
+        const angryScore = probMap["anger"] || probMap["angry"] || 0;
+        const disgustScore = probMap["disgust"] || 0;
         const surpriseScore = probMap["surprise"] || 0;
         const fearScore = probMap["fear"] || 0;
         const neutralScore = probMap["neutral"] || 0;
@@ -1030,8 +1052,10 @@ async function tryFastApiBackend(texts: string[]): Promise<EmotionReading[] | nu
           happy: happyScore > 0 ? happyScore : 0.02,
           sad: sadScore > 0 ? sadScore : 0.02,
           angry: angryScore > 0 ? angryScore : 0.02,
-          surprise: surpriseScore > 0 ? surpriseScore : 0.02,
           fear: fearScore > 0 ? fearScore : 0.02,
+          surprise: surpriseScore > 0 ? surpriseScore : 0.02,
+          love: loveScore > 0 ? loveScore : 0.02,
+          disgust: disgustScore > 0 ? disgustScore : 0.02,
           neutral: neutralScore > 0 ? neutralScore : 0.02,
         };
 
@@ -1044,11 +1068,15 @@ async function tryFastApiBackend(texts: string[]): Promise<EmotionReading[] | nu
 
         const rawDom = (r.dominant_emotion || r.emotion || "").toLowerCase();
         let dominantEmotion: Emotion = "neutral";
-        if (rawDom === "joy" || rawDom === "love" || rawDom === "happy") {
+        if (rawDom === "joy" || rawDom === "happy") {
           dominantEmotion = "happy";
+        } else if (rawDom === "love") {
+          dominantEmotion = "love";
+        } else if (rawDom === "disgust") {
+          dominantEmotion = "disgust";
         } else if (rawDom === "sadness" || rawDom === "sad") {
           dominantEmotion = "sad";
-        } else if (rawDom === "anger" || rawDom === "disgust" || rawDom === "angry") {
+        } else if (rawDom === "anger" || rawDom === "angry") {
           dominantEmotion = "angry";
         } else if (rawDom === "surprise") {
           dominantEmotion = "surprise";
