@@ -58,26 +58,51 @@ A production-grade, privacy-first Natural Language Processing (NLP) intelligence
 
 ## 🏗️ System Architecture
 
+![BeyondWord System Architecture](docs/system_architecture.png)
+
 ```mermaid
-graph TD
-    User["User / Browser"] <-->|"HTTP / JSON"| Frontend["React 19 + TanStack Start UI"]
-    Frontend <-->|"REST API :8000"| Backend["FastAPI Application Service"]
-    
-    subgraph Engine ["NLP Intelligence Engine"]
-        Backend --> Preprocessor["Text Normalizer & Negation Handler"]
-        Preprocessor --> Vectorizer["TF-IDF N-gram Vectorizer (34,291 Features)"]
-        Vectorizer --> Model["Calibrated LinearSVC Model Pipeline"]
-        Model --> Explainer["Token Attribution & VAD Calculator"]
-        Explainer --> Output["Structured JSON Response"]
+flowchart TD
+    User["User / Browser / Client"] <-->|"HTTP / REST JSON"| FE["React 19 + TanStack Start UI<br/>(Vite 8, Tailwind CSS v4, SSR/Nitro)"]
+    FE <-->|"REST API :8000"| BE["FastAPI Backend Service<br/>(Pydantic, Uvicorn, Python 3.10+)"]
+
+    FE -.->|"If Local API Offline"| Edge["Multi-Tier Edge & Offline Resilience"]
+    subgraph Edge ["Multi-Tier Edge & Offline Resilience"]
+        CloudLLM["Cloud LLM Cascade<br/>(Groq LLaMA 3.3 → Gemini → OpenAI)"]
+        ClientHeuristic["Client-Side Heuristic & Google Translate Pipeline"]
+        CloudLLM -.->|"If No API Keys"| ClientHeuristic
     end
-    
-    subgraph Storage ["Persistent Storage & Assets"]
-        Backend -.-> Joblib[("emotion_model.joblib")]
-        Backend -.-> Metadata[("model_metadata.json")]
-        Backend -.-> DataCSV[("GoEmotions Benchmark Data")]
+
+    BE --> Norm["Text Normalizer, Discourse & Negation Engine"]
+
+    subgraph HybridEngine ["Dual-Engine NLP Intelligence Pipeline"]
+        Norm --> Transformer["Neural Transformer (DistilRoBERTa)<br/>Contextual Attention & Syntax"]
+        Norm --> LinearSVC["Platt-Calibrated LinearSVC<br/>34,291 N-gram Features & Stem Sensitivity"]
+        Transformer --> Fusion["Ensemble Calibration Layer<br/>(Temperature Scaling & Per-Emotion Thresholds)"]
+        LinearSVC --> Fusion
+        Fusion --> Decision["Multi-Class Probabilities + Emotion Blends<br/>(Joy, Sadness, Anger, Fear, Surprise, Love, Disgust, Neutral)"]
+    end
+
+    subgraph Analytics ["Psychometric & Explainability Suite"]
+        Decision --> XAI["Token Attribution & Saliency Highlighter"]
+        Decision --> VAD["VAD Psychometrics (Valence, Arousal, Dominance)"]
+        Decision --> Guidance["Empathetic Response & Guidance Generator<br/>(Multilingual: EN, HI, Hinglish, ES, FR)"]
     end
 ```
 
+### Architectural Highlights
+
+1. **Frontend Experience Tier**: Built on React 19 and TanStack Start, featuring server-side rendering (SSR via Nitro), instant real-time typing analysis, interactive multi-axis radar charts, batch CSV processing with live progress, and dark/light mode toggles.
+2. **High-Performance FastAPI Service**: Asynchronous, typed REST endpoints (`/api/predict`, `/api/batch`, `/api/upload-csv`, `/api/feedback`) running Uvicorn with Pydantic v2 validation and sub-35ms CPU inference.
+3. **Dual-Engine NLP Intelligence Pipeline**:
+   - **Contextual Semantic Layer**: Fine-tuned `DistilRoBERTa` transformer capturing deep syntactic relationships, discourse context, and clause negation.
+   - **Hyperplane Geometry Layer**: Platt-calibrated `LinearSVC` fitted across 34,291 sub-word character and word n-grams for typo resilience and stem sensitivity.
+   - **Probability Calibration & Temperature Scaling**: Ensembles outputs with calibrated temperature optimization, ensuring genuine posterior probabilities that sum to 100%.
+4. **Explainability & Psychometric Suite**:
+   - **Token Attribution (XAI)**: Visualizes exact word-level contributions and salience weights.
+   - **VAD Mapping**: Projects emotional state into psychological Valence-Arousal-Dominance dimensions alongside continuous sentiment polarity (`-1.0` to `+1.0`) and intensity (`0%` to `100%`).
+   - **Actionable Guidance**: Generates localized, context-aware suggestions and empathy tips across English, Hindi, Hinglish, Spanish, and French.
+5. **Multi-Tier Edge & Offline Fallback**:
+   - If the local Python FastAPI service is offline, the client seamlessly routes through a Cloud LLM cascade (Groq LLaMA 3.3 ➔ Google Gemini ➔ OpenAI) or a 100% client-side calibrated heuristic engine with Google Translate integration.
 
 ---
 
