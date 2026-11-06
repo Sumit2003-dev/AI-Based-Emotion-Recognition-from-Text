@@ -71,28 +71,41 @@ export function RecentReadings({
           <p className="eyebrow text-muted-foreground">Session Temperament</p>
           <span className="text-xs text-muted-foreground tabular-nums">{total} total</span>
         </div>
-        <div className="mt-4 space-y-2.5">
+        <div className="mt-4 space-y-3">
           {Object.entries(distribution)
             .sort((a, b) => b[1] - a[1])
-            .map(([emotion, count]) => (
-              <div key={emotion} className="flex items-center gap-3">
-                <span className="eyebrow w-20 shrink-0 text-muted-foreground">
-                  {EMOTION_META[emotion as keyof typeof EMOTION_META].label}
-                </span>
-                <div className="h-2 flex-1 overflow-hidden rounded-full bg-secondary">
-                  <div
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{
-                      width: `${Math.max(count > 0 ? 6 : 0, Math.round((count / total) * 100))}%`,
-                      backgroundColor: `var(--emotion-${emotion})`,
-                    }}
-                  />
+            .map(([emotion, count]) => {
+              const meta = EMOTION_META[emotion as keyof typeof EMOTION_META];
+              const pct = Math.round((count / total) * 100);
+              const color = `var(--emotion-${emotion})`;
+              return (
+                <div key={emotion} className="space-y-1">
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span
+                        className="h-2 w-2 shrink-0 rounded-full"
+                        style={{ backgroundColor: color }}
+                      />
+                      <span className="font-medium text-foreground text-xs truncate">
+                        {meta?.label ?? emotion}
+                      </span>
+                    </div>
+                    <span className="shrink-0 font-semibold tabular-nums text-muted-foreground ml-2">
+                      {count} ({pct}%)
+                    </span>
+                  </div>
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-secondary/50">
+                    <div
+                      className="h-full rounded-full transition-all duration-500"
+                      style={{
+                        width: `${Math.max(count > 0 ? 4 : 0, pct)}%`,
+                        backgroundColor: color,
+                      }}
+                    />
+                  </div>
                 </div>
-                <span className="w-8 text-right text-xs tabular-nums text-muted-foreground">
-                  {count}
-                </span>
-              </div>
-            ))}
+              );
+            })}
         </div>
       </div>
     </div>

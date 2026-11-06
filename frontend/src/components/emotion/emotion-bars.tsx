@@ -5,31 +5,44 @@ function emotionColor(emotion: string) {
 }
 
 export function EmotionBars({ scores }: { scores: EmotionScores }) {
-  const rows = EMOTIONS.map((emotion) => ({ emotion, value: scores[emotion] })).sort(
+  const rows = EMOTIONS.map((emotion) => ({ emotion, value: scores[emotion] || 0 })).sort(
     (a, b) => b.value - a.value,
   );
 
   return (
-    <div className="space-y-2.5">
-      {rows.map(({ emotion, value }) => (
-        <div key={emotion} className="flex items-center gap-3">
-          <span className="eyebrow w-20 shrink-0 text-muted-foreground">
-            {EMOTION_META[emotion].label}
-          </span>
-          <div className="h-2 flex-1 overflow-hidden rounded-full bg-secondary">
-            <div
-              className="h-full rounded-full transition-all duration-700 ease-out"
-              style={{
-                width: `${Math.max(2, Math.round(value * 100))}%`,
-                backgroundColor: emotionColor(emotion),
-              }}
-            />
+    <div className="space-y-3">
+      {rows.map(({ emotion, value }) => {
+        const pct = Math.round(value * 100);
+        const meta = EMOTION_META[emotion];
+        const color = emotionColor(emotion);
+        return (
+          <div key={emotion} className="space-y-1">
+            <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2 min-w-0">
+                <span
+                  className="h-2 w-2 shrink-0 rounded-full"
+                  style={{ backgroundColor: color }}
+                />
+                <span className="font-medium text-foreground text-xs truncate">
+                  {meta?.label ?? emotion}
+                </span>
+              </div>
+              <span className="shrink-0 font-semibold tabular-nums text-muted-foreground ml-2">
+                {pct}%
+              </span>
+            </div>
+            <div className="h-2 w-full overflow-hidden rounded-full bg-secondary/50">
+              <div
+                className="h-full rounded-full transition-all duration-700 ease-out"
+                style={{
+                  width: `${Math.max(2, pct)}%`,
+                  backgroundColor: color,
+                }}
+              />
+            </div>
           </div>
-          <span className="w-10 text-right text-xs tabular-nums text-muted-foreground">
-            {Math.round(value * 100)}%
-          </span>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

@@ -210,7 +210,7 @@ export function EmotionCockpit({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <p className="eyebrow text-muted-foreground">Emotion Spectrum Distribution</p>
-          <span className="text-xs text-muted-foreground">6 Ekman Spectrums (8-Class Neural Engine)</span>
+          <span className="text-xs text-muted-foreground">8-Class Neural Spectrum</span>
         </div>
         <div className="rounded-lg border border-border/70 bg-secondary/20 p-4">
           <EmotionBars scores={reading.scores} />
