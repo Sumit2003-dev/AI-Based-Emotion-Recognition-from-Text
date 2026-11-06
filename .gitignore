@@ -84,3 +84,7 @@ private_test_vault/
 *unseen_test*.json
 *dev_inspected*.json
 *gold_standard*.json
+
+# Active Learning Feedback Storage
+data/feedback_store.jsonl
+

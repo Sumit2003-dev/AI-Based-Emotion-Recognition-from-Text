@@ -11,8 +11,10 @@ Provides:
 
 import csv
 import io
+import json
 import os
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -56,6 +58,10 @@ class PredictRequest(BaseModel):
 
 class BatchPredictRequest(BaseModel):
     texts: List[str] = Field(..., min_length=1, max_length=500, description="List of texts to analyze")
+
+
+class DocumentRequest(BaseModel):
+    text: str = Field(..., min_length=1, max_length=50000, description="Long-form text to segment and analyze")
 
 class FeedbackRequest(BaseModel):
     text: str
@@ -202,13 +208,49 @@ def get_sample_texts():
 
 @app.post("/api/feedback")
 def submit_feedback(feedback: FeedbackRequest):
-    """Allows users to submit corrections or positive feedback for continuous learning."""
-    feedback_store.append(feedback.model_dump())
+    """Allows users to submit corrections or positive feedback for continuous learning with persistence."""
+    data = feedback.model_dump()
+    data["id"] = f"fb_{datetime.now().strftime('%Y%m%d%H%M%S')}_{len(feedback_store) + 1}"
+    data["timestamp"] = datetime.now().isoformat()
+    data["status"] = "pending_human_review"
+    feedback_store.append(data)
+
+    # Persist to disk for human-in-the-loop active learning
+    feedback_file = PROJECT_ROOT / "data" / "feedback_store.jsonl"
+    feedback_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(feedback_file, "a", encoding="utf-8") as f:
+        f.write(json.dumps(data, ensure_ascii=False) + "\n")
+
     return {
         "status": "success",
+        "feedback_id": data["id"],
         "message": "Thank you for helping improve the emotion recognition model!",
         "total_feedbacks": len(feedback_store),
     }
+
+@app.post("/api/analyze-document")
+def analyze_document(request: DocumentRequest):
+    """Performs sliding-window chunking and generates an emotion timeline for long-form texts."""
+    if not classifier.is_ready():
+        raise HTTPException(status_code=503, detail="Emotion classification engine is not initialized.")
+    return classifier.analyze_long_text(request.text)
+
+
+@app.get("/api/feedback/pending")
+def get_pending_feedback():
+    """Returns active feedback items queued for human review."""
+    feedback_file = PROJECT_ROOT / "data" / "feedback_store.jsonl"
+    items = []
+    if feedback_file.exists():
+        with open(feedback_file, "r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    try:
+                        items.append(json.loads(line.strip()))
+                    except:
+                        pass
+    return {"total": len(items), "feedback_queue": items[-50:]}
+
 
 
 @app.get("/")

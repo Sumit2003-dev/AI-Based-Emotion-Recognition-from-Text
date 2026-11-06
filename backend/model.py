@@ -657,6 +657,17 @@ class EmotionClassifier:
             "secondary_label": EMOTION_META.get(secondary_emotion, {}).get("label", secondary_emotion.capitalize()),
             "secondary_confidence": round(secondary_confidence * 100, 1),
             "secondary_ratio": secondary_confidence,
+            "active_emotions": [
+                {
+                    "emotion": k,
+                    "label": EMOTION_META[k]["label"],
+                    "emoji": EMOTION_META[k]["emoji"],
+                    "confidence": round(v * 100, 1),
+                    "ratio": v,
+                }
+                for k, v in sorted_emotions
+                if v >= 0.20 or k == dominant_emotion
+            ],
             "is_mixed": is_mixed,
             "compound_state": compound_state,
             "sentiment": sentiment_label,
@@ -679,6 +690,71 @@ class EmotionClassifier:
             "dimensions": self._compute_dimensions(probabilities),
             "tokens": token_attributions,
             "guidance": self._compute_guidance(dominant_emotion, lang_info["detected_language"]),
+        }
+
+
+    def analyze_long_text(self, text: str) -> Dict[str, Any]:
+        """
+        Sliding-window chunking and emotion trajectory timeline for long-form documents.
+        Splits text by sentence boundaries, analyzes each segment, and builds an affective timeline.
+        """
+        if not text or not text.strip():
+            return {
+                "total_sentences": 0,
+                "overall_emotion": "neutral",
+                "timeline": [],
+                "sentiment_trajectory": [],
+                "aggregate_distribution": {},
+            }
+
+        raw_sentences = re.split(r"(?<=[.!?\n])\s+", text.strip())
+        sentences = [s.strip() for s in raw_sentences if len(s.strip()) > 3]
+        if not sentences:
+            sentences = [text.strip()]
+
+        timeline = []
+        sentiment_trajectory = []
+        emotion_counts: Dict[str, float] = {k: 0.0 for k in EMOTION_META.keys()}
+
+        for idx, sentence in enumerate(sentences, 1):
+            pred = self.predict(sentence)
+            dom = pred["dominant_emotion"]
+            conf = pred["confidence"]
+            sent = pred["sentiment"]
+            sent_score = pred["sentiment_score"]
+
+            timeline.append({
+                "step": idx,
+                "text": sentence,
+                "dominant_emotion": dom,
+                "label": pred["dominant_label"],
+                "emoji": pred["emoji"],
+                "confidence": conf,
+                "sentiment": sent,
+                "sentiment_score": sent_score,
+                "active_emotions": [e["emotion"] for e in pred.get("active_emotions", [])],
+                "is_mixed": pred.get("is_mixed", False),
+            })
+            sentiment_trajectory.append(sent_score)
+            for p in pred["probabilities"]:
+                emotion_counts[p["emotion"]] += p["ratio"]
+
+        total_weight = sum(emotion_counts.values()) or 1.0
+        aggregate_distribution = {
+            k: round((v / total_weight) * 100, 1)
+            for k, v in sorted(emotion_counts.items(), key=lambda x: x[1], reverse=True)
+        }
+        overall_emotion = max(aggregate_distribution.items(), key=lambda x: x[1])[0]
+
+        return {
+            "total_sentences": len(sentences),
+            "overall_emotion": overall_emotion,
+            "overall_label": EMOTION_META[overall_emotion]["label"],
+            "overall_emoji": EMOTION_META[overall_emotion]["emoji"],
+            "average_sentiment": round(sum(sentiment_trajectory) / len(sentiment_trajectory), 3) if sentiment_trajectory else 0.0,
+            "sentiment_trajectory": sentiment_trajectory,
+            "aggregate_distribution": aggregate_distribution,
+            "timeline": timeline,
         }
 
     def _compute_guidance(self, emotion: str, lang_code: str = "en") -> Dict[str, str]:
