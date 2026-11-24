@@ -36,7 +36,7 @@ classifier = EmotionClassifier()
 app = FastAPI(
     title="AI-Based Emotion Recognition API",
     description="High-performance Multi-Class Emotion Recognition Intelligence Suite created by Sumit Kumar.",
-    version="2.1.0",
+    version="2.3.0",
     contact={
         "name": "Sumit Kumar",
         "url": "https://github.com/Sumit2003-dev/AI-Based-Emotion-Recognition-from-Text",

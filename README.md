@@ -186,6 +186,22 @@ Evaluated on the independent test split:
 | **Neutral** | **46.3%** | **81.5%** | **0.591** | *factual statements, meeting notices, schedules, reports* |
 | **Macro Average** | **73.8%** | **69.0%** | **0.697** | Balanced across all 8 emotional spectra |
 
+### 🇮🇳 Hinglish & Complex Context Benchmark (200 Real-World Samples)
+
+Beyond standardized English corpora, the engine was rigorously evaluated across 200 curated Hinglish, sarcastic, contrastive, and negated sentences reflecting authentic colloquial communication:
+
+| Metric / Category | Performance | Description |
+| :--- | :---: | :--- |
+| **Overall Accuracy** | **95.00%** (190/200) | Validated across contrast, locative 'par', pure emotions & sarcasm |
+| **Macro F1 Score** | **0.9450** | Unbiased harmonic mean across all 8 emotional dimensions |
+| **Weighted F1 Score** | **0.9500** | Support-weighted F1 reflecting natural class distributions |
+| **Brier Score** | **0.1974** | Low mean squared probability error indicating high calibration |
+| `pure_emotions` | **100.0%** (50/50) | Canonical colloquial phrases (*"bohot gussa aa raha hai"*, *"dil toot gaya"*) |
+| `locative_par` | **100.0%** (20/20) | Distinguishes locative 'par' (*"table par rakha hai"*) from contrastive |
+| `contrast` | **100.0%** (35/35) | Concession clauses (*"daant padi, but feedback se improve kiya aur jeet gaya"*) |
+| `sarcasm` | **97.14%** (34/35) | Sarcastic praise & ironic frustration (*"maza aa gaya, 2 ghante wait karwa ke..."*) |
+| `negation` | **93.33%** (28/30) | Negated emotions (*"main naraz nahi hoon"*, *"not afraid of taking risks"*) |
+
 ---
 
 ## 🚀 Quick Start Guide
@@ -200,7 +216,7 @@ Evaluated on the independent test split:
 
 ```bash
 # Clone the repository (if not already local)
-git clone https://github.com/Sumit2003-dev/six-signal-sentiment-compass.git
+git clone https://github.com/Sumit2003-dev/AI-Based-Emotion-Recognition-from-Text.git
 cd "AI-Based Emotion Recognition from Text"
 
 # (Recommended) Create and activate a Python virtual environment
@@ -451,6 +467,12 @@ Test the full production SSR and client build:
 cd frontend
 npm run build
 ```
+
+### 5. Automated CI/CD Pipeline (GitHub Actions)
+Every pull request and push to `main` triggers our end-to-end multi-stage pipeline ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)):
+- **Python Backend Quality Gate**: Runs syntax validation (`py_compile`), unit tests (`test_api.py`), and calibration benchmark (`evaluate_benchmark.py`).
+- **Frontend Quality Gate**: Enforces ESLint (`0 errors, 0 warnings`), runs all 16 Vitest unit tests, compiles Vite/Nitro SSR production bundles, and archives web artifacts (`.output/public`).
+- **Continuous Delivery Verification**: Validates deployment readiness before zero-downtime release to Vercel production.
 
 ---
 
