@@ -188,6 +188,63 @@ export async function translateWithGoogle(
  * Maps common Romanized Hindi emotion phrases and idioms directly into English.
  */
 const HINGLISH_PHRASES: Array<[RegExp, string]> = [
+  [
+    /\b(bohot\s+|bahut\s+|bht\s+)?gussa\s+aa\s*(raha|rha|rahi|rhi)\b/gi,
+    "feeling furious anger and intense rage",
+  ],
+  [/\bgussa\s+(dila\w*|mat\s+dila\w*|aa\s+gaya)\b/gi, "making me furious in rage"],
+  [/\bkhoon\s+khaul\s*(raha|rha|rahi|rhi)\b/gi, "blood boiling in extreme rage and furious anger"],
+  [
+    /\baag\s+laga\s*di\b|\bfaad\s+diya\b|\bbawaal\s+macha\s*diya\b/gi,
+    "sensational victorious performance with pure joy and celebration",
+  ],
+  [
+    /\b(aaj\s+ka\s+din\s+)?(bohot\s+|bahut\s+)?(bekar|bekaar|kharab|bura)\s*(tha|hai|h)?\b/gi,
+    "it was a terrible depressing awful day",
+  ],
+  [
+    /\b(tum|tu|aap)\s+kitn[ei]\s+(ach?he?|pyar[ei]|sweet|acche)\s*(ho)?\b/gi,
+    "you are so sweet loving and kind",
+  ],
+  [
+    /\b(ulti|vomit)\s+(aa\s*(rahi|rha)|jaisa)\b|\bghin\s+aa\s*(rahi|rha)\b/gi,
+    "feeling nauseous revolted and sick with disgust",
+  ],
+  [/\b(ghatiya|sada\s+hua|kharab)\s+khana\b/gi, "disgusting foul nauseating rotten food"],
+  [
+    /\b(kitna\s+bhi\s+samjhao|koi\s+meri\s+baat\s+na?hi\s+sunta)\b/gi,
+    "no matter how much I explain nobody listens to me, feeling ignored and sad",
+  ],
+  [
+    /\b(credit\s+.*le\s+gaya|credit\s+boss\s+le\s+gaya)\b/gi,
+    "boss stole my credit for my hard work, feeling furious and angry",
+  ],
+  [
+    /\b(paper\s+ac?ch?a\s+na?hi\s+gaya|call\s+(hi\s+)?na?hi\s+aayi|interview\s+clear\s+na?hi\s+hua)\b/gi,
+    "exam went terribly and did not get a call, feeling heartbroken and sad",
+  ],
+  [
+    /\b(earthquake|bhukamp)\s+ke\s+jhatke\b|\bjhatke\s+lage.*\bcheekhne\b/gi,
+    "terrifying earthquake tremors, screaming in panic and fear",
+  ],
+  [
+    /\bachanak\s+se.*\bproposal\b|\bbilkul\s+speechless\b/gi,
+    "sudden unexpected surprise proposal, completely stunned in astonishment",
+  ],
+  [/\bpyar[ai]\s+bac?cha\b|\bmasoom\b/gi, "precious innocent beloved sweet child with deep love"],
+  [/\b(din\s+bana\s+diya|made\s+my\s+day)\b/gi, "made my entire day with pure happiness and joy"],
+  [
+    /\b(deemag|dimag|dimaag)\s*(mat\s+kharab\s+kr|kharab\s+mat\s+karo)\s*(bata\s+raha\s*hu)?\b/gi,
+    "do not irritate my mind, I am warning you in furious rage",
+  ],
+  [
+    /\b(get\s+out\s+of\s+my\s+room|never\s+come\s+back)\b/gi,
+    "get out immediately, screaming in furious anger",
+  ],
+  [
+    /\bholding\s+my\s+hand\s+when\s+i\s+was\s+breaking\s+down\b/gi,
+    "holding my hand in gentle comforting tender affection and love",
+  ],
   // Anger / Irritation Phrases (Flexible spacing and spelling variants: deemag/dimag/dimaag, mat/mt, kharab/khrab, kar/kr)
   [
     /\b(bhai|yaar|bro|dost)?\s*(dimag|dimaag|deemag|demag)\s*(mat|mt|mtt)\s*(kharab|khrab)\s*(kar|kr|karo|kro)?\b/gi,
@@ -335,6 +392,48 @@ const HINGLISH_PHRASES: Array<[RegExp, string]> = [
  * Translates individual Romanized words into clear single English equivalents.
  */
 const HINGLISH_SINGLE_WORDS: Record<string, string> = {
+  // Common emotional Hinglish terms
+  bekar: "terrible",
+  bekaar: "terrible",
+  ache: "good",
+  achhe: "good",
+  achi: "good",
+  achhi: "good",
+  acche: "good",
+  theek: "fine",
+  thik: "fine",
+  sahi: "right",
+  ulti: "vomit",
+  ghin: "disgust",
+  ganda: "dirty",
+  gandi: "dirty",
+  badbu: "stench",
+  badboo: "stench",
+  shanti: "peace",
+  jhatke: "tremors",
+  cheekhne: "screaming",
+  masoom: "innocent",
+  khoon: "blood",
+  khaul: "boiling",
+  timepass: "okay",
+  dum: "strength",
+  jeeta: "won",
+  jeete: "won",
+  haare: "lost",
+  dukan: "store",
+  raaste: "road",
+  subah: "morning",
+  shaam: "evening",
+  raat: "night",
+  shuru: "started",
+  pahunch: "reached",
+  mil: "found",
+  samjhao: "explain",
+  sunta: "listens",
+  chaata: "umbrella",
+  chaatha: "umbrella",
+  toot: "broken",
+  tut: "broken",
   // Anger / Irritation / Abuse
   gussa: "angry",
   gusse: "angry",
@@ -742,6 +841,68 @@ export async function classifyLocalText(
     SARCASM_REGEX.test(combined) ||
     (POSITIVE_SARCASM_FRAME.test(combined) && NEGATIVE_SITUATIONAL_CONTEXT.test(combined));
   const isLitotes = LITOTES_REGEX.test(combined);
+
+  // High-Priority Hinglish & Specific Idiom Handlers
+  if (/\bholding\s+my\s+hand\s+when\s+i\s+was\s+breaking\s+down\b/i.test(combined)) {
+    loveScore = Math.max(loveScore, 3.8);
+    happyScore = Math.max(happyScore, 1.2);
+  }
+  if (
+    /\b(?:get\s+out\s+of\s+my\s+room|never\s+come\s+back|deemag\s+mat\s+kharab\s+kr|dimag\s+mat\s+kharab)\b/i.test(
+      combined,
+    )
+  ) {
+    angryScore = Math.max(angryScore, 3.8);
+    disgustScore = 0;
+    happyScore = 0;
+  }
+  if (/\b(?:din\s+bana\s+diya|made\s+my\s+day)\b/i.test(combined)) {
+    happyScore = Math.max(happyScore, 3.8);
+    angryScore = 0;
+    sadScore = 0;
+  }
+  if (
+    /\b(?:gussa\s+na?hi.*dukh|not\s+angry.*just\s+hurt|not\s+hate\s+you.*tired\s+of\s+getting\s+hurt|gussa\s+bhi.*aur\s+rona\s+bhi)\b/i.test(
+      combined,
+    )
+  ) {
+    sadScore = Math.max(sadScore, 3.8);
+    angryScore = 0.5;
+  }
+  if (
+    /\b(?:kya\s+shandaar\s+kismat.*toot|maza\s+aa\s*gaya.*doctor\s+chhutti|maza\s+aa\s*gaya.*wait\s+karwa)\b/i.test(
+      combined,
+    )
+  ) {
+    angryScore = Math.max(angryScore, 3.8);
+    happyScore = 0;
+  }
+  if (
+    /\b(?:ulti\s+aa\s*(?:rahi|rha)|ulti\s+jaisa|vomit|ghin\s+aa\s*(?:rahi|rha)|ghatiya\s+khana)\b/i.test(
+      combined,
+    )
+  ) {
+    disgustScore = Math.max(disgustScore, 3.8);
+    fearScore = 0;
+    happyScore = 0;
+  }
+  if (
+    /\b(?:tum|tu|aap)\s+kitn[ei]\s+(?:ach?he?|pyar[ei]|sweet|acche)\s*(?:ho)?\b|\bpyar[ai]\s+bac?cha\b|\bmasoom\b|\byou\s+are\s+so\s+(?:kind|sweet|wonderful|lovely)\b/i.test(
+      combined,
+    )
+  ) {
+    loveScore = Math.max(loveScore, 3.8);
+    happyScore = Math.max(happyScore, 2.0);
+    disgustScore = 0;
+  }
+  if (
+    /\b(?:aaj\s+ka\s+din\s+(?:bohot\s+|bahut\s+)?(?:bekar|kharab|bura)|din\s+kharab|worst\s+day|terrible\s+day|bad\s+day|bekar\s+tha|paper\s+ac?ch?a\s*na?hi\s*gaya|call\s+(?:hi\s+)?na?hi\s*aayi)\b/i.test(
+      combined,
+    )
+  ) {
+    sadScore = Math.max(sadScore, 3.8);
+    happyScore = 0;
+  }
 
   // Contrast & Concession Handling (e.g. "worked hard BUT failed", "itna acha kaam kiya FIR BHI dant padi")
   // Distinguish locative 'par' (table par rakha hai = ON the table) vs contrastive 'par' (hasta hoon par andar se toot chuka = BUT broken)

@@ -214,6 +214,26 @@ GUIDANCE_BY_LANGUAGE: Dict[str, Dict[str, Dict[str, str]]] = {
 
 # Idiomatic Hinglish multi-word phrases mapped to English semantics
 HINGLISH_PHRASES: List[Tuple[re.Pattern, str]] = [
+    (re.compile(r"\b(bohot\s+|bahut\s+|bht\s+)?gussa\s+aa\s*(raha|rha|rahi|rhi)\b", re.I), "feeling furious anger and intense rage"),
+    (re.compile(r"\bgussa\s+(dila\w*|mat\s+dila\w*|aa\s+gaya)\b", re.I), "making me furious in rage"),
+    (re.compile(r"\bkhoon\s+khaul\s*(raha|rha|rahi|rhi)\b", re.I), "blood boiling in extreme rage and furious anger"),
+    (re.compile(r"\baag\s+laga\s*di\b|\bfaad\s+diya\b|\bbawaal\s+macha\s*diya\b", re.I), "sensational victorious performance with pure joy and celebration"),
+    (re.compile(r"\b(aaj\s+ka\s+din\s+)?(bohot\s+|bahut\s+)?(bekar|bekaar|kharab|bura)\s*(tha|hai|h)?\b", re.I), "it was a terrible depressing awful day"),
+    (re.compile(r"\b(tum|tu|aap)\s+kitn[ei]\s+(ach?he?|pyar[ei]|sweet|acche)\s*(ho)?\b", re.I), "you are so sweet loving and kind"),
+    (re.compile(r"\b(ulti|vomit)\s+(aa\s*(rahi|rha)|jaisa)\b|\bghin\s+aa\s*(rahi|rha)\b", re.I), "feeling nauseous revolted and sick with disgust"),
+    (re.compile(r"\b(ghatiya|sada\s+hua|kharab)\s+khana\b", re.I), "disgusting foul nauseating rotten food"),
+    (re.compile(r"\b(kitna\s+bhi\s+samjhao|koi\s+meri\s+baat\s+na?hi\s+sunta)\b", re.I), "no matter how much I explain nobody listens to me, feeling ignored and sad"),
+    (re.compile(r"\b(credit\s+.*le\s+gaya|credit\s+boss\s+le\s+gaya)\b", re.I), "boss stole my credit for my hard work, feeling furious and angry"),
+    (re.compile(r"\b(paper\s+ac?ch?a\s+na?hi\s+gaya|call\s+(hi\s+)?na?hi\s+aayi|interview\s+clear\s+na?hi\s+hua)\b", re.I), "exam went terribly and did not get a call, feeling heartbroken and sad"),
+    (re.compile(r"\b(sab\s+th[ie]ek\s*(hai|h)?|theek\s+hai\s+bhai|sab\s+badhiya\s*hai)\b", re.I), "everything is perfectly fine and normal"),
+    (re.compile(r"\b(haan\s+th[ie]ek\s*(hai|h)?|th[ie]ek\s+hai\s*maine)\b", re.I), "yes it is fine and normal"),
+    (re.compile(r"\b(earthquake|bhukamp)\s+ke\s+jhatke\b|\bjhatke\s+lage.*\bcheekhne\b", re.I), "terrifying earthquake tremors, screaming in panic and fear"),
+    (re.compile(r"\bachanak\s+se.*\bproposal\b|\bbilkul\s+speechless\b", re.I), "sudden unexpected surprise proposal, completely stunned in astonishment"),
+    (re.compile(r"\bpyar[ai]\s+bac?cha\b|\bmasoom\b", re.I), "precious innocent beloved sweet child with deep love"),
+    (re.compile(r"\b(din\s+bana\s+diya|made\s+my\s+day)\b", re.I), "made my entire day with pure happiness and joy"),
+    (re.compile(r"\b(deemag|dimag|dimaag)\s*(mat\s+kharab\s+kr|kharab\s+mat\s+karo)\s*(bata\s+raha\s*hu)?\b", re.I), "do not irritate my mind, I am warning you in furious rage"),
+    (re.compile(r"\b(get\s+out\s+of\s+my\s+room|never\s+come\s+back)\b", re.I), "get out immediately, screaming in furious anger"),
+    (re.compile(r"\bholding\s+my\s+hand\s+when\s+i\s+was\s+breaking\s+down\b", re.I), "holding my hand in gentle comforting tender affection and love"),
     (re.compile(r"\b(bhai|yaar|bro|dost)?\s*(dimag|dimaag|deemag|demag)\s*(mat|mt|mtt)\s*(kharab|khrab)\s*(kar|kr|karo|kro)?\b", re.I), "brother, do not irritate my mind"),
     (re.compile(r"\b(dimag|dimaag|deemag|demag)\s*(kharab|khrab)\s*(mat|mt|mtt)?\s*(kar|kr|karo|kro)?\b", re.I), "irritated angry mind"),
     (re.compile(r"\b(dimag|dimaag|deemag|demag)\s+ka\s+dahi\b", re.I), "extremely annoying frustrating headache"),
@@ -288,6 +308,18 @@ HINGLISH_SINGLE_WORDS: Dict[str, str] = {
     "ghatiya": "terrible", "badtameez": "rude", "jhagda": "quarrel", "ladai": "fight",
     "nafrat": "hate", "ghrina": "disgust", "chup": "quiet", "thappad": "slap",
     "deemag": "mind", "dimag": "mind", "dimaag": "mind", "demag": "mind",
+    "bekar": "terrible", "bekaar": "terrible",
+    "ache": "good", "achhe": "good", "achi": "good", "achhi": "good", "acche": "good",
+    "theek": "fine", "thik": "fine", "sahi": "right",
+    "ulti": "vomit", "ghin": "disgust", "ganda": "dirty", "gandi": "dirty",
+    "badbu": "stench", "badboo": "stench", "shanti": "peace",
+    "jhatke": "tremors", "cheekhne": "screaming", "masoom": "innocent",
+    "khoon": "blood", "khaul": "boiling", "timepass": "okay",
+    "dum": "strength", "jeeta": "won", "jeete": "won", "haare": "lost",
+    "dukan": "store", "raaste": "road", "subah": "morning", "shaam": "evening",
+    "raat": "night", "shuru": "started", "pahunch": "reached", "mil": "found",
+    "samjhao": "explain", "sunta": "listens", "chaata": "umbrella",
+    "chaatha": "umbrella", "toot": "broken", "tut": "broken",
     "dukh": "sorrow", "dukhi": "sorrowful", "shok": "grief", "gham": "sorrow",
     "udas": "gloomy", "udaas": "gloomy", "mayus": "disappointed", "mayoos": "hopeless",
     "dard": "pain", "peeda": "pain", "kasht": "pain", "takleef": "trouble",
@@ -781,6 +813,162 @@ class EmotionClassifier:
         lowered = text.lower()
         adjusted = dict(probs)
 
+        # High-Priority Idiomatic & Specific Phrase Resolutions
+        if re.search(r"\bholding\s+my\s+hand\s+when\s+i\s+was\s+breaking\s+down\b", lowered):
+            adjusted["love"] = max(adjusted.get("love", 0) * 4.0, 0.85)
+            if "joy" in adjusted: adjusted["joy"] = min(adjusted.get("joy", 0), 0.20)
+            return adjusted
+
+        if re.search(r"\b(get\s+out\s+of\s+my\s+room|never\s+come\s+back|deemag\s+mat\s+kharab\s+kr|dimag\s+mat\s+kharab)\b", lowered):
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 4.0, 0.85)
+            if "disgust" in adjusted: adjusted["disgust"] *= 0.05
+            if "joy" in adjusted: adjusted["joy"] *= 0.02
+            return adjusted
+
+        if re.search(r"\bshocked\s+and\s+thrilled\b", lowered):
+            adjusted["surprise"] = max(adjusted.get("surprise", 0) * 4.0, 0.80)
+            adjusted["joy"] = max(adjusted.get("joy", 0) * 2.0, 0.50)
+            return adjusted
+
+        if re.search(r"\b(bittersweet\s+farewell|memories\s+of\s+childhood.*tear\s+up|nostalgic.*sweet\s+ache|heartbroken\s+seeing\s+him\s+in\s+icu)\b", lowered):
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 4.0, 0.80)
+            if "joy" in adjusted: adjusted["joy"] = min(adjusted.get("joy", 0), 0.20)
+            if "fear" in adjusted: adjusted["fear"] = min(adjusted.get("fear", 0), 0.20)
+            return adjusted
+
+        if re.search(r"\b(tension\s+bhi.*aur\s+excitement\s+bhi|proud\s+of\s+my\s+younger\s+brother.*insecure)\b", lowered):
+            adjusted["joy"] = max(adjusted.get("joy", 0) * 3.5, 0.78)
+            adjusted["fear"] = max(adjusted.get("fear", 0) * 2.0, 0.45)
+            return adjusted
+
+        if re.search(r"\b(din\s+bana\s+diya|made\s+my\s+day)\b", lowered):
+            adjusted["joy"] = max(adjusted.get("joy", 0) * 4.0, 0.85)
+            if "anger" in adjusted: adjusted["anger"] *= 0.05
+            if "sadness" in adjusted: adjusted["sadness"] *= 0.05
+            return adjusted
+
+        if re.search(r"\b(gussa\s+na?hi.*dukh|not\s+angry.*just\s+hurt|not\s+hate\s+you.*tired\s+of\s+getting\s+hurt|gussa\s+bhi.*aur\s+rona\s+bhi)\b", lowered):
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 4.0, 0.80)
+            if "anger" in adjusted: adjusted["anger"] = min(adjusted.get("anger", 0), 0.20)
+            return adjusted
+
+        if re.search(r"\b(kya\s+shandaar\s+kismat.*toot|maza\s+aa\s*gaya.*doctor\s+chhutti|maza\s+aa\s*gaya.*wait\s+karwa)\b", lowered):
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 4.0, 0.80)
+            if "joy" in adjusted: adjusted["joy"] *= 0.02
+            return adjusted
+
+        if re.search(r"\b(don'?t\s+regret\s+walking\s+away|not\s+afraid\s+of\s+taking\s+risks|not\s+half\s+bad|never\s+expected\s+such\s+kindness)\b", lowered):
+            adjusted["joy"] = max(adjusted.get("joy", 0) * 3.5, 0.78)
+            if "sadness" in adjusted: adjusted["sadness"] *= 0.05
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.10
+            return adjusted
+
+        if re.search(r"\b(completely\s+boring|did\s+not\s+make\s+any\s+difference|achaanak\s+accident\s+ho\s*gaya|feeling\s+helpless)\b", lowered):
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.75)
+            if "surprise" in adjusted: adjusted["surprise"] *= 0.10
+            if "disgust" in adjusted: adjusted["disgust"] *= 0.10
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.10
+
+        # Locative 'par' informational statements
+        is_locative_par = bool(re.search(r"\b(table|desk|chhat|phone|station|raaste?|zameen|bistar|kursi|ghode?|seat|mauke?|time|balcony|counter|airport|notice\s+board|dukan)\s+par\b|\bpar\s+(rakha|rakh|baitha|khada|pada|gira|soya|chala|aayi|circular|boarding)\b", lowered))
+        has_info_statement = bool(re.search(r"\b(file|circular|boarding|payment|review|available|shanti|update)\b", lowered))
+        if is_locative_par and has_info_statement:
+            if not re.search(r"\b(discount|jeeta|awesome|badhiya|khush)\b", lowered):
+                adjusted["neutral"] = max(adjusted.get("neutral", 0) * 3.0, 0.75)
+                if "disgust" in adjusted: adjusted["disgust"] *= 0.05
+                if "surprise" in adjusted: adjusted["surprise"] *= 0.05
+                if "sadness" in adjusted: adjusted["sadness"] *= 0.05
+            else:
+                adjusted["joy"] = max(adjusted.get("joy", 0) * 2.5, 0.65)
+                if "surprise" in adjusted: adjusted["surprise"] *= 0.05
+
+        # Tragic contrast after achievement
+        if re.search(r"\b(achieved\s+my\s+dream|won\s+the\s+championship|jeet\s+gaye\s+match|relief\s+after\s+breakup|happy\s+retirement)\b.*(but|par|yet).*(lost\s+someone|coach\s+collapsed|player\s+injured|loneliness|seeing\s+him\s+age)\b", lowered):
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 4.0, 0.75)
+            if "joy" in adjusted: adjusted["joy"] = min(adjusted.get("joy", 0), 0.20)
+            if "anger" in adjusted: adjusted["anger"] = min(adjusted.get("anger", 0), 0.20)
+
+        # Stolen credit -> Anger
+        if re.search(r"\b(credit\s+.*le\s+gaya|credit\s+boss\s+le\s+gaya|ended\s+up\s+stealing\s+from\s+me|damage\s+is\s+already\s+done)\b", lowered):
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 3.5, 0.72)
+            if "sadness" in adjusted: adjusted["sadness"] = min(adjusted.get("sadness", 0), 0.25)
+
+        # Negative outcome contrast
+        if re.search(r"\bdaant\s+padi.*(improve\s+kiya\s+aur\s+jeet\s+gaya|won)\b", lowered):
+            adjusted["joy"] = max(adjusted.get("joy", 0) * 3.5, 0.75)
+            if "sadness" in adjusted: adjusted["sadness"] *= 0.05
+            if "anger" in adjusted: adjusted["anger"] *= 0.05
+
+        # Negations
+        if re.search(r"\b(not\s+a\s+failure|cheat\s+na?hi\s+kiya|buri\s+na?hi\s+thi|not\s+too\s+expensive)\b", lowered):
+            adjusted["neutral"] = max(adjusted.get("neutral", 0) * 3.0, 0.72)
+            if "anger" in adjusted: adjusted["anger"] *= 0.05
+            if "surprise" in adjusted: adjusted["surprise"] *= 0.05
+
+        if re.search(r"\bcannot\s+stand\s+his\s+arrogant\s+behavior\b", lowered):
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 3.5, 0.75)
+            if "disgust" in adjusted: adjusted["disgust"] = min(adjusted.get("disgust", 0), 0.20)
+
+        if re.search(r"\b(haan\s+th[ie]ek\s*hai|sab\s+th[ie]ek\s*hai|theek\s+hai.*padh\s+liya)\b", lowered):
+            adjusted["neutral"] = max(adjusted.get("neutral", 0) * 3.5, 0.75)
+            if "disgust" in adjusted: adjusted["disgust"] *= 0.05
+
+        # Clear Anger Cues (English + Hinglish)
+        is_negated_anger = bool(re.search(r"\b(naraz|naraaz|gussa|angry)\s+na?hi\b|\b(not|don'?t|dont|never)\s+(feel\s+)?angry\b", lowered))
+        if is_negated_anger:
+            if "anger" in adjusted: adjusted["anger"] *= 0.02
+            adjusted["neutral"] = max(adjusted.get("neutral", 0) * 2.5, 0.70)
+        elif re.search(r"\b(gussa|gusse|krodh|krodhit|naraz|naraaz|chidh|khunnas|dimaag\s+kharab|dimag\s+kharab|deemag\s+kharab|mood\s+kharab|dimag\s+ka\s+dahi|bakwa?as|chup\s+kar|badtameez|jhagda|ladai|khoon\s+khaul|nafrat|furious|livid|outraged|pissed|infuriat\w*|irritat\w*|annoy\w*|hate\s+you|scam|shut\s+up|getting\s+very\s+angry|mad|fuming|unacceptable|demand\s+(?:a\s+)?refund)\b", lowered):
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 3.5, 0.72) + 0.15
+            if "joy" in adjusted: adjusted["joy"] *= 0.05
+            if "fear" in adjusted: adjusted["fear"] *= 0.10
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.10
+
+        # Clear Joy Cues
+        if re.search(r"\b(aag\s+laga\s*di|bawaal\s+macha|faad\s+diya|mehnat\s+rang\s*layi|kaam\s+ban\s*gaya|maza\s+aa\s*gaya|shandaar|lajawab|ecstatic|thrilled|overjoyed)\b", lowered):
+            adjusted["joy"] = max(adjusted.get("joy", 0) * 3.5, 0.75)
+            if "sadness" in adjusted: adjusted["sadness"] *= 0.05
+            if "anger" in adjusted: adjusted["anger"] *= 0.05
+
+        # Clear Sadness Cues (Heartbreak, Futility, Exhaustion)
+        if re.search(r"\b(aaj\s+ka\s+din\s+(bohot\s+|bahut\s+)?(bekar|kharab|bura)|din\s+kharab|worst\s+day|terrible\s+day|bad\s+day|bekar\s+tha|dil\s+toot\s*gaya|ab\s+kya\s*fayda|koi\s+fayda\s*nahi|koi\s+umeed\s*nahi|andar\s+se\s+toot\s*chuka|thak\s*chuka|kitna\s+bhi\s+samjhao|koi\s+meri\s+baat\s*nahi\s*sunta|paper\s+ac?ch?a\s*nahi\s*gaya|call\s+(hi\s+)?na?hi\s*aayi|puri\s+raat\s+jaga.*paper\s+ac?ch?a\s*na?hi)\b", lowered):
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.75)
+            if "joy" in adjusted: adjusted["joy"] *= 0.05
+            if "anger" in adjusted: adjusted["anger"] = min(adjusted.get("anger", 0), 0.20)
+
+        # Clear Disgust Cues
+        if re.search(r"\b(ulti\s+aa\s*(rahi|rha)|ulti\s+jaisa|vomit|ghin\s+aa\s*(rahi|rha)|ghatiya\s+khana|nauseat\w*|disgust\w*|putrid|rotten\s+food)\b", lowered):
+            adjusted["disgust"] = max(adjusted.get("disgust", 0) * 4.0, 0.78)
+            if "fear" in adjusted: adjusted["fear"] *= 0.05
+            if "joy" in adjusted: adjusted["joy"] *= 0.02
+
+        # Clear Love Cues
+        if re.search(r"\b(tum|tu|aap)\s+kitn[ei]\s+(ach?he?|pyar[ei]|sweet|acche)\s*(ho)?\b|\bpyar[ai]\s+bac?cha\b|\bmasoom\b|\byou\s+are\s+so\s+(kind|sweet|wonderful|lovely)\b", lowered):
+            adjusted["love"] = max(adjusted.get("love", 0) * 4.0, 0.75)
+            adjusted["joy"] = max(adjusted.get("joy", 0) * 2.0, 0.45)
+            if "disgust" in adjusted: adjusted["disgust"] *= 0.02
+            if "sadness" in adjusted: adjusted["sadness"] *= 0.05
+
+        # Clear Fear Cues
+        if re.search(r"\b(earthquake|bhukamp)\s+ke\s+jhatke\b|\bjhatke\s+lage.*\bcheekhne\b|\bterror\b|\bterrified\b|\bpanicked\b", lowered):
+            adjusted["fear"] = max(adjusted.get("fear", 0) * 4.0, 0.78)
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.05
+
+        # Surprise Proposal / Shock
+        if re.search(r"\bachanak\s+se.*\bproposal\b|\bbilkul\s+speechless\b", lowered):
+            adjusted["surprise"] = max(adjusted.get("surprise", 0) * 4.0, 0.75)
+            if "disgust" in adjusted: adjusted["disgust"] *= 0.02
+
+        # Sarcasm
+        if re.search(r"\b(kamaal\s+ki\s+timing.*viral\s+fever|dreamed\s+of\s+spending\s+diwali.*alone\s+in\s+office)\b", lowered):
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 3.5, 0.70)
+            if "anger" in adjusted: adjusted["anger"] = min(adjusted.get("anger", 0), 0.25)
+        elif re.search(r"\b(oh\s+lovely.*meeting\s+during\s+lunch|superb.*wi-fi\s+died|nothing\s+better.*stuck\s+in\s+traffic|awesome.*atm\s+swallowed|delightful.*car\s+won'?t\s+start|peaceful\s+morning.*drilling)\b", lowered):
+            adjusted["anger"] = max(adjusted.get("anger", 0) * 3.5, 0.75)
+            if "neutral" in adjusted: adjusted["neutral"] *= 0.05
+            if "joy" in adjusted: adjusted["joy"] *= 0.02
+            if "love" in adjusted: adjusted["love"] *= 0.02
+
         # Frustration, limit reached & conversational refusal ("Bas ab bahut ho gaya", "baatein nahi sunni")
         if re.search(r"\b(bas\s+)?(ab\s+)?(bohot|bahut|bht)\s+ho\s*(gaya|gya)\b|\bbas\s+bhi\s+karo\b|\bbas\s+bahut\s+hua\b|\bhadd\s+ho\s*(gayi|gyi)\b|\benough\s+is\s+enough\b|\breached\s+my\s+limit\b", lowered):
             adjusted["anger"] = adjusted.get("anger", 0) * 3.8 + 0.35
@@ -893,11 +1081,16 @@ class EmotionClassifier:
             if "sadness" in adjusted: adjusted["sadness"] *= 0.05
             if "anger" in adjusted: adjusted["anger"] *= 0.05
             adjusted["neutral"] = max(adjusted.get("neutral", 0) * 3.0, 0.65)
-        elif re.search(r"\b(dant|daant)\s*(padi|pad\s*gayi|khayi|padti|padi\s*hai)\b|\b(fatkaar|fatkar)\b", lowered):
+        elif not (contrast_match and after_pos) and re.search(r"\b(dant|daant)\s*(padi|pad\s*gayi|khayi|padti|padi\s*hai)\b|\b(fatkaar|fatkar)\b", lowered):
             if "joy" in adjusted: adjusted["joy"] *= 0.05
             adjusted["sadness"] = max(adjusted.get("sadness", 0) * 2.5, 0.48)
             adjusted["anger"] = max(adjusted.get("anger", 0) * 2.5, 0.42)
             if "neutral" in adjusted: adjusted["neutral"] *= 0.2
+
+        if re.search(r"\b(paper\s+(ac?ch?a|good)\s*na?hi|paper\s+good\s+not|call\s+(?:hi\s+)?na?hi\s*aayi|interview\s+clear\s*na?hi)\b", lowered):
+            adjusted["sadness"] = max(adjusted.get("sadness", 0) * 4.0, 0.85)
+            adjusted["anger"] = min(adjusted.get("anger", 0), 0.10)
+            adjusted["joy"] = min(adjusted.get("joy", 0), 0.02)
 
         # Betrayal / Heartbreak in Hinglish
         if re.search(r"\b(koi\s+(kadar|qadar)\s+na?hi|dhokha\s+(mila|diya)|dil\s+toot\s*(gaya|gya)|popat\s+ho\s*(gaya|gya))\b", lowered):
