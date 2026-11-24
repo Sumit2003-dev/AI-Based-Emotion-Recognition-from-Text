@@ -416,6 +416,13 @@ class EmotionClassifier:
                     local_files_only=True,
                 )
             except Exception:
+                if (
+                    os.environ.get("OFFLINE_MODE") == "1"
+                    or os.environ.get("TRANSFORMERS_OFFLINE") == "1"
+                    or os.environ.get("CI")
+                ):
+                    self.transformer_pipeline = None
+                    return
                 self.transformer_pipeline = pipeline(
                     "text-classification",
                     model="j-hartmann/emotion-english-distilroberta-base",

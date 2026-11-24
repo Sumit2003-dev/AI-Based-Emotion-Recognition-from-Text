@@ -134,24 +134,35 @@ export async function translateWithGoogle(
     {
       url: `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=${q}`,
       timeout: 3500,
-      parse: (d: any) =>
-        Array.isArray(d?.[0])
-          ? {
-              translated: d[0].map((p: [string]) => p[0]).filter(Boolean).join("").trim(),
-              detectedLang: typeof d[2] === "string" ? d[2].toLowerCase() : "auto",
-            }
-          : null,
+      parse: (d: unknown) => {
+        const data = d as [unknown[], unknown, string] | undefined;
+        if (Array.isArray(data?.[0])) {
+          const sentences = data[0] as Array<[string] | unknown>;
+          return {
+            translated: sentences
+              .map((p) => (Array.isArray(p) && typeof p[0] === "string" ? p[0] : ""))
+              .filter(Boolean)
+              .join("")
+              .trim(),
+            detectedLang: typeof data[2] === "string" ? data[2].toLowerCase() : "auto",
+          };
+        }
+        return null;
+      },
     },
     {
       url: `https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=auto&tl=en&q=${q}`,
       timeout: 3000,
-      parse: (d: any) =>
-        Array.isArray(d?.[0])
-          ? {
-              translated: String(d[0][0] || "").trim(),
-              detectedLang: String(d[0][1] || "auto").toLowerCase(),
-            }
-          : null,
+      parse: (d: unknown) => {
+        const data = d as [unknown[]] | undefined;
+        if (Array.isArray(data?.[0])) {
+          return {
+            translated: String(data[0][0] || "").trim(),
+            detectedLang: String(data[0][1] || "auto").toLowerCase(),
+          };
+        }
+        return null;
+      },
     },
   ];
 
@@ -165,7 +176,9 @@ export async function translateWithGoogle(
         const parsed = ep.parse(await res.json());
         if (parsed?.translated) return parsed;
       }
-    } catch {}
+    } catch (_err) {
+      // Ignore network errors and fallback to next endpoint
+    }
   }
   return null;
 }
@@ -323,64 +336,230 @@ const HINGLISH_PHRASES: Array<[RegExp, string]> = [
  */
 const HINGLISH_SINGLE_WORDS: Record<string, string> = {
   // Anger / Irritation / Abuse
-  gussa: "angry", gusse: "angry", krodh: "rage", krodhit: "furious",
-  aakrosh: "outrage", naraz: "annoyed", naraaz: "annoyed", chidh: "irritated",
-  chidha: "irritated", khunnas: "grudge", bakwas: "nonsense", bakwaas: "nonsense",
-  faltu: "useless", kachra: "garbage", bakchodi: "annoying nonsense", bakchod: "annoying nonsense",
-  pagal: "crazy", paagal: "crazy", mental: "insane", kamina: "scoundrel", kamine: "scoundrel",
-  chutiya: "idiot", saale: "jerk", saala: "jerk", bewakoof: "fool", bewkoof: "fool",
-  ullu: "fool", gadhe: "idiot", gadha: "idiot", kutta: "jerk", kutte: "jerk",
-  haramkhor: "bastard", ghatiya: "terrible", badtameez: "rude", jhagda: "quarrel",
-  ladai: "fight", dushmani: "hostility", nafrat: "hate", ghrina: "disgust",
-  chup: "quiet", thappad: "slap", deemag: "mind", dimag: "mind", dimaag: "mind", demag: "mind",
+  gussa: "angry",
+  gusse: "angry",
+  krodh: "rage",
+  krodhit: "furious",
+  aakrosh: "outrage",
+  naraz: "annoyed",
+  naraaz: "annoyed",
+  chidh: "irritated",
+  chidha: "irritated",
+  khunnas: "grudge",
+  bakwas: "nonsense",
+  bakwaas: "nonsense",
+  faltu: "useless",
+  kachra: "garbage",
+  bakchodi: "annoying nonsense",
+  bakchod: "annoying nonsense",
+  pagal: "crazy",
+  paagal: "crazy",
+  mental: "insane",
+  kamina: "scoundrel",
+  kamine: "scoundrel",
+  chutiya: "idiot",
+  saale: "jerk",
+  saala: "jerk",
+  bewakoof: "fool",
+  bewkoof: "fool",
+  ullu: "fool",
+  gadhe: "idiot",
+  gadha: "idiot",
+  kutta: "jerk",
+  kutte: "jerk",
+  haramkhor: "bastard",
+  ghatiya: "terrible",
+  badtameez: "rude",
+  jhagda: "quarrel",
+  ladai: "fight",
+  dushmani: "hostility",
+  nafrat: "hate",
+  ghrina: "disgust",
+  chup: "quiet",
+  thappad: "slap",
+  deemag: "mind",
+  dimag: "mind",
+  dimaag: "mind",
+  demag: "mind",
 
   // Sadness / Grief / Pain
-  dukh: "sorrow", dukhi: "sorrowful", shok: "grief", gham: "sorrow",
-  udas: "gloomy", udaas: "gloomy", mayus: "disappointed", mayoos: "hopeless",
-  dard: "pain", peeda: "pain", kasht: "pain", takleef: "trouble",
-  rona: "crying", aansoo: "tears", aansu: "tears", akela: "lonely",
-  akele: "lonely", tanha: "lonely", tanhai: "loneliness", dant: "scolding",
-  daant: "scolding", fatkaar: "reprimand", qadar: "appreciation", kadar: "appreciation",
-  dhokha: "betrayal", dhoka: "betrayal", mehnat: "hard work", afsos: "regret",
-  pachtawa: "regret", bura: "bad", bure: "bad", bechara: "helpless",
-  lachaar: "helpless", majboor: "helpless", barbaad: "ruined", tabaah: "destroyed",
+  dukh: "sorrow",
+  dukhi: "sorrowful",
+  shok: "grief",
+  gham: "sorrow",
+  udas: "gloomy",
+  udaas: "gloomy",
+  mayus: "disappointed",
+  mayoos: "hopeless",
+  dard: "pain",
+  peeda: "pain",
+  kasht: "pain",
+  takleef: "trouble",
+  rona: "crying",
+  aansoo: "tears",
+  aansu: "tears",
+  akela: "lonely",
+  akele: "lonely",
+  tanha: "lonely",
+  tanhai: "loneliness",
+  dant: "scolding",
+  daant: "scolding",
+  fatkaar: "reprimand",
+  qadar: "appreciation",
+  kadar: "appreciation",
+  dhokha: "betrayal",
+  dhoka: "betrayal",
+  mehnat: "hard work",
+  afsos: "regret",
+  pachtawa: "regret",
+  bura: "bad",
+  bure: "bad",
+  bechara: "helpless",
+  lachaar: "helpless",
+  majboor: "helpless",
+  barbaad: "ruined",
+  tabaah: "destroyed",
 
   // Joy / Love / Happiness
-  khush: "happy", khushi: "joy", anand: "bliss", prasann: "joyful",
-  mast: "awesome", zabardast: "awesome", shandaar: "wonderful", lajawab: "superb",
-  kamaal: "amazing", dhamaal: "celebration", gazab: "brilliant", badiya: "great",
-  badhiya: "great", bindaas: "carefree", jhakaas: "awesome", pyaar: "love",
-  pyar: "love", mohabbat: "love", ishq: "love", prem: "love",
-  maza: "fun", maja: "fun", maje: "fun", mauj: "thrill", masti: "fun",
-  hasi: "laugh", hansi: "laugh", muskaan: "smile", badhai: "congratulations",
-  mubarak: "blessings", shukriya: "grateful", dhanyawad: "gratitude",
-  accha: "good", achha: "good", acha: "good", sundar: "beautiful", khoobsurat: "lovely",
+  khush: "happy",
+  khushi: "joy",
+  anand: "bliss",
+  prasann: "joyful",
+  mast: "awesome",
+  zabardast: "awesome",
+  shandaar: "wonderful",
+  lajawab: "superb",
+  kamaal: "amazing",
+  dhamaal: "celebration",
+  gazab: "brilliant",
+  badiya: "great",
+  badhiya: "great",
+  bindaas: "carefree",
+  jhakaas: "awesome",
+  pyaar: "love",
+  pyar: "love",
+  mohabbat: "love",
+  ishq: "love",
+  prem: "love",
+  maza: "fun",
+  maja: "fun",
+  maje: "fun",
+  mauj: "thrill",
+  masti: "fun",
+  hasi: "laugh",
+  hansi: "laugh",
+  muskaan: "smile",
+  badhai: "congratulations",
+  mubarak: "blessings",
+  shukriya: "grateful",
+  dhanyawad: "gratitude",
+  accha: "good",
+  achha: "good",
+  acha: "good",
+  sundar: "beautiful",
+  khoobsurat: "lovely",
 
   // Fear / Anxiety
-  dar: "fear", darr: "fear", khauf: "terror", bhay: "dread",
-  dahshat: "panic", ghabrahat: "nervousness", ghabra: "anxious", bechaini: "anxiety",
-  chinta: "worry", tension: "stress", fikr: "concern", pareshan: "troubled",
-  pareshani: "distress", musibat: "danger",
+  dar: "fear",
+  darr: "fear",
+  khauf: "terror",
+  bhay: "dread",
+  dahshat: "panic",
+  ghabrahat: "nervousness",
+  ghabra: "anxious",
+  bechaini: "anxiety",
+  chinta: "worry",
+  tension: "stress",
+  fikr: "concern",
+  pareshan: "troubled",
+  pareshani: "distress",
+  musibat: "danger",
 
   // Surprise
-  hairan: "surprised", hairaan: "surprised", hairani: "wonder", chauk: "shocked",
-  achambha: "surprise", ajeeb: "strange", anokha: "unique",
+  hairan: "surprised",
+  hairaan: "surprised",
+  hairani: "wonder",
+  chauk: "shocked",
+  achambha: "surprise",
+  ajeeb: "strange",
+  anokha: "unique",
 
   // Pronouns and conversational helpers
-  mujhe: "I", mereko: "I", hume: "we", humko: "we", mera: "my", meri: "my", mere: "my",
-  tujhe: "you", tumhe: "you", aapko: "you", tera: "your", teri: "your", tere: "your",
-  tumhara: "your", tumhari: "your", aapka: "your", aapki: "your", bhai: "brother",
-  yaar: "friend", dost: "friend", bro: "brother", bohot: "very", bahut: "very",
-  boht: "very", bht: "very", mat: "do not", mt: "do not", mtt: "do not",
-  nahi: "not", nhi: "not", na: "no", film: "movie", cinema: "movie",
-  hai: "is", h: "is", hain: "are", hu: "am", hoon: "am", ho: "are",
-  tha: "was", thi: "was", aaj: "today", kal: "tomorrow", abhi: "right now",
-  milkar: "to meet", sunkar: "to hear", laga: "felt", kar: "do", kr: "do",
-  karo: "do", kro: "do", diya: "did", kya: "what", kyun: "why", kaise: "how",
-  kab: "when", kaha: "where", tune: "you", bilkul: "at all", aisa: "this",
-  hua: "happened", bas: "enough", ab: "now", gaya: "gone", gayi: "gone",
-  hadd: "limit", baat: "words", baatein: "words", sunna: "hear", sunni: "listen",
-  bina: "without", adhoori: "incomplete", adhuri: "incomplete", zindagi: "life", jahan: "world",
+  mujhe: "I",
+  mereko: "I",
+  hume: "we",
+  humko: "we",
+  mera: "my",
+  meri: "my",
+  mere: "my",
+  tujhe: "you",
+  tumhe: "you",
+  aapko: "you",
+  tera: "your",
+  teri: "your",
+  tere: "your",
+  tumhara: "your",
+  tumhari: "your",
+  aapka: "your",
+  aapki: "your",
+  bhai: "brother",
+  yaar: "friend",
+  dost: "friend",
+  bro: "brother",
+  bohot: "very",
+  bahut: "very",
+  boht: "very",
+  bht: "very",
+  mat: "do not",
+  mt: "do not",
+  mtt: "do not",
+  nahi: "not",
+  nhi: "not",
+  na: "no",
+  film: "movie",
+  cinema: "movie",
+  hai: "is",
+  h: "is",
+  hain: "are",
+  hu: "am",
+  hoon: "am",
+  ho: "are",
+  tha: "was",
+  thi: "was",
+  aaj: "today",
+  kal: "tomorrow",
+  abhi: "right now",
+  milkar: "to meet",
+  sunkar: "to hear",
+  laga: "felt",
+  kar: "do",
+  kr: "do",
+  karo: "do",
+  kro: "do",
+  diya: "did",
+  kya: "what",
+  kyun: "why",
+  kaise: "how",
+  kab: "when",
+  kaha: "where",
+  tune: "you",
+  bilkul: "at all",
+  aisa: "this",
+  hua: "happened",
+  bas: "enough",
+  ab: "now",
+  gaya: "gone",
+  gayi: "gone",
+  hadd: "limit",
+  baat: "words",
+  baatein: "words",
+  sunna: "hear",
+  sunni: "listen",
+  bina: "without",
+  adhoori: "incomplete",
+  adhuri: "incomplete",
+  zindagi: "life",
+  jahan: "world",
 };
 
 /**
@@ -663,14 +842,22 @@ export async function classifyLocalText(
   }
 
   // Sukoon, Relief & Arrival / Reunion
-  if (/\bsukoon\s*(?:mila|mil\s*gaya|hai|h)\b|\b(?:relief|peace\s+of\s+mind|time\s+se\s+pahunch\s*(?:gaya|gya)|dost\s+mil\s*(?:gaya|gya))\b/i.test(combined)) {
+  if (
+    /\bsukoon\s*(?:mila|mil\s*gaya|hai|h)\b|\b(?:relief|peace\s+of\s+mind|time\s+se\s+pahunch\s*(?:gaya|gya)|dost\s+mil\s*(?:gaya|gya))\b/i.test(
+      combined,
+    )
+  ) {
     happyScore = Math.max(happyScore, 3.5);
     sadScore = 0;
     neutralScore = 0;
   }
 
   // Negation of Fear / Anxiety ("darr nahi lagta", "not afraid")
-  if (/\b(?:dar|darr)\s+na?hi\s+(?:lagta|hai|h)|na?hi\s+(?:darta|darte|darti)\b|\b(?:not|never)\s+afraid\b/i.test(combined)) {
+  if (
+    /\b(?:dar|darr)\s+na?hi\s+(?:lagta|hai|h)|na?hi\s+(?:darta|darte|darti)\b|\b(?:not|never)\s+afraid\b/i.test(
+      combined,
+    )
+  ) {
     fearScore = 0;
     neutralScore = Math.max(neutralScore, 2.5);
     happyScore = Math.max(happyScore, 2.0);
@@ -687,14 +874,23 @@ export async function classifyLocalText(
   }
 
   // Rejection of fake sympathy / disrespectful behavior
-  if (/\b(?:fake\s+(?:apology|sympathy)|funny\s+na?hi\s+tha|bilkul\s+bhi\s+funny\s+na?hi|disrespectful|na?hi\s+chahiye\s+tumhara)\b/i.test(combined)) {
+  if (
+    /\b(?:fake\s+(?:apology|sympathy)|funny\s+na?hi\s+tha|bilkul\s+bhi\s+funny\s+na?hi|disrespectful|na?hi\s+chahiye\s+tumhara)\b/i.test(
+      combined,
+    )
+  ) {
     happyScore = 0;
     neutralScore = 0;
     angryScore = Math.max(angryScore, 3.5);
   }
 
   // Routine transactional / calendar phrases -> Neutral
-  if (/\b(?:rescheduled|meeting|counter\s+par\s+payment\s+done|shaam\s+ko\s+6\s+baje|tea\s+stall\s+par\s+milenge|dinner\s+kiya\s+aur\s+so\s+gaye)\b/i.test(combined) && !/\b(angry|sad|happy|ruined|gussa|dard|khush)\b/i.test(combined)) {
+  if (
+    /\b(?:rescheduled|meeting|counter\s+par\s+payment\s+done|shaam\s+ko\s+6\s+baje|tea\s+stall\s+par\s+milenge|dinner\s+kiya\s+aur\s+so\s+gaye)\b/i.test(
+      combined,
+    ) &&
+    !/\b(angry|sad|happy|ruined|gussa|dard|khush)\b/i.test(combined)
+  ) {
     neutralScore = Math.max(neutralScore, 3.0);
     happyScore = 0;
     sadScore = 0;
@@ -763,11 +959,20 @@ export async function classifyLocalText(
     (SURPRISE_REGEX.test(combined) || DEVANAGARI_SURPRISE.test(combined))
   )
     surpriseScore += 1.8;
-  if (!isContrastShift && !hasPreAchievement && (FEAR_REGEX.test(combined) || DEVANAGARI_FEAR.test(combined))) fearScore += 2.2;
+  if (
+    !isContrastShift &&
+    !hasPreAchievement &&
+    (FEAR_REGEX.test(combined) || DEVANAGARI_FEAR.test(combined))
+  )
+    fearScore += 2.2;
+  if (LOVE_REGEX.test(combined)) loveScore += 2.2;
+  if (DISGUST_REGEX.test(combined)) disgustScore += 2.2;
   if (NEUTRAL_REGEX.test(combined) || DEVANAGARI_NEUTRAL.test(combined)) neutralScore += 1.4;
 
   // Emojis
-  if (/(?:🎉|😊|✨|❤️|💖|🥰|😁|😄|👏|🙌|😃|🤩|💃|🕺)/u.test(text)) happyScore += 1.8;
+  if (/(?:🎉|😊|✨|😁|😄|👏|🙌|😃|🤩|💃|🕺)/u.test(text)) happyScore += 1.8;
+  if (/(?:❤️|💖|🥰|😍|😘|💕|💓|💗)/u.test(text)) loveScore += 1.8;
+  if (/(?:🤢|🤮|🤧|😷|🪱|💩)/u.test(text)) disgustScore += 1.8;
   if (/(?:😢|😭|💔|😞|😔|😿|☹️|🙁|🥺)/u.test(text)) sadScore += 1.8;
   if (/(?:😡|🤬|💢|😤|👿|😠)/u.test(text)) angryScore += 1.8;
   if (/(?:😲|😮|😱|🤯|🪄|❗|❓)/u.test(text)) surpriseScore += 1.5;
@@ -855,7 +1060,7 @@ export async function classifyLocalText(
       combined,
     );
   const isMixed =
-    (secondaryScore >= 0.20 && secondaryScore / Math.max(dominantScore, 1e-6) >= 0.45) ||
+    (secondaryScore >= 0.2 && secondaryScore / Math.max(dominantScore, 1e-6) >= 0.45) ||
     (hasMixedMarker && secondaryScore >= 0.15);
 
   const compoundLabels: Record<string, string> = {
@@ -878,7 +1083,7 @@ export async function classifyLocalText(
   };
 
   const pairKey = `${dominantEmotion}+${secondaryEmotion}`;
-  const compoundState = isMixed ? (compoundLabels[pairKey] || "Mixed Dual State") : null;
+  const compoundState = isMixed ? compoundLabels[pairKey] || "Mixed Dual State" : null;
 
   // Tokenize and build explainability
   const words = text.split(/(\s+)/);
@@ -1215,7 +1420,8 @@ export const classifyEmotions = createServerFn({ method: "POST" })
       {
         key:
           process.env["GROQ_API_KEY"] ||
-          (process.env["OPENAI_BASE_URL"]?.includes("groq") || process.env["OPENAI_API_KEY"]?.startsWith("gsk_")
+          (process.env["OPENAI_BASE_URL"]?.includes("groq") ||
+          process.env["OPENAI_API_KEY"]?.startsWith("gsk_")
             ? process.env["OPENAI_API_KEY"]
             : ""),
         baseURL: process.env["GROQ_BASE_URL"] || "https://api.groq.com/openai/v1",
@@ -1231,7 +1437,8 @@ export const classifyEmotions = createServerFn({ method: "POST" })
             ? process.env["OPENAI_API_KEY"]
             : ""),
         baseURL:
-          process.env["GEMINI_BASE_URL"] || "https://generativelanguage.googleapis.com/v1beta/openai/",
+          process.env["GEMINI_BASE_URL"] ||
+          "https://generativelanguage.googleapis.com/v1beta/openai/",
         model: process.env["GEMINI_MODEL"] || "gemini-3.8-flash",
         name: "Google Gemini",
       },

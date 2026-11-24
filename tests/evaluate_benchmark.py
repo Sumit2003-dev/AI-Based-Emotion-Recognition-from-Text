@@ -13,6 +13,7 @@ from collections import defaultdict
 
 # Path setup & deterministic offline benchmarking
 os.environ["OFFLINE_MODE"] = "1"
+os.environ.setdefault("DISABLE_TRANSFORMER", "1")
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 BACKEND_DIR = PROJECT_ROOT / "backend"
 DATA_FILE = PROJECT_ROOT / "data" / "hinglish_eval_benchmark.json"

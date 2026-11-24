@@ -1,4 +1,13 @@
-export const EMOTIONS = ["happy", "sad", "angry", "fear", "surprise", "love", "disgust", "neutral"] as const;
+export const EMOTIONS = [
+  "happy",
+  "sad",
+  "angry",
+  "fear",
+  "surprise",
+  "love",
+  "disgust",
+  "neutral",
+] as const;
 
 export type Emotion = (typeof EMOTIONS)[number];
 
@@ -9,12 +18,27 @@ export const MAX_TEXT_CHARS = 1200;
 export const EMOTION_META: Record<Emotion, { label: string; blurb: string }> = {
   happy: { label: "Joy & Elation", blurb: "Joy, delight, elation, triumph or satisfaction." },
   sad: { label: "Sadness & Grief", blurb: "Loss, disappointment, grief or emotional fatigue." },
-  angry: { label: "Anger & Frustration", blurb: "Irritation, outrage, boundary violation or frustration." },
+  angry: {
+    label: "Anger & Frustration",
+    blurb: "Irritation, outrage, boundary violation or frustration.",
+  },
   fear: { label: "Fear & Anxiety", blurb: "Worry, apprehension, threat detection or anxiety." },
-  surprise: { label: "Surprise & Astonishment", blurb: "Astonishment, unexpected turns or sudden shock." },
-  love: { label: "Love & Affection", blurb: "Affection, deep warmth, romance, devotion or intimacy." },
-  disgust: { label: "Disgust & Aversion", blurb: "Revulsion, aversion, foulness, moral recoil or contempt." },
-  neutral: { label: "Neutral & Objective", blurb: "Plainly stated, objective pragmatic communication." },
+  surprise: {
+    label: "Surprise & Astonishment",
+    blurb: "Astonishment, unexpected turns or sudden shock.",
+  },
+  love: {
+    label: "Love & Affection",
+    blurb: "Affection, deep warmth, romance, devotion or intimacy.",
+  },
+  disgust: {
+    label: "Disgust & Aversion",
+    blurb: "Revulsion, aversion, foulness, moral recoil or contempt.",
+  },
+  neutral: {
+    label: "Neutral & Objective",
+    blurb: "Plainly stated, objective pragmatic communication.",
+  },
 };
 
 export type EmotionScores = Record<Emotion, number>;
@@ -132,8 +156,7 @@ const GUIDANCE_BY_LANGUAGE: Record<string, Record<Emotion, EmotionalGuidance>> =
     angry: {
       psychology: "अन्याय, उम्मीद टूटने, काम में रुकावट या सीमा के उल्लंघन से उत्पन्न।",
       empathy_tip: "माहौल को तुरंत शांत करें और उनकी परेशानी को ध्यानपूर्वक स्वीकार करें।",
-      suggested_reply:
-        "मैं समझ सकता हूँ कि आप परेशान क्यों हैं। चलिए इसे तुरंत मिलकर सुलझाते हैं।",
+      suggested_reply: "मैं समझ सकता हूँ कि आप परेशान क्यों हैं। चलिए इसे तुरंत मिलकर सुलझाते हैं।",
     },
     surprise: {
       psychology: "किसी अप्रत्याशित घटना या नई बात के सामने आने पर आश्चर्य की प्रतिक्रिया।",
@@ -222,8 +245,7 @@ const GUIDANCE_BY_LANGUAGE: Record<string, Record<Emotion, EmotionalGuidance>> =
     angry: {
       psychology: "Surge por injusticias, expectativas rotas o límites violados.",
       empathy_tip: "Desescala la tensión de inmediato y valida su molestia.",
-      suggested_reply:
-        "Entiendo perfectamente tu frustración. Vamos a resolver esto de inmediato.",
+      suggested_reply: "Entiendo perfectamente tu frustración. Vamos a resolver esto de inmediato.",
     },
     surprise: {
       psychology: "Disrupción cognitiva ante un acontecimiento inesperado o revelación.",
@@ -327,13 +349,18 @@ const GUIDANCE_BY_LANGUAGE: Record<string, Record<Emotion, EmotionalGuidance>> =
     },
     love: {
       psychology: "Attachment, deep trust, warmth, reciprocal intimacy, and emotional safety.",
-      empathy_tip: "Express warmth in return, reciprocate appreciation, and honor the relational bond.",
-      suggested_reply: "Your words mean the world to me. Thank you for your kindness, love, and constant care. ❤️",
+      empathy_tip:
+        "Express warmth in return, reciprocate appreciation, and honor the relational bond.",
+      suggested_reply:
+        "Your words mean the world to me. Thank you for your kindness, love, and constant care. ❤️",
     },
     disgust: {
-      psychology: "Protective recoil from physical contaminants or moral degradation and hypocrisy.",
-      empathy_tip: "Validate boundary setting and support physical or emotional distance from the trigger.",
-      suggested_reply: "I completely understand your revulsion. Setting clear boundaries is 100% the right call.",
+      psychology:
+        "Protective recoil from physical contaminants or moral degradation and hypocrisy.",
+      empathy_tip:
+        "Validate boundary setting and support physical or emotional distance from the trigger.",
+      suggested_reply:
+        "I completely understand your revulsion. Setting clear boundaries is 100% the right call.",
     },
     neutral: {
       psychology: "Informational, pragmatic, and objective communication without affective charge.",
@@ -348,9 +375,7 @@ export function computeDefaultGuidance(
   lang?: string | undefined,
 ): EmotionalGuidance {
   const normLang = (lang || "en").toLowerCase();
-  return (
-    GUIDANCE_BY_LANGUAGE[normLang]?.[emotion] ?? GUIDANCE_BY_LANGUAGE.en[emotion]
-  );
+  return GUIDANCE_BY_LANGUAGE[normLang]?.[emotion] ?? GUIDANCE_BY_LANGUAGE.en[emotion];
 }
 
 /** Characterizes co-occurring affective blends when multiple emotions co-exist. */

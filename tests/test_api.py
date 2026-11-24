@@ -12,8 +12,13 @@ Tests:
 - FastAPI endpoints (/api/health, /api/predict, /api/batch, /api/model-info, /api/sample-texts)
 """
 
+import os
 import sys
 from pathlib import Path
+
+# Ensure fast deterministic test execution and offline mode
+os.environ.setdefault("DISABLE_TRANSFORMER", "1")
+os.environ.setdefault("OFFLINE_MODE", "1")
 
 # Ensure backend directory is in path
 CURRENT_DIR = Path(__file__).resolve().parent
